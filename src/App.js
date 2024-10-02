@@ -37,7 +37,9 @@ function App() {
         
           <Header />
 
-          {userdata}
+          <div>
+          {userdata.username}
+          </div>
           <Routes>
             <Route path="/" element={<Home  username={username} userID={userID}  />} />
             <Route path="/tasks" element={<Tasks />} />
