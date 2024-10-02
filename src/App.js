@@ -32,7 +32,7 @@ function App() {
         
           <Header />
           <Routes>
-            <Route path="/" element={<Home username={username} />} />
+            <Route path="/" element={<Home  />} />
             <Route path="/tasks" element={<Tasks />} />
             <Route path="/boost" element={<Boost />} />
             <Route path="/referral" element={<ReferralPage />} />

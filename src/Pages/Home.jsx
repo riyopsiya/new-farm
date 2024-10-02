@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import bountyimg  from "../images/bountyimg.png";
 
-const Home = ({username}) => {
+const Home = () => {
   const [timeLeft, setTimeLeft] = useState(7 * 60 * 60 + 55 * 60 + 33); // 7:55:33 in seconds
   const [taps, setTaps] = useState(100);
 
@@ -28,7 +28,6 @@ const Home = ({username}) => {
   return (
     <div className="flex flex-col items-center justify-between h-[30rem]  bg-[#1f221f] text-white p-4">
      
-      <h1>hello { username}</h1>
       {/* Countdown and Taps */}
       <div className="flex space-x-4  p-3 items-center justify-start w-full rounded-lg text-xs mt-2">
         <div className="bg-gradient-to-r from-black to-[#7d5126] px-8 py-3 rounded-lg   font-bold">
