@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const [username, setUsername] = useState('');
+  const [userID, setUserID] = useState('');
 
   useEffect(() => {
     // Check if the Telegram WebApp object is available
@@ -32,7 +33,7 @@ function App() {
         
           <Header />
           <Routes>
-            <Route path="/" element={<Home  />} />
+            <Route path="/" element={<Home  username={username} userID={userID}  />} />
             <Route path="/tasks" element={<Tasks />} />
             <Route path="/boost" element={<Boost />} />
             <Route path="/referral" element={<ReferralPage />} />
