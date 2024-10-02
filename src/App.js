@@ -11,8 +11,7 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const [userdata,setuserdata]=useState({})
-  const [username, setUsername] = useState('');
-  const [userID, setUserID] = useState('');
+
 
   useEffect(() => {
     // Check if the Telegram WebApp object is available
@@ -21,14 +20,14 @@ function App() {
       const user = window.Telegram.WebApp.initDataUnsafe?.user;
       if (user) {
         setuserdata(user)
-        setUsername(user.username);
+        
       } else {
         console.log('User data not available');
       }
     } else {
       console.log('Telegram WebApp not available');
     }
-  }, [username]);
+  }, []);
   return (
     <>
       <Router>
@@ -37,11 +36,9 @@ function App() {
         
           <Header />
 
-          <div>
-          {userdata.username}
-          </div>
+         
           <Routes>
-            <Route path="/" element={<Home  username={username} userID={userID}  />} />
+            <Route path="/" element={<Home  userdata={userdata}   />} />
             <Route path="/tasks" element={<Tasks />} />
             <Route path="/boost" element={<Boost />} />
             <Route path="/referral" element={<ReferralPage />} />
