@@ -10,6 +10,7 @@ import ReferralPage from './Pages/ReferralPage';
 import { useEffect, useState } from 'react';
 
 function App() {
+  const [userdata,setuserdata]=useState({})
   const [username, setUsername] = useState('');
   const [userID, setUserID] = useState('');
 
@@ -19,6 +20,7 @@ function App() {
       // Accessing the username from Telegram Web App data
       const user = window.Telegram.WebApp.initDataUnsafe?.user;
       if (user) {
+        setuserdata(user)
         setUsername(user.username);
       } else {
         console.log('User data not available');
@@ -30,8 +32,12 @@ function App() {
   return (
     <>
       <Router>
+
+        
         
           <Header />
+
+          {userdata}
           <Routes>
             <Route path="/" element={<Home  username={username} userID={userID}  />} />
             <Route path="/tasks" element={<Tasks />} />
