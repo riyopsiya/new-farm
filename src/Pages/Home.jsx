@@ -28,7 +28,7 @@ const Home = ({userdata}) => {
   return (
     <div className="flex flex-col items-center justify-between h-[30rem]  bg-[#1f221f] text-white p-4">
 
-     {userdata.first_name || userdata.username  &&  <div className="w-full flex text-left px-4 mb-4"> <h2 className="font-bold">Welcome,{userdata.first_name || userdata.username }! </h2></div> }
+     {(userdata.first_name || userdata.username )?( <div className="w-full flex text-left px-4 mb-4"> <h2 className="font-bold">Welcome,{userdata.first_name || userdata.username }! </h2></div> ):(null)  }
 
       {/* Countdown and Taps */}
       <div className="flex space-x-4  p-3 items-center justify-start w-full rounded-lg text-xs mt-2">
