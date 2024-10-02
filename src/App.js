@@ -26,7 +26,7 @@ function App() {
     } else {
       console.log('Telegram WebApp not available');
     }
-  }, []);
+  }, [username]);
   return (
     <>
       <Router>
