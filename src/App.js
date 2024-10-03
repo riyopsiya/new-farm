@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './Pages/Home';
@@ -8,10 +8,14 @@ import Tasks from './Pages/Tasks';
 import Boost from './Pages/Boost';
 import ReferralPage from './Pages/ReferralPage';
 import { useEffect, useState } from 'react';
+import ProfilePage from './Pages/ProfilePage';
+import { useDispatch } from 'react-redux';
+import { login } from './store/userSlice';
 
 function App() {
   const [userdata,setuserdata]=useState({})
-
+  const dispatch=useDispatch();
+  // { login }
 
   useEffect(() => {
     // Check if the Telegram WebApp object is available
@@ -20,6 +24,7 @@ function App() {
       const user = window.Telegram.WebApp.initDataUnsafe?.user;
       if (user) {
         setuserdata(user)
+        dispatch(login(user))
         
       } else {
         console.log('User data not available');
@@ -38,10 +43,11 @@ function App() {
 
          
           <Routes>
-            <Route path="/" element={<Home  userdata={userdata}   />} />
+            <Route path="/" element={<Home    />} />
             <Route path="/tasks" element={<Tasks />} />
             <Route path="/boost" element={<Boost />} />
             <Route path="/referral" element={<ReferralPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
             {/* 404 Not Found route */}
             {/* <Route path="*" element={<NotFound />} /> */}
           </Routes>

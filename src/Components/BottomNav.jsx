@@ -8,7 +8,7 @@ import { NavLink } from 'react-router-dom';
 
 const BottomNav = () => {
     return (
-        <div className="fixed bottom-0 left-0 w-full bg-black rounded-xl text-white py-4">
+        <div className="fixed bottom-0 left-0 w-full bg-black rounded-xl text-white py-4 ">
             <div className="flex justify-around">
                 {/* Home */}
                 <NavLink to={'/'} className="flex flex-col items-center">

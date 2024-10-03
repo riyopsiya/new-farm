@@ -13,7 +13,7 @@ const Tasks = () => {
             <div className="flex justify-around my-4 px-6 gap-2">
                 <button
                     onClick={() => setCategory('social')}
-                    className={`px-8 py-3 rounded-lg  w-1/2 text-white 
+                    className={`px-8 py-1 rounded-lg  w-1/2 text-white  font-semibold
                     ${category === 'social' ? 'bg-gradient-to-r from-black to-[#7d5126]' : 'border border-gray-400'}`}
                 >
                     Social
@@ -22,7 +22,7 @@ const Tasks = () => {
                 {/* Premium Button */}
                 <button
                     onClick={() => setCategory('premium')}
-                    className={`px-8 py-3 rounded-lg w-1/2 text-white 
+                    className={`px-8 py-1 rounded-lg w-1/2 text-white font-semibold
                     ${category === 'premium' ? 'bg-gradient-to-r from-black to-[#7d5126]' : 'border border-gray-400'}`}
                 >
                     Premium
