@@ -6,29 +6,29 @@ import { NavLink } from "react-router-dom";
 
 
 const ProfilePage = () => {
-  const { userInfo }= useSelector((state) => state.user);
+  const { userInfo } = useSelector((state) => state.user);
   return (
     <div className=" text-white h-[40rem] flex flex-col justify-between">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-2 border-b border-gray-800">
-      
-          <h1 className="text-lg font-bold">Profile</h1>
-          <NavLink className='p-6 py-2 text-sm bg-gradient-to-r from-black to-[#b1783e] font-semibold  rounded-lg'>Admin</NavLink>
-           
+
+        <h1 className="text-lg font-bold">Profile</h1>
+        {userInfo.user_id === process.env.REACT_APP_ADMIN_ID}? ( <NavLink className='p-6 py-2 text-sm bg-gradient-to-r from-black to-[#b1783e] font-semibold  rounded-lg'>Admin</NavLink>
+        ):(null)
       </div>
- 
+
       {/* Profile Section */}
       <div className="flex flex-col items-center ">
         <div className="w-20 h-20 bg-gray-700 rounded-full flex items-center justify-center ">
           <span className="text-4xl">👤</span>
         </div>
         {(userInfo.first_name || userInfo.username) ? (
-        <div className="w-full flex text-left px-4 mb-4">
-          <h2 className="font-bold">
-            Hello, {userInfo.first_name || userInfo.username}!
-          </h2>
-        </div>
-      ):(null) }
+          <div className="w-full flex justify-center px-4 mb-4">
+            <h2 className="font-bold">
+              Hello, {userInfo.first_name || userInfo.username}!
+            </h2>
+          </div>
+        ) : (null)}
       </div>
 
       {/* Options Section */}
@@ -36,16 +36,16 @@ const ProfilePage = () => {
         {/* Profile */}
         <button className="bg-gray-800 flex justify-between w-full py-4 px-6 rounded-lg">
           <span>Username </span>
-          <span className="text-gray-400">hardiksingh18</span>
+          <span className="text-gray-400"> {userInfo.username}</span>
         </button>
 
         {/* Withdraw */}
         <button className="bg-gray-800 flex justify-between w-full py-4 px-6 rounded-lg">
           <span>UserID</span>
-          <span className="text-gray-400">2324334534</span>
+          <span className="text-gray-400"> {userInfo.user_id}</span>
         </button>
 
-       
+
       </div>
 
       {/* Footer */}
