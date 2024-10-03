@@ -8,10 +8,10 @@ import { NavLink } from "react-router-dom";
 const ProfilePage = () => {
   const { userInfo } = useSelector((state) => state.user);
   return (
-    <div className=" text-white h-[40rem] flex flex-col justify-between">
-      {/* Header */}
+    <div className=" text-white h-[40rem] flex flex-col gap-8">
+      {typeof userInfo.id}
       <div className="flex items-center justify-between px-4 py-2 border-b border-gray-800">
-
+        
         <h1 className="text-lg font-bold">Profile</h1>
         {parseInt(userInfo.id) === process.env.REACT_APP_ADMIN_ID? ( <NavLink className='p-6 py-2 text-sm bg-gradient-to-r from-black to-[#b1783e] font-semibold  rounded-lg'>Admin</NavLink>
         ):(null) }
