@@ -13,8 +13,8 @@ const ProfilePage = () => {
       <div className="flex items-center justify-between px-4 py-2 border-b border-gray-800">
 
         <h1 className="text-lg font-bold">Profile</h1>
-        {userInfo.user_id === process.env.REACT_APP_ADMIN_ID}? ( <NavLink className='p-6 py-2 text-sm bg-gradient-to-r from-black to-[#b1783e] font-semibold  rounded-lg'>Admin</NavLink>
-        ):(null)
+        {userInfo.id === process.env.REACT_APP_ADMIN_ID? ( <NavLink className='p-6 py-2 text-sm bg-gradient-to-r from-black to-[#b1783e] font-semibold  rounded-lg'>Admin</NavLink>
+        ):(null) }
       </div>
 
       {/* Profile Section */}
@@ -42,7 +42,7 @@ const ProfilePage = () => {
         {/* Withdraw */}
         <button className="bg-gray-800 flex justify-between w-full py-4 px-6 rounded-lg">
           <span>UserID</span>
-          <span className="text-gray-400"> {userInfo.user_id}</span>
+          <span className="text-gray-400"> {userInfo.id}</span>
         </button>
 
 
