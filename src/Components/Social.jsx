@@ -1,13 +1,22 @@
 import React from 'react'
-import CompanyCard from './TaskItem'
+import TaskItem from './TaskItem'
+import { useSelector } from 'react-redux'
 
 const Social = () => {
+  const { socialTasks }=useSelector(state=>state.tasks)
+  console.log(socialTasks)
+
+  if (socialTasks?.length===0) {
+    return  <div className='flex justify-center my-4'>No tasks available</div>
+
+  }
+
   return (
     <div>
             {/* Tasks Available */}
             <div className="flex justify-center my-4">
                 <div className="border border-gray-400 rounded-md px-4 py-2 text-sm">
-                    20 tasks available
+                    {socialTasks?.length} tasks available
                 </div>
             </div>
 
@@ -15,11 +24,10 @@ const Social = () => {
 
             {/* Task List */}
             <div className="space-y-4">
-                {/* Task Item */}
-                <CompanyCard />
-                <CompanyCard />
-                <CompanyCard />
-                <CompanyCard />
+                {socialTasks && socialTasks.map((data)=>{
+                  return <TaskItem key={data.$id} data={data} />
+                }) } 
+             
                 
             </div>
     </div>

@@ -1,11 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CompanyCard from '../Components/TaskItem';
 import Social from '../Components/Social';
 import Premium from '../Components/Premium';
 import TaskCategory from '../Components/TaskCategory';
+import service from '../appwrite/database';
+import { useDispatch } from 'react-redux';
+import { setPremiumTasks, setSocialTasks } from '../store/dataSlice';
 
 const Tasks = () => {
     const [category, setCategory] = useState('social')
+    const dispatch = useDispatch();
+
+    const fetchTasksData = async () => {
+   
+        try {
+          const socialTasks=await service.getAllData('social') 
+          console.log(socialTasks.documents)
+          const premiumTasks=await service.getAllData('premium') 
+          
+          dispatch(setSocialTasks(socialTasks.documents)) 
+          dispatch(setPremiumTasks(premiumTasks.documents)) 
+           
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+      
+      useEffect(() => {
+
+      
+        fetchTasksData()
+    
+      }, []);
+
     return (
         <div className="min-h-screen py-4 text-white px-4 mb-16">
 

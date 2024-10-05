@@ -13,6 +13,7 @@ const ProfilePage = () => {
       <div className="flex items-center justify-between px-4 py-2 border-b border-gray-800">
         
         <h1 className="text-lg font-bold">Profile</h1>
+        <NavLink to={'/admin'} className='p-6 py-2 text-sm bg-gradient-to-r from-black to-[#b1783e] font-semibold  rounded-lg'>Admin</NavLink>
         {parseInt(process.env.REACT_APP_ADMIN_ID) ===  userInfo.id ? ( <NavLink className='p-6 py-2 text-sm bg-gradient-to-r from-black to-[#b1783e] font-semibold  rounded-lg'>Admin</NavLink>
         ):(null) }
       </div>
@@ -55,10 +56,10 @@ const ProfilePage = () => {
 
         {/* Social Icons */}
         <div className="flex justify-center text-3xl space-x-6 mt-8">
-          <button className="text-gray-400"><FaXTwitter className="text-white" /></button>
-          <button className="text-gray-400"><FaInstagram className="text-red-500" /></button>
-          <button className="text-gray-400"><FaTelegramPlane className="text-blue-400" /></button>
-          <button className="text-gray-400"><FaLinkedinIn className="text-blue-400" /></button>
+          <a href="https://x.com/CollablyNetwork" target="_blank" className="text-gray-400"><FaXTwitter className="text-white" /></a>
+          <a href=" https://www.instagram.com/collablynetwork/"  target="_blank" className="text-gray-400"><FaInstagram className="text-red-500" /></a>
+          <a href="https://t.me/CollablyNetwork" target="_blank" className="text-gray-400"><FaTelegramPlane className="text-blue-400" /></a>
+          <a href="https://www.linkedin.com/company/collably-network/ " target="_blank" className="text-gray-400"><FaLinkedinIn className="text-blue-400" /></a>
         </div>
 
         {/* Links */}
