@@ -1,36 +1,56 @@
-import React from 'react'
-import TaskItem from './TaskItem'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import TaskItem from './TaskItem';
+import service from '../appwrite/database';
+import LoadingSkeleton from './Loading';
 
 const Premium = () => {
-  const { premiumTasks } = useSelector(state => state.tasks)
-  console.log(premiumTasks)
+  const [loading, setLoading] = useState(true);
+  const [premiumTasks, setPremiumTasks] = useState([]);
 
-  // if (premiumTasks?.length === 0) {
-  //   return  <div className='flex justify-center my-4'>No tasks available</div>
+  useEffect(() => {
+    const fetchTasksData = async () => {
+      try {
+        const premiumTasksData = await service.getAllData('premium');
+        console.log('Fetched social tasks:', premiumTasksData.documents);
+       
+        if (premiumTasksData?.documents) {
+          setPremiumTasks(premiumTasksData.documents);
+        }
 
-  // }
+      } catch (error) {
+        console.error('Error fetching social tasks:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTasksData();
+  }, []);
+
+  if (loading) {
+    return <div> <LoadingSkeleton/> </div>;
+  }
+
+  if (premiumTasks.length === 0) {
+    return <div className='flex justify-center my-8'>No tasks available</div>;
+  }
+
   return (
     <div>
-      {/* Tasks Available */}
       <div className="flex justify-center my-4">
         <div className="border border-gray-400 rounded-md px-4 py-2 text-sm">
           {premiumTasks?.length} tasks available
         </div>
       </div>
 
-
-
       {/* Task List */}
       <div className="space-y-4">
-        {premiumTasks && premiumTasks.map((data) => {
-          return <TaskItem key={data.$id} data={data} />
-        })}
-
-
+        {premiumTasks.map((data) => (
+          <TaskItem key={data.$id} data={data} />
+        ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Premium
+export default Premium;

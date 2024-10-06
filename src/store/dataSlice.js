@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     socialTasks: [],
     premiumTasks: [],
-    userdetails:{},
+    // userdetails:{},
 }
 
 const dataSlice = createSlice({

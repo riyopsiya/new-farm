@@ -124,9 +124,7 @@ const { userdetails }= useSelector((state) => state.tasks);
         </div>
       ):(null) }
 
-<h2 className="font-bold">
-            Welcome, {userdetails.first_name || userdetails.username}!
-          </h2>
+
 
       {/* Countdown and Taps */}
       <div className="flex space-x-4 p-3 items-center justify-start w-full rounded-lg text-xs mt-2">
