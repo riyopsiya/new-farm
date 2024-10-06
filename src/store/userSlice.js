@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 const initialState={
-    userInfo:{}
+    userInfo:{},
+   
 }
 
 
@@ -14,6 +15,8 @@ const userSlice = createSlice({
         login:(state,action)=>{
             state.userInfo=action.payload
         },
+     
+      
     }
   
 })

@@ -3,11 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     socialTasks: [],
     premiumTasks: [],
-   
+    userdetails:{},
 }
 
 const dataSlice = createSlice({
-    name: 'data',
+    name: 'tasks',
     initialState,
 
     reducers: {
@@ -17,12 +17,16 @@ const dataSlice = createSlice({
         setPremiumTasks: (state, action) => {
             state.premiumTasks = action.payload
         },
+        setdetail:(state,action)=>{
+            state.userdetails=action.payload
+        },
+        
         
     }
 })
 
 
 
-export const { setSocialTasks, setPremiumTasks } = dataSlice.actions;
+export const { setSocialTasks, setPremiumTasks ,setdetail} = dataSlice.actions;
 
 export default dataSlice.reducer;

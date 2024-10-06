@@ -18,6 +18,8 @@ const TaskItem = ({ data }) => {
         const durationInMilliseconds = data.taskDuration * 3600 * 1000; // Convert hours to milliseconds
         const endTime = createdAt + durationInMilliseconds;
 
+        let timer;
+
         const updateTimer = () => {
             const currentTime = new Date().getTime();
             const remainingTime = endTime - currentTime;
@@ -31,7 +33,7 @@ const TaskItem = ({ data }) => {
         };
 
         updateTimer(); // Initialize the timer
-        const timer = setInterval(updateTimer, 1000); // Update every second
+         timer = setInterval(updateTimer, 1000); // Update every second
 
         return () => clearInterval(timer); // Clear the timer on unmount
     }, [data.createdAt, data.taskDuration]);

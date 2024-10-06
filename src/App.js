@@ -13,23 +13,26 @@ import { useDispatch } from 'react-redux';
 import { login } from './store/userSlice';
 import AdminDashboard from './Pages/Admin';
 import service from './appwrite/database';
-import { setPremiumTasks, setSocialTasks } from './store/dataSlice';
+import { setPremiumTasks, setSocialTasks, setdetail } from './store/dataSlice';
 
 function App() {
-  const [userdata, setuserdata] = useState({})
+  const [loading, setLoading] = useState(true)
   const dispatch = useDispatch();
-  // { login }
+  
+
 
   const fetchUserData = async () => {
     // Check if the Telegram WebApp object is available
     try {
+      
       if (window.Telegram?.WebApp) {
         // Accessing the username from Telegram Web App data
         const user = window.Telegram.WebApp.initDataUnsafe?.user;
         if (user) {
-          setuserdata(user)
+          // setuserdata(user)
           dispatch(login(user))
-
+         
+         
         } else {
           console.log('User data not available');
         }
@@ -38,6 +41,36 @@ function App() {
       }
     } catch (error) {
       console.log(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+
+  const fetchTasksData = async () => {
+
+    try {
+    
+      // const socialTasks11=[{ '$id': '1', 'companyName': 'Mock Social Task 1' },{ '$id': '2', 'companyName': 'Mock Social Task 1' }]
+       
+      // dispatch(setSocialTasks(socialTasks11)) 
+      
+      const socialTasks =await  service.getAllData('social')
+      console.log( socialTasks.documents)
+      if (socialTasks?.documents) {
+        
+        dispatch(setSocialTasks(socialTasks?.documents))
+      }
+      const premiumTasks = await service.getAllData('premium')
+
+     
+
+      dispatch(setPremiumTasks(premiumTasks.documents))
+
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -46,9 +79,9 @@ function App() {
   useEffect(() => {
 
     fetchUserData()
- 
+    fetchTasksData()
 
-  }, []);
+  }, [loading]);
   return (
     <>
       <Router>

@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 const Home = () => {
 const { userInfo }= useSelector((state) => state.user);
+const { userdetails }= useSelector((state) => state.tasks);
 
 
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
@@ -122,6 +123,10 @@ const { userInfo }= useSelector((state) => state.user);
           </h2>
         </div>
       ):(null) }
+
+<h2 className="font-bold">
+            Welcome, {userdetails.first_name || userdetails.username}!
+          </h2>
 
       {/* Countdown and Taps */}
       <div className="flex space-x-4 p-3 items-center justify-start w-full rounded-lg text-xs mt-2">

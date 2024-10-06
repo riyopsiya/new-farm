@@ -82,12 +82,13 @@ export class Service{
 
         try {
             
-            return this.databases.listDocuments(
+           const result=  await this.databases.listDocuments(
                 process.env.REACT_APP_APPWRITE_DATABASE_ID,
                 process.env.REACT_APP_APPWRITE_COLLECTION_ID,
                 [Query.equal('category',[category]),Query.orderDesc('$createdAt'),],
 
             ) 
+            return result;
         } catch (error) {
             console.log("Appwrite serive :: getAllData :: error", error)
             return false

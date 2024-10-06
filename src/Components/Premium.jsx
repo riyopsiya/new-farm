@@ -6,10 +6,10 @@ const Premium = () => {
   const { premiumTasks } = useSelector(state => state.tasks)
   console.log(premiumTasks)
 
-  if (premiumTasks?.length === 0) {
-    return  <div className='flex justify-center my-4'>No tasks available</div>
+  // if (premiumTasks?.length === 0) {
+  //   return  <div className='flex justify-center my-4'>No tasks available</div>
 
-  }
+  // }
   return (
     <div>
       {/* Tasks Available */}

@@ -6,7 +6,9 @@ const store=configureStore({
     reducer:{
         user:userReducer,
         tasks:dataReducer
-    }
+    },
+ 
+
 })
 
 
