@@ -6,6 +6,8 @@ import LoadingSkeleton from './Loading';
 const Social = () => {
   const [loading, setLoading] = useState(true);
   const [socialTasks, setSocialTasks] = useState([]);
+  
+
 
   useEffect(() => {
     const fetchTasksData = async () => {

@@ -15,6 +15,9 @@ import AdminDashboard from './Pages/Admin';
 import service from './appwrite/database';
 import { setPremiumTasks, setSocialTasks, setdetail } from './store/dataSlice';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch();
@@ -51,9 +54,6 @@ function App() {
 
     try {
     
-      // const socialTasks11=[{ '$id': '1', 'companyName': 'Mock Social Task 1' },{ '$id': '2', 'companyName': 'Mock Social Task 1' }]
-       
-      // dispatch(setSocialTasks(socialTasks11)) 
       
       const socialTasks =await  service.getAllData('social')
       console.log( socialTasks.documents)
@@ -86,7 +86,20 @@ function App() {
     <>
       <Router>
 
-
+      <ToastContainer
+          className={'text-sm '}
+            position="top-center"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          // transition: Bounce,
+          />
 
         <Header />
 

@@ -4,9 +4,9 @@ body {
 }
 .floating-plus {
   position: absolute;
-  font-size: 3.5rem;
+  font-size: 2rem;
   color: #ffdab4;
-  animation: floatUpRandom 1s ease-out forwards;
+  animation: floatUpRandom 2s ease-out forwards;
   pointer-events: none;
 }
 

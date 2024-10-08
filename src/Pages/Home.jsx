@@ -2,33 +2,21 @@ import React, { useState, useEffect } from "react";
 import bountyimg from "../images/bountyimg.png";
 import { useSelector } from "react-redux";
 
-
 const Home = () => {
-const { userInfo }= useSelector((state) => state.user);
-const { userdetails }= useSelector((state) => state.tasks);
-
-
+  const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
   const [bountyAmount, setBountyAmount] = useState(
     localStorage.getItem("bountyAmount") ? parseFloat(localStorage.getItem("bountyAmount")) : 1000.0
   );
   const [timeLeft, setTimeLeft] = useState(
-    localStorage.getItem("timeLeft")
-      ? parseInt(localStorage.getItem("timeLeft"))
-      : initialTime
-  );
-  const [startTime, setStartTime] = useState(
-    localStorage.getItem("startTime")
-      ? parseInt(localStorage.getItem("startTime"))
-      : null
+    localStorage.getItem("timeLeft") ? parseInt(localStorage.getItem("timeLeft")) : initialTime
   );
   const [isFarming, setIsFarming] = useState(
-    localStorage.getItem("isFarming") === "true"
+    localStorage.getItem("isFarming") === "true" // Retrieve farming status
   );
   const [taps, setTaps] = useState(
     localStorage.getItem("taps") ? parseInt(localStorage.getItem("taps")) : 100
-  ); // Start taps at 100
- 
+  );
   const [floatingPlusPosition, setFloatingPlusPosition] = useState(null); // Position for floating +1
 
   // Function to format time from seconds to hh:mm:ss
@@ -36,62 +24,69 @@ const { userdetails }= useSelector((state) => state.tasks);
     const h = Math.floor(seconds / 3600);
     const m = Math.floor((seconds % 3600) / 60);
     const s = seconds % 60;
-    return `${h.toString().padStart(2, "0")}:${m
-      .toString()
-      .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+    return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
 
-  // Calculate the remaining time when user returns
-  const calculateRemainingTime = () => {
-    const storedStartTime = localStorage.getItem("startTime");
-    if (storedStartTime) {
-      const timePassed = Math.floor((Date.now() - storedStartTime) / 1000); // in seconds
-      const updatedTimeLeft = Math.max(timeLeft - timePassed, 0);
-      setTimeLeft(updatedTimeLeft);
-      return updatedTimeLeft;
+  // Update time left based on the saved start time
+  useEffect(() => {
+    if (isFarming) {
+      const savedStartTime = localStorage.getItem("startTime");
+      const elapsedTime = Math.floor((Date.now() - savedStartTime) / 1000); // Time elapsed in seconds
+      const newTimeLeft = Math.max(initialTime - elapsedTime, 0); // Calculate remaining time
+
+      setTimeLeft(newTimeLeft);
+      localStorage.setItem("timeLeft", newTimeLeft); // Update timeLeft in localStorage
+
+      if (newTimeLeft === 0) {
+        setIsFarming(false); // Stop farming
+        setTaps(100); // Reset taps to 100
+        localStorage.setItem("taps", 100); // Reset taps in localStorage
+      }
     }
-    return timeLeft;
-  };
+  }, [isFarming]);
 
   // Timer countdown effect
   useEffect(() => {
     let timer;
     if (isFarming && timeLeft > 0) {
       timer = setInterval(() => {
-        setTimeLeft((prevTime) => prevTime - 1);
+        setTimeLeft((prevTime) => {
+          const updatedTime = prevTime - 1;
+          localStorage.setItem("timeLeft", updatedTime);
+          return updatedTime;
+        });
       }, 1000);
     }
 
-    // Update localStorage with the remaining time and taps
-    localStorage.setItem("timeLeft", timeLeft);
-    localStorage.setItem("taps", taps);
-    localStorage.setItem("bountyAmount", bountyAmount.toFixed(2));
- 
-    if (!startTime) {
-      const newStartTime = Date.now();
-      setStartTime(newStartTime);
-      localStorage.setItem("startTime", newStartTime);
-    }
-
-    // Clear the timer when timeLeft reaches 0 and reset timer and taps
-    if (timeLeft === 0) {
-      setIsFarming(false);
-      resetTimerAndTaps();
-    }
-
     return () => clearInterval(timer);
-  }, [isFarming, timeLeft, taps, startTime,bountyAmount]);
+  }, [isFarming, timeLeft]);
+
+  // Save bounty amount to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("bountyAmount", bountyAmount);
+  }, [bountyAmount]);
 
   // Handle start farming
   const handleStartFarming = () => {
-    setIsFarming(true);
+    if (timeLeft === 0) {
+      setTimeLeft(initialTime); // Reset to 8 hours
+      setTaps(100); // Reset taps to 100
+      localStorage.setItem("taps", 100); // Reset taps in localStorage
+    }
+    setIsFarming(true); // Start farming
+    localStorage.setItem("isFarming", "true"); // Update farming status in localStorage
+    localStorage.setItem("startTime", Date.now()); // Save the current time
   };
 
   // Handle tap on the image
   const handleImageTap = () => {
     if (taps > 0) {
       setBountyAmount((prevAmount) => prevAmount + 1); // Increase bounty by 1
-      setTaps((prevTaps) => prevTaps - 1); // Decrease tap count
+      setTaps((prevTaps) => {
+        const newTaps = prevTaps - 1; // Decrease tap count
+        localStorage.setItem("taps", newTaps); // Update taps in localStorage
+        return newTaps;
+      });
 
       // Randomly position the floating +1 around the image
       const randomX = Math.random() * 50 + 25; // Random X between 25% and 75%
@@ -105,26 +100,15 @@ const { userdetails }= useSelector((state) => state.tasks);
     }
   };
 
-  // Reset timer and taps when 8 hours are completed
-  const resetTimerAndTaps = () => {
-    setTimeLeft(initialTime); // Reset to 8 hours
-    setTaps(100); // Reset taps to 100
-    localStorage.setItem("timeLeft", initialTime);
-    localStorage.setItem("taps", 100);
-    localStorage.removeItem("startTime"); // Clear the start time
-  };
-
   return (
-    <div className="flex flex-col items-center justify-between h-[30rem] bg-[#1f221f] text-white p-4">
+    <div className="flex flex-col items-center justify-between h-[70vh] bg-[#1f221f] text-white p-4 overflow-hidden">
       {(userInfo.first_name || userInfo.username) ? (
         <div className="w-full flex text-left px-4 mb-4">
-          <h2 className="font-bold">
+          <h2 className="font-bold text-lg md:text-xl">
             Welcome, {userInfo.first_name || userInfo.username}!
           </h2>
         </div>
-      ):(null) }
-
-
+      ) : null}
 
       {/* Countdown and Taps */}
       <div className="flex space-x-4 p-3 items-center justify-start w-full rounded-lg text-xs mt-2">
@@ -137,16 +121,16 @@ const { userdetails }= useSelector((state) => state.tasks);
       </div>
 
       {/* Image of coins */}
-      <div className="relative mt-8" onClick={handleImageTap}>
+      <div className="relative mt-4 w-full flex justify-center" onClick={handleImageTap}>
         <img
           src={bountyimg}
           alt="Bounty Token"
-          className="w-64 h-64 object-contain cursor-pointer"
+          className="w-2/3 md:w-1/2 h-auto object-contain cursor-pointer"
         />
         {/* Floating +1 */}
         {floatingPlusPosition && (
           <div
-            className="floating-plus"
+            className="floating-plus absolute text-lg text-green-500"
             style={{
               left: `${floatingPlusPosition.x}%`,
               top: `${floatingPlusPosition.y}%`,
@@ -165,9 +149,9 @@ const { userdetails }= useSelector((state) => state.tasks);
 
       {/* Start Farming Button */}
       <button
-        className="bg-gradient-to-r fixed bottom-24 from-black to-[#7d5126] px-8 py-3 rounded-lg w-full mt-8 text-lg font-bold"
+        className="bg-gradient-to-r fixed bottom-24 from-black to-[#7d5126] px-8 py-3 rounded-lg w-full text-lg font-bold"
         onClick={handleStartFarming}
-        disabled={isFarming} // Disable button after farming starts
+        disabled={isFarming && timeLeft > 0} // Disable button while farming
       >
         {isFarming ? "Farming in Progress..." : "Start Farming"}
       </button>

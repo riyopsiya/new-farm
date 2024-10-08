@@ -5,20 +5,22 @@ import service from '../appwrite/database';
 const AdminDashboard = () => {
     // State for form fields and image
     const [formData, setFormData] = useState({
-        taskName: '',
         companyName: '',
         taskDuration: '',
         category: '',
         telegramChatID: '',
-        telegramAnn: '',  // Separate state for Telegram link
-        twitter: '',   // Separate state for Twitter link
-        instagram: '',   // Separate state for Twitter link
-        linkedin: '',   // Separate state for Twitter link
-        website: ''   // Separate state for LinkedIn link
+        telegramChatInvite: '', // New state for Telegram chat invite link
+        telegramAnnID: '', // Separate state for Telegram link
+        telegramAnnInvite: '', // New state for Telegram announcement invite link
+        twitter: '', // Twitter link
+        instagram: '', // Instagram link
+        linkedin: '', // LinkedIn link
+        youtube: '', // YouTube link
+        discord: '', // Discord link
+        website: '' // Website link
     });
     const [image, setImage] = useState(null);
 
-  
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,42 +29,44 @@ const AdminDashboard = () => {
             // Upload the image to Appwrite storage
             let imageFileId = '';
             if (image) {
-               
-                const imageFile = await service.uploadFile( image);
-                
+                const imageFile = await service.uploadFile(image);
                 imageFileId = imageFile.$id;
             }
-            console.log(formData)
+            console.log(formData);
             // Save task data to Appwrite database
-                  const response = await service.addData({
-                    taskName: formData.taskName,
-                    companyName: formData.companyName,
-                    taskDuration: formData.taskDuration, // E.g., "1 day", "2 days"
-                    category: formData.category, // E.g., "1 day", "2 days"
-                    telegramChatID: formData.telegramChatID,
-                    telegramAnn: formData.telegramAnn,  // Store Telegram link
-                    twitter: formData.twitter,    // Store Twitter link
-                    instagram: formData.instagram,    // Store instagram link
-                    linkedin: formData.linkedin,  // Store LinkedIn link
-                    website: formData.website,  // Store LinkedIn link
-                    image: imageFileId, // Store image file ID
-                    // users: [JSON.stringify({'name':'hardik','id':'123455'}),JSON.stringify({'name':'vivek','id':'345555'})] // Store image file ID
-                    
-                }
-            );
+            const response = await service.addData({
+                companyName: formData.companyName,
+                taskDuration: formData.taskDuration, // E.g., "1 day", "2 days"
+                category: formData.category,
+                telegramChatID: formData.telegramChatID,
+                telegramChatInvite: formData.telegramChatInvite, // Store Telegram chat invite link
+                telegramAnnID: formData.telegramAnnID, // Store Telegram link
+                telegramAnnInvite: formData.telegramAnnInvite, // Store Telegram announcement invite link
+                twitter: formData.twitter,
+                instagram: formData.instagram,
+                linkedin: formData.linkedin,
+                youtube: formData.youtube, // Store YouTube link
+                discord: formData.discord, // Store Discord link
+                website: formData.website, // Store website link
+                image: imageFileId, // Store image file ID
+            });
+
             console.log('Task added successfully:', response);
 
             // Clear form after submission
             setFormData({
-                taskName: '',
                 companyName: '',
                 taskDuration: '',
                 category: '',
                 telegramChatID: '',
-                telegramAnn: '',
+                telegramChatInvite: '', // Reset Telegram chat invite link
+                telegramAnnID: '',
+                telegramAnnInvite: '', // Reset Telegram announcement invite link
                 twitter: '',
                 instagram: '',
                 linkedin: '',
+                youtube: '', // Reset YouTube link
+                discord: '', // Reset Discord link
                 website: ''
             });
             setImage(null);
@@ -86,18 +90,6 @@ const AdminDashboard = () => {
             <h2 className="text-2xl font-bold mb-4">Add Task</h2>
             <form onSubmit={handleSubmit} className='mb-10'>
                 <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Task Name</label>
-                    <input
-                        type="text"
-                        name="taskName"
-                        value={formData.taskName}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border rounded bg-black"
-                        required
-                    />
-                </div>
-
-                <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Company Name</label>
                     <input
                         type="text"
@@ -110,17 +102,18 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Task Duration</label>
+                    <label className="block text-sm font-bold mb-2">Task Duration <span className='text-gray-400'>( in hours )</span></label>
                     <input
                         type="text"
                         name="taskDuration"
                         value={formData.taskDuration}
                         onChange={handleInputChange}
-                        className="w-full p-2 border rounded bg-black  "
-                        placeholder="e.g., 12 hrs, 24 hrs"
+                        className="w-full p-2 border rounded bg-black"
+                        placeholder="e.g., 12 , 24 "
                         required
                     />
                 </div>
+                
                 <div className="mb-4">
                     <label className="block text-sm font-medium mb-2 w-40" htmlFor="category">Exchange Type<span className="text-red-500 ml-2">*</span></label>
                     <select id="category" name="category" className="w-full px-1 py-2 bg-black text-white border border-transparent rounded-lg" value={formData.category} onChange={handleInputChange} required>
@@ -129,8 +122,6 @@ const AdminDashboard = () => {
                         <option value="premium">Premium</option>
                     </select>
                 </div>
-
-
 
                 <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Telegram Group ID</label>
@@ -145,11 +136,22 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Telegram Ann ID</label>
+                    <label className="block text-sm font-bold mb-2">Telegram Chat Invite Link</label>
                     <input
                         type="text"
-                        name="telegramAnn"
-                        value={formData.telegramAnn}
+                        name="telegramChatInvite"
+                        value={formData.telegramChatInvite}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black"
+                    />
+                </div>
+
+                <div className="mb-4">
+                    <label className="block text-sm font-bold mb-2">Telegram Announce ID</label>
+                    <input
+                        type="text"
+                        name="telegramAnnID"
+                        value={formData.telegramAnnID}
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded bg-black"
                         required
@@ -157,8 +159,18 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Social Media Links</label>
-                   
+                    <label className="block text-sm font-bold mb-2">Telegram Announce Invite Link</label>
+                    <input
+                        type="text"
+                        name="telegramAnnInvite"
+                        value={formData.telegramAnnInvite}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black"
+                    />
+                </div>
+
+                <div className="mb-4">
+                    <label className="block text-sm font-bold mb-2">Social Media Links (Optional)</label>
                     <input
                         type="text"
                         name="twitter"
@@ -166,7 +178,6 @@ const AdminDashboard = () => {
                         value={formData.twitter}
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded bg-black mb-2"
-                       
                     />
                     <input
                         type="text"
@@ -174,8 +185,7 @@ const AdminDashboard = () => {
                         placeholder="LinkedIn Link"
                         value={formData.linkedin}
                         onChange={handleInputChange}
-                        className="w-full p-2 border rounded bg-black"
-                        
+                        className="w-full p-2 border rounded bg-black mb-2"
                     />
                     <input
                         type="text"
@@ -183,8 +193,23 @@ const AdminDashboard = () => {
                         placeholder="Instagram Link"
                         value={formData.instagram}
                         onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+                    <input
+                        type="text"
+                        name="youtube"
+                        placeholder="YouTube Link"
+                        value={formData.youtube}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+                    <input
+                        type="text"
+                        name="discord"
+                        placeholder="Discord Link"
+                        value={formData.discord}
+                        onChange={handleInputChange}
                         className="w-full p-2 border rounded bg-black"
-                        
                     />
                     <input
                         type="text"
@@ -193,7 +218,6 @@ const AdminDashboard = () => {
                         value={formData.website}
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded bg-black"
-                        
                     />
                 </div>
 
