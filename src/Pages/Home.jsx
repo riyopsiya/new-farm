@@ -69,7 +69,7 @@ const Home = () => {
   // Handle start farming
   const handleStartFarming = () => {
     if (timeLeft === 0) {
-      setTimeLeft(initialTime); // Reset to 8 hours
+      setTimeLeft(8*60*60); // Reset to 8 hours
       setTaps(100); // Reset taps to 100
       localStorage.setItem("taps", 100); // Reset taps in localStorage
     }

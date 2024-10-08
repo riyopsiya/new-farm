@@ -11,7 +11,7 @@ const TaskItem = ({ data }) => {
     const [timeLeft, setTimeLeft] = useState(0);
 
     const [claimButtonsState, setClaimButtonsState] = useState({
-        followOnX: { claimed: false, goClicked: false },
+        X: { claimed: false, goClicked: false },
         telegramChat: { claimed: false, goClicked: false },
         telegramAnn: { claimed: false, goClicked: false },
         instagram: { claimed: false, goClicked: false },
@@ -62,7 +62,7 @@ const TaskItem = ({ data }) => {
     };
 
     const handleGoClick = (key) => {
-        if (key === 'followOnX') {
+        if (key === 'X') {
             window.open(data.twitter, '_blank');
         } else if (key === 'instagram') {
             window.open(data.instagram, '_blank');
@@ -83,13 +83,19 @@ const TaskItem = ({ data }) => {
 
     const handleCheckClick = async (key) => {
         try {
-            setClaimButtonsState((prevState) => ({
-                ...prevState,
-                [key]: { ...prevState[key], claimed: true }
-            }));
+            console.log(key)
+            if(!claimButtonsState[key].goClicked){
+                if(key==='website') toast.error('Please visit the website')
+               else toast.error(`Please follow on the ${key} page`)
+            }
+            else{
+                setClaimButtonsState((prevState) => ({
+                    ...prevState,
+                    [key]: { ...prevState[key], claimed: true }
+                }));
+            }
         } catch (error) {
             console.error('Error checking task:', error);
-            // alert('An error occurred while checking your task.');
             toast.error("An error occurred while checking your task.")
         }
     };
@@ -159,7 +165,7 @@ const TaskItem = ({ data }) => {
                     {data.twitter ? (
                         <div className='flex w-full justify-between items-center'>
                             <p>Follow On X (Twitter)</p>
-                            {claimButtonsState.followOnX.claimed ? (
+                            {claimButtonsState.X.claimed ? (
                                 <button className="bg-green-500 px-4 py-2 rounded-lg text-xs font-bold">
                                     Claimed
                                 </button>
@@ -167,14 +173,14 @@ const TaskItem = ({ data }) => {
                                 <div className='flex gap-2'>
                                     <button
                                         className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        onClick={() => handleGoClick('followOnX')}
+                                        onClick={() => handleGoClick('X')}
                                     >
                                         Go
                                     </button>
                                     <button
                                         className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        disabled={!claimButtonsState.followOnX.goClicked}
-                                        onClick={() => handleCheckClick('followOnX')}
+                                        // disabled={!claimButtonsState.X.goClicked}
+                                        onClick={() => handleCheckClick('X')}
                                     >
                                         Check
                                     </button>
@@ -255,7 +261,7 @@ const TaskItem = ({ data }) => {
                                     </button>
                                     <button
                                         className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        disabled={!claimButtonsState.instagram.goClicked}
+                                        // disabled={!claimButtonsState.instagram.goClicked}
                                         onClick={() => handleCheckClick('instagram')}
                                     >
                                         Check
@@ -283,7 +289,7 @@ const TaskItem = ({ data }) => {
                                     </button>
                                     <button
                                         className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        disabled={!claimButtonsState.youtube.goClicked}
+                                        // disabled={!claimButtonsState.youtube.goClicked}
                                         onClick={() => handleCheckClick('youtube')}
                                     >
                                         Check
@@ -311,7 +317,7 @@ const TaskItem = ({ data }) => {
                                     </button>
                                     <button
                                         className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        disabled={!claimButtonsState.discord.goClicked}
+                                        // disabled={!claimButtonsState.discord.goClicked}
                                         onClick={() => handleCheckClick('discord')}
                                     >
                                         Check
@@ -339,7 +345,7 @@ const TaskItem = ({ data }) => {
                                     </button>
                                     <button
                                         className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        disabled={!claimButtonsState.website.goClicked}
+                                        // disabled={!claimButtonsState.website.goClicked}
                                         onClick={() => handleCheckClick('website')}
                                     >
                                         Check
