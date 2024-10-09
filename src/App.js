@@ -32,7 +32,6 @@ function App() {
 
         if (user) {
           dispatch(login(user));
-          toast.success(user)
           const userId = user.id; // Extract the user ID
           toast.success(userId)
 
