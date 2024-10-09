@@ -26,7 +26,7 @@ export class Service{
           try {
             return this.databases.createDocument(
                 process.env.REACT_APP_APPWRITE_DATABASE_ID,
-                process.env.REACT_APP_APPWRITE_COLLECTION_ID,
+                process.env.REACT_APP_APPWRITE_TASKS_COLLECTION_ID,
                 ID.unique(),
                 formData,
             )
@@ -39,7 +39,7 @@ export class Service{
         try {
             return this.databases.updateDocument(
                 process.env.REACT_APP_APPWRITE_DATABASE_ID,
-                process.env.REACT_APP_APPWRITE_COLLECTION_ID,
+                process.env.REACT_APP_APPWRITE_TASKS_COLLECTION_ID,
                 documentID,   //get from from frontend
                 newData   //udated data
             )
@@ -54,7 +54,7 @@ export class Service{
     //         try {
     //              return this.databases.deleteDocument(
     //                 process.env.REACT_APP_APPWRITE_DATABASE_ID,
-    //                 process.env.REACT_APP_APPWRITE_COLLECTION_ID,
+    //                 process.env.REACT_APP_APPWRITE_TASKS_COLLECTION_ID,
     //                 documentID
     //              )
     //         } catch (error) {
@@ -68,7 +68,7 @@ export class Service{
          try {
             return this.databases.getDocument(
                 process.env.REACT_APP_APPWRITE_DATABASE_ID,
-                process.env.REACT_APP_APPWRITE_COLLECTION_ID,
+                process.env.REACT_APP_APPWRITE_TASKS_COLLECTION_ID,
                 documentID
             )
          } catch (error) {
@@ -84,7 +84,7 @@ export class Service{
             
            const result=  await this.databases.listDocuments(
                 process.env.REACT_APP_APPWRITE_DATABASE_ID,
-                process.env.REACT_APP_APPWRITE_COLLECTION_ID,
+                process.env.REACT_APP_APPWRITE_TASKS_COLLECTION_ID,
                 [Query.equal('category',[category]),Query.orderDesc('$createdAt'),],
 
             ) 
@@ -99,7 +99,7 @@ export class Service{
         try {
             return await this.databases.deleteDocument(
                 process.env.REACT_APP_APPWRITE_DATABASE_ID, // databaseId
-                process.env.REACT_APP_APPWRITE_COLLECTION_ID, // collectionId
+                process.env.REACT_APP_APPWRITE_TASKS_COLLECTION_ID, // collectionId
                 documentID // documentId
             );
 

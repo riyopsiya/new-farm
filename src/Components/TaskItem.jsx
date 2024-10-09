@@ -11,13 +11,13 @@ const TaskItem = ({ data }) => {
     const [timeLeft, setTimeLeft] = useState(0);
 
     const [claimButtonsState, setClaimButtonsState] = useState({
-        X: { claimed: false, goClicked: false },
-        telegramChat: { claimed: false, goClicked: false },
-        telegramAnn: { claimed: false, goClicked: false },
-        instagram: { claimed: false, goClicked: false },
-        youtube: { claimed: false, goClicked: false },
-        discord: { claimed: false, goClicked: false },
-        website: { claimed: false, goClicked: false }
+        X: { claim: true, claimed: false, goClicked: false },
+        telegramChat: { claim: true, claimed: false, goClicked: false },
+        telegramAnn: { claim: true, claimed: false, goClicked: false },
+        instagram: { claim: true, claimed: false, goClicked: false },
+        youtube: { claim: true, claimed: false, goClicked: false },
+        discord: { claim: true, claimed: false, goClicked: false },
+        website: { claim: true, claimed: false, goClicked: false }
     });
 
     const [hasJoinedChat, setHasJoinedChat] = useState(false);
@@ -61,6 +61,15 @@ const TaskItem = ({ data }) => {
         return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
     };
 
+
+    const handleClaimClick = (key) => {
+        setClaimButtonsState((prevState) => ({
+            ...prevState,
+            [key]: { ...prevState[key], claim: false }  // Toggle the claim state
+        }));
+    };
+
+
     const handleGoClick = (key) => {
         if (key === 'X') {
             window.open(data.twitter, '_blank');
@@ -84,11 +93,11 @@ const TaskItem = ({ data }) => {
     const handleCheckClick = async (key) => {
         try {
             console.log(key)
-            if(!claimButtonsState[key].goClicked){
-                if(key==='website') toast.error('Please visit the website')
-               else toast.error(`Please follow on the ${key} page`)
+            if (!claimButtonsState[key].goClicked) {
+                if (key === 'website') toast.error('Please visit the website')
+                else toast.error(`Please follow on the ${key} page`)
             }
-            else{
+            else {
                 setClaimButtonsState((prevState) => ({
                     ...prevState,
                     [key]: { ...prevState[key], claimed: true }
@@ -165,52 +174,66 @@ const TaskItem = ({ data }) => {
                     {data.twitter ? (
                         <div className='flex w-full justify-between items-center'>
                             <p>Follow On X (Twitter)</p>
-                            {claimButtonsState.X.claimed ? (
-                                <button className="bg-green-500 px-4 py-2 rounded-lg text-xs font-bold">
-                                    Claimed
+                            {claimButtonsState.X.claim ? (
+                                <button onClick={() => handleClaimClick('X')} className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
+                                    Claim 100 bounty
                                 </button>
                             ) : (
-                                <div className='flex gap-2'>
-                                    <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        onClick={() => handleGoClick('X')}
-                                    >
-                                        Go
+
+                                claimButtonsState.X.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
+                                        Claimed
                                     </button>
-                                    <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        // disabled={!claimButtonsState.X.goClicked}
-                                        onClick={() => handleCheckClick('X')}
-                                    >
-                                        Check
-                                    </button>
-                                </div>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
+                                            onClick={() => handleGoClick('X')}
+                                        >
+                                            Go
+                                        </button>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
+
+                                            onClick={() => handleCheckClick('X')}
+                                        >
+                                            Check
+                                        </button>
+                                    </div>
+                                )
                             )}
+
                         </div>
                     ) : (null)}
 
                     {/* Telegram Chat */}
                     {data.telegramChatInvite ? (<div className='flex w-full justify-between items-center'>
                         <p>Telegram Chat</p>
-                        {hasJoinedChat ? (
-                            <button className="bg-green-500 px-4 py-2 rounded-lg text-xs font-bold">
-                                Claimed
+                        {claimButtonsState.telegramChat.claim ? (
+                            <button onClick={() => handleClaimClick('telegramChat')} className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
+                                Claim 100 bounty
                             </button>
                         ) : (
-                            <div className='flex gap-2'>
-                                <button
-                                    className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                    onClick={() => window.open(data.telegramChatInvite, '_blank')}
-                                >
-                                    Go
+                            hasJoinedChat ? (
+                                <button className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
+                                    Claimed
                                 </button>
-                                <button
-                                    className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                    onClick={() => handleTelegramCheckClick('telegramChat')}
-                                >
-                                    Check
-                                </button>
-                            </div>
+                            ) : (
+                                <div className='flex gap-2'>
+                                    <button
+                                        className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
+                                        onClick={() => window.open(data.telegramChatInvite, '_blank')}
+                                    >
+                                        Go
+                                    </button>
+                                    <button
+                                        className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
+                                        onClick={() => handleTelegramCheckClick('telegramChat')}
+                                    >
+                                        Check
+                                    </button>
+                                </div>
+                            )
                         )}
                     </div>
                     ) : (null)}
@@ -219,25 +242,31 @@ const TaskItem = ({ data }) => {
                     {data.telegramAnnInvite ? (
                         <div className='flex w-full justify-between items-center'>
                             <p>Telegram Announcement</p>
-                            {hasJoinedAnn ? (
-                                <button className="bg-green-500 px-4 py-2 rounded-lg text-xs font-bold">
-                                    Claimed
+                            {claimButtonsState.telegramAnn.claim ? (
+                                <button onClick={() => handleClaimClick('telegramAnn')} className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
+                                    Claim 100 bounty
                                 </button>
                             ) : (
-                                <div className='flex gap-2'>
-                                    <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        onClick={() => window.open(data.telegramAnnInvite, '_blank')}
-                                    >
-                                        Go
+                                hasJoinedAnn ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
+                                        Claimed
                                     </button>
-                                    <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        onClick={() => handleTelegramCheckClick('telegramAnn')}
-                                    >
-                                        Check
-                                    </button>
-                                </div>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
+                                            onClick={() => window.open(data.telegramAnnInvite, '_blank')}
+                                        >
+                                            Go
+                                        </button>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
+                                            onClick={() => handleTelegramCheckClick('telegramAnn')}
+                                        >
+                                            Check
+                                        </button>
+                                    </div>
+                                )
                             )}
                         </div>
 
@@ -247,26 +276,31 @@ const TaskItem = ({ data }) => {
                     {data.instagram ? (
                         <div className='flex w-full justify-between items-center'>
                             <p>Instagram</p>
-                            {claimButtonsState.instagram.claimed ? (
-                                <button className="bg-green-500 px-4 py-2 rounded-lg text-xs font-bold">
-                                    Claimed
+                            {claimButtonsState.instagram.claim ? (
+                                <button onClick={() => handleClaimClick('instagram')} className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
+                                    Claim 100 bounty
                                 </button>
                             ) : (
-                                <div className='flex gap-2'>
-                                    <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        onClick={() => handleGoClick('instagram')}
-                                    >
-                                        Go
+                                claimButtonsState.instagram.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
+                                        Claimed
                                     </button>
-                                    <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        // disabled={!claimButtonsState.instagram.goClicked}
-                                        onClick={() => handleCheckClick('instagram')}
-                                    >
-                                        Check
-                                    </button>
-                                </div>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
+                                            onClick={() => handleGoClick('instagram')}
+                                        >
+                                            Go
+                                        </button>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
+                                            onClick={() => handleCheckClick('instagram')}
+                                        >
+                                            Check
+                                        </button>
+                                    </div>
+                                )
                             )}
                         </div>
 
@@ -275,26 +309,31 @@ const TaskItem = ({ data }) => {
                     {data.youtube ? (
                         <div className='flex w-full justify-between items-center'>
                             <p>YouTube</p>
-                            {claimButtonsState.youtube.claimed ? (
-                                <button className="bg-green-500 px-4 py-2 rounded-lg text-xs font-bold">
-                                    Claimed
+                            {claimButtonsState.youtube.claim ? (
+                                <button onClick={() => handleClaimClick('youtube')} className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
+                                    Claim 100 bounty
                                 </button>
                             ) : (
-                                <div className='flex gap-2'>
-                                    <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        onClick={() => handleGoClick('youtube')}
-                                    >
-                                        Go
+                                claimButtonsState.youtube.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
+                                        Claimed
                                     </button>
-                                    <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        // disabled={!claimButtonsState.youtube.goClicked}
-                                        onClick={() => handleCheckClick('youtube')}
-                                    >
-                                        Check
-                                    </button>
-                                </div>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
+                                            onClick={() => handleGoClick('youtube')}
+                                        >
+                                            Go
+                                        </button>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
+                                            onClick={() => handleCheckClick('youtube')}
+                                        >
+                                            Check
+                                        </button>
+                                    </div>
+                                )
                             )}
                         </div>
                     ) : (null)}
@@ -303,8 +342,13 @@ const TaskItem = ({ data }) => {
                     {data.discord ? (
                         <div className='flex w-full justify-between items-center'>
                             <p>Discord</p>
-                            {claimButtonsState.discord.claimed ? (
-                                <button className="bg-green-500 px-4 py-2 rounded-lg text-xs font-bold">
+                           {claimButtonsState.discord.claim?(
+                              <button onClick={() => handleClaimClick('discord')} className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
+                              Claim 100 bounty
+                          </button>
+                           ):(
+                             claimButtonsState.discord.claimed ? (
+                                <button className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
                                     Claimed
                                 </button>
                             ) : (
@@ -317,13 +361,14 @@ const TaskItem = ({ data }) => {
                                     </button>
                                     <button
                                         className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        // disabled={!claimButtonsState.discord.goClicked}
+
                                         onClick={() => handleCheckClick('discord')}
                                     >
                                         Check
                                     </button>
                                 </div>
-                            )}
+                            )
+                           )}
                         </div>
                     ) : (null)}
 
@@ -331,26 +376,31 @@ const TaskItem = ({ data }) => {
                     {data.website ? (
                         <div className='flex w-full justify-between items-center'>
                             <p>Website</p>
-                            {claimButtonsState.website.claimed ? (
-                                <button className="bg-green-500 px-4 py-2 rounded-lg text-xs font-bold">
-                                    Claimed
-                                </button>
-                            ) : (
-                                <div className='flex gap-2'>
-                                    <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        onClick={() => handleGoClick('website')}
-                                    >
-                                        Go
+                            {claimButtonsState.website.claim?(
+                                      <button onClick={() => handleClaimClick('website')} className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
+                                      Claim 100 bounty
+                                  </button>
+                            ):(
+                                claimButtonsState.website.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
+                                        Claimed
                                     </button>
-                                    <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        // disabled={!claimButtonsState.website.goClicked}
-                                        onClick={() => handleCheckClick('website')}
-                                    >
-                                        Check
-                                    </button>
-                                </div>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
+                                            onClick={() => handleGoClick('website')}
+                                        >
+                                            Go
+                                        </button>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
+                                            onClick={() => handleCheckClick('website')}
+                                        >
+                                            Check
+                                        </button>
+                                    </div>
+                                )
                             )}
                         </div>
                     ) : (null)}

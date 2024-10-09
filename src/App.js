@@ -17,6 +17,7 @@ import { setPremiumTasks, setSocialTasks, setdetail } from './store/dataSlice';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import userService from './appwrite/users';
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -25,17 +26,29 @@ function App() {
 
 
   const fetchUserData = async () => {
-    // Check if the Telegram WebApp object is available
     try {
-      
       if (window.Telegram?.WebApp) {
-        // Accessing the username from Telegram Web App data
         const user = window.Telegram.WebApp.initDataUnsafe?.user;
+
         if (user) {
-          // setuserdata(user)
-          dispatch(login(user))
-         
-         
+          const userId = user.id; // Extract the user ID
+
+          // Check if user exists in the Appwrite database
+          const existingUser = await userService.getUser(userId)
+
+          if (existingUser) {
+            // User exists, dispatch login with user data
+            dispatch(login(existingUser));
+          } else {
+            // User doesn't exist, create a new user
+            const newUser = {
+              userID: userId,
+              tasks: [],
+              coins: 100,
+            };
+            await userService.createUser(newUser);
+            dispatch(login(newUser)); // Dispatch the newly created user
+          }
         } else {
           console.log('User data not available');
         }
@@ -43,11 +56,11 @@ function App() {
         console.log('Telegram WebApp not available');
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
 
   const fetchTasksData = async () => {
