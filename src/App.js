@@ -15,7 +15,7 @@ import AdminDashboard from './Pages/Admin';
 import service from './appwrite/database';
 import { setPremiumTasks, setSocialTasks, setdetail } from './store/dataSlice';
 
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import userService from './appwrite/users';
 
@@ -38,8 +38,9 @@ function App() {
           const existingUser = await userService.getUser(userId);
 
           if (existingUser) {
+            toast.success("found user in database")
             // User exists, dispatch login with user data
-            dispatch(login(user));
+            // dispatch(login(user));
           } else {
             // User doesn't exist, create a new user in the database 
             const newUser = {
@@ -49,8 +50,8 @@ function App() {
             };
           
             await userService.createUser(newUser);
-
-            dispatch(login(user)); // Dispatch the newly created user
+            toast.success("created user in database")
+            // dispatch(login(user)); // Dispatch the newly created user
           }
         } else {
           console.log('User data not available');

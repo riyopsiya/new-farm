@@ -60,7 +60,7 @@ export class UserService{
                 userID
             )
          } catch (error) {
-            console.log("Appwrite serive :: getData :: error", error)
+            console.log("Appwrite serive :: getUser :: error", error)
             return false
          }
     }
