@@ -95,7 +95,7 @@ function App() {
     fetchUserData()
     fetchTasksData()
 
-  }, [loading]);
+  }, []);
   return (
     <>
       <Router>
