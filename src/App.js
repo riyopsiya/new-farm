@@ -62,8 +62,7 @@ function App() {
         console.log('Telegram WebApp not available');
       }
     } catch (error) {
-      
-      toast.error(error.meesage);
+      toast.error('error')
       console.log(error);
     } finally {
       setLoading(false);
