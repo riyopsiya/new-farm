@@ -47,8 +47,8 @@ function App() {
             toast.success('user not exist,creating a new') 
             const newUser = {
               userID: userId,
-              tasks: [],
-              coins: 100,
+              // tasks: [],
+              coins: 1000,
             };
           
             await service.createUser(newUser);

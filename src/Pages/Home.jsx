@@ -103,7 +103,7 @@ const Home = () => {
   return (
     <div className="flex flex-col items-center justify-between h-[70vh] bg-[#1f221f] text-white p-4 overflow-hidden">
       {(userInfo.first_name || userInfo.username) ? (
-        <div className="w-full flex text-left px-4 mb-4">
+        <div className="w-full flex text-left px-4 ">
           <h2 className="font-bold text-lg md:text-xl">
             Welcome, {userInfo.first_name || userInfo.username}!
           </h2>
