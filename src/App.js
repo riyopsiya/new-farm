@@ -36,23 +36,20 @@ function App() {
           // Check if user exists in the Appwrite database
           const existingUser = await userService.getUser(userId);
 
-          console.log(existingUser)
           if (existingUser) {
-            console.log(existingUser)
             // User exists, dispatch login with user data
-            dispatch(login(existingUser));
+            dispatch(login(user));
           } else {
-            // User doesn't exist, create a new user
+            // User doesn't exist, create a new user in the database 
             const newUser = {
               userID: userId,
               tasks: [],
               coins: 100,
             };
-            console.log(newUser)
-            console.log('creating  new user')
+          
             await userService.createUser(newUser);
-            
-            dispatch(login(newUser)); // Dispatch the newly created user
+
+            dispatch(login(user)); // Dispatch the newly created user
           }
         } else {
           console.log('User data not available');
