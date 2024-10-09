@@ -32,13 +32,12 @@ function App() {
         if (user) {
           dispatch(login(user));
           const userId = user.id; // Extract the user ID
-          toast.success(userId)
+
 
           // Check if user exists in the Appwrite database
           const existingUser = await service.getUser(userId);
           if (existingUser) {
-            toast.success(existingUser.userID)
-            toast.success("found user in database")
+            
             // User exists, dispatch login with user data
             // dispatch(login(user));
           } else {
@@ -49,10 +48,9 @@ function App() {
               // tasks: [],
               coins: 1000,
             };
-            toast.success('user not exist,creating a new') 
+
             const createdUser=await service.createUser(newUser);
-            toast.success("created user in database")
-            // dispatch(login(user)); // Dispatch the newly created user
+   
           }
         } else {
           console.log('User data not available');
@@ -61,7 +59,6 @@ function App() {
         console.log('Telegram WebApp not available');
       }
     } catch (error) {
-      // toast.error('error')
       console.log(error);
     } finally {
       setLoading(false);
