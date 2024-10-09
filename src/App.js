@@ -31,6 +31,7 @@ function App() {
         const user = window.Telegram.WebApp.initDataUnsafe?.user;
 
         if (user) {
+          dispatch(login(user));
           const userId = user.id; // Extract the user ID
 
           // Check if user exists in the Appwrite database
