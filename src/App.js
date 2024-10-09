@@ -12,13 +12,12 @@ import ProfilePage from './Pages/ProfilePage';
 import { useDispatch } from 'react-redux';
 import { login } from './store/userSlice';
 import AdminDashboard from './Pages/Admin';
-import service from './appwrite/database';
-import { setPremiumTasks, setSocialTasks, setdetail } from './store/dataSlice';
+import service, { Service } from './appwrite/database';
+import { setPremiumTasks, setSocialTasks } from './store/dataSlice';
 
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import userService from './appwrite/users';
-import userservice from './appwrite/users';
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -37,7 +36,7 @@ function App() {
           toast.success(userId)
 
           // Check if user exists in the Appwrite database
-          const existingUser = await userservice.getUser(userId);
+          const existingUser = await service.getUser(userId);
           if (existingUser) {
             toast.success(existingUser.userID)
             toast.success("found user in database")
@@ -45,14 +44,14 @@ function App() {
             // dispatch(login(user));
           } else {
             // User doesn't exist, create a new user in the database
-            toast.success('user not exist,creating a new one') 
+            toast.success('user not exist,creating a new') 
             const newUser = {
               userID: userId,
               tasks: [],
               coins: 100,
             };
           
-            await userservice.createUser(newUser);
+            await service.createUser(newUser);
             toast.success("created user in database")
             // dispatch(login(user)); // Dispatch the newly created user
           }

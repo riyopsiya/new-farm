@@ -4,7 +4,7 @@ import { Client,ID,Databases,Storage,Query } from "appwrite";
 
   
 
-export class Userservice{
+export class UserService{
     client=new Client();
     databases;
     storage;
@@ -104,8 +104,8 @@ export class Userservice{
 
 }
 
-const userservice=new Userservice();
+const userService=new UserService();
 
-export default userservice;
+export default userService;
 
 

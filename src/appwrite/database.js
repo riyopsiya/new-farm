@@ -19,6 +19,36 @@ export class Service{
         this.storage=new Storage(this.client);
     }
 
+  //create a new user
+
+  async createUser(userdata){
+      
+    try {
+      return this.databases.createDocument(
+          process.env.REACT_APP_APPWRITE_DATABASE_ID,
+          process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
+          ID.unique(),
+          userdata,
+      )
+    } catch (error) {
+        console.log("Appwrite serive :: createUser :: error", error)
+    }
+}
+
+//get existing user
+
+async getUser(userID){
+    try {
+       return await this.databases.getDocument(
+           process.env.REACT_APP_APPWRITE_DATABASE_ID,
+           process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
+           userID
+       )
+    } catch (error) {
+       console.log("Appwrite serive :: getUser :: error", error)
+       return false
+    }
+}
 
     //create methods
     async addData(formData){
