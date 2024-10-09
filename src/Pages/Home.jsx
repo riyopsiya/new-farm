@@ -111,7 +111,7 @@ const Home = () => {
       ) : null}
 
       {/* Countdown and Taps */}
-      <div className="flex space-x-4 p-3 items-center justify-start w-full rounded-lg text-xs mt-2">
+      <div className="flex space-x-4 p-3 items-center justify-start w-full rounded-lg text-xs ">
         <div className="bg-gradient-to-r from-black to-[#7d5126] px-8 py-3 rounded-lg font-bold">
           {formatTime(timeLeft)} Left
         </div>
