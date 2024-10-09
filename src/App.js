@@ -37,13 +37,14 @@ function App() {
 
           // Check if user exists in the Appwrite database
           const existingUser = await userService.getUser(userId);
-         toast.success(existingUser)
           if (existingUser) {
+            toast.success(existingUser.userID)
             toast.success("found user in database")
             // User exists, dispatch login with user data
             // dispatch(login(user));
           } else {
-            // User doesn't exist, create a new user in the database 
+            // User doesn't exist, create a new user in the database
+            toast.success('user not exist,creating a new one') 
             const newUser = {
               userID: userId,
               tasks: [],
