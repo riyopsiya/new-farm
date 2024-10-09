@@ -51,7 +51,7 @@ function App() {
               coins: 1000,
             };
           
-            await service.createUser(newUser);
+            const createdUser=await service.createUser(newUser);
             toast.success("created user in database")
             // dispatch(login(user)); // Dispatch the newly created user
           }

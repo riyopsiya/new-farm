@@ -1,5 +1,6 @@
 
 import { Client,ID,Databases,Storage,Query } from "appwrite";
+import { toast } from "react-toastify";
 
 
   
@@ -21,14 +22,15 @@ export class Service{
 
   //create a new user
 
-  async createUser(userdata){
+  async createUser(newUser){
       
     try {
+        toast.success(newUser.userID,'new user id')
       return this.databases.createDocument(
           process.env.REACT_APP_APPWRITE_DATABASE_ID,
           process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
           ID.unique(),
-          userdata,
+          newUser,
       )
     } catch (error) {
         console.log("Appwrite serive :: createUser :: error", error)
