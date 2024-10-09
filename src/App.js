@@ -18,6 +18,7 @@ import { setPremiumTasks, setSocialTasks, setdetail } from './store/dataSlice';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import userService from './appwrite/users';
+import userservice from './appwrite/users';
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -36,7 +37,7 @@ function App() {
           toast.success(userId)
 
           // Check if user exists in the Appwrite database
-          const existingUser = await userService.getUser(userId);
+          const existingUser = await userservice.getUser(userId);
           if (existingUser) {
             toast.success(existingUser.userID)
             toast.success("found user in database")
@@ -51,7 +52,7 @@ function App() {
               coins: 100,
             };
           
-            await userService.createUser(newUser);
+            await userservice.createUser(newUser);
             toast.success("created user in database")
             // dispatch(login(user)); // Dispatch the newly created user
           }
