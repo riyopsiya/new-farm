@@ -34,9 +34,11 @@ function App() {
           const userId = user.id; // Extract the user ID
 
           // Check if user exists in the Appwrite database
-          const existingUser = await userService.getUser(userId)
+          const existingUser = await userService.getUser(userId);
 
+          console.log(existingUser)
           if (existingUser) {
+            console.log(existingUser)
             // User exists, dispatch login with user data
             dispatch(login(existingUser));
           } else {
@@ -46,7 +48,10 @@ function App() {
               tasks: [],
               coins: 100,
             };
+            console.log(newUser)
+            console.log('creating  new user')
             await userService.createUser(newUser);
+            
             dispatch(login(newUser)); // Dispatch the newly created user
           }
         } else {
