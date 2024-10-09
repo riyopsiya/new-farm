@@ -51,7 +51,11 @@ function App() {
               coins: 100,
             };
           
-            await userService.createUser(newUser);
+            await userService.createUser({
+              userID: userId,
+              tasks: [],
+              coins: 100,
+            });
             toast.success("created user in database")
             // dispatch(login(user)); // Dispatch the newly created user
           }
