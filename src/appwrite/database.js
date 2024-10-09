@@ -25,7 +25,7 @@ export class Service{
   async createUser(newUser){
       
     try {
-        toast.success(newUser.userID,'new user id')
+        toast.success(1)
       return this.databases.createDocument(
           process.env.REACT_APP_APPWRITE_DATABASE_ID,
           process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
@@ -33,6 +33,7 @@ export class Service{
           newUser,
       )
     } catch (error) {
+        toast.success('error from db')
         console.log("Appwrite serive :: createUser :: error", error)
     }
 }

@@ -12,12 +12,11 @@ import ProfilePage from './Pages/ProfilePage';
 import { useDispatch } from 'react-redux';
 import { login } from './store/userSlice';
 import AdminDashboard from './Pages/Admin';
-import service, { Service } from './appwrite/database';
+import service from './appwrite/database';
 import { setPremiumTasks, setSocialTasks } from './store/dataSlice';
 
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import userService from './appwrite/users';
 
 function App() {
   const [loading, setLoading] = useState(true)
