@@ -25,7 +25,6 @@ export class Service{
   async createUser(newUser){
       
     try {
-        toast.success(1)
       return this.databases.createDocument(
           process.env.REACT_APP_APPWRITE_DATABASE_ID,
           process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,

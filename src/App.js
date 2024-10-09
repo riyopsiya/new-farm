@@ -43,13 +43,13 @@ function App() {
             // dispatch(login(user));
           } else {
             // User doesn't exist, create a new user in the database
-            toast.success('user not exist,creating a new') 
+            // toast.success('user not exist,creating a new') 
             const newUser = {
               userID: userId,
               // tasks: [],
               coins: 1000,
             };
-          
+            toast.success('user not exist,creating a new') 
             const createdUser=await service.createUser(newUser);
             toast.success("created user in database")
             // dispatch(login(user)); // Dispatch the newly created user
@@ -61,7 +61,7 @@ function App() {
         console.log('Telegram WebApp not available');
       }
     } catch (error) {
-      toast.error('error')
+      // toast.error('error')
       console.log(error);
     } finally {
       setLoading(false);
