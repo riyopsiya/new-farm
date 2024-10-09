@@ -32,6 +32,7 @@ function App() {
 
         if (user) {
           dispatch(login(user));
+          toast.success('dipatched user')
           const userId = user.id; // Extract the user ID
 
           // Check if user exists in the Appwrite database
