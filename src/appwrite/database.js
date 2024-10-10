@@ -28,7 +28,7 @@ export class Service{
       return this.databases.createDocument(
           process.env.REACT_APP_APPWRITE_DATABASE_ID,
           process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
-          newUser.userID.toSring(),
+          newUser.userID.toString(),
           newUser,
       )
     } catch (error) {
