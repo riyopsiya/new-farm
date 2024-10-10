@@ -52,6 +52,36 @@ async getUser(userId){
     }
 }
 
+//update user tasks
+async updateUserTasks(userId,taskId){
+    try {
+        const user=await this.databases.getDocument(
+            process.env.REACT_APP_APPWRITE_DATABASE_ID,
+            process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
+            userId
+        )
+
+        const allTasks=user.tasks
+        const newTasks= [...allTasks,taskId]
+    //    const newCoins=user.coins+coinAmt
+
+        return this.databases.updateDocument(
+            process.env.REACT_APP_APPWRITE_DATABASE_ID,
+            process.env.REACT_APP_APPWRITE_TASKS_COLLECTION_ID,
+            userId,   //get from from frontend
+            {
+                userID:user.userID,
+                tasks:newTasks,
+                coins:user.coins
+            }
+        )
+        
+    } catch (error) {
+        console.log("Appwrite serive :: updateData :: error", error)
+    }
+}
+
+
     //create methods
     async addData(formData){
       

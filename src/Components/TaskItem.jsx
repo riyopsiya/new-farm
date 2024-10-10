@@ -4,24 +4,29 @@ import { FiChevronDown } from "react-icons/fi";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { FaShare } from 'react-icons/fa6';
+import service from '../appwrite/database';
 
 const TaskItem = ({ data }) => {
     const { userInfo } = useSelector((state) => state.user);
     const [isOpen, setIsOpen] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
+    // console.log(data)
 
     const [claimButtonsState, setClaimButtonsState] = useState({
-        X: { claim: true, claimed: false, goClicked: false },
-        telegramChat: { claim: true, claimed: false, goClicked: false },
-        telegramAnn: { claim: true, claimed: false, goClicked: false },
-        instagram: { claim: true, claimed: false, goClicked: false },
-        youtube: { claim: true, claimed: false, goClicked: false },
-        discord: { claim: true, claimed: false, goClicked: false },
-        website: { claim: true, claimed: false, goClicked: false }
+        X: { claim: true, claimed: false, goClicked: false, link: data.twitter },
+        telegramChat: { claim: true, claimed: false, goClicked: false, link: data.telegramChatInvite },
+        telegramAnn: { claim: true, claimed: false, goClicked: false, link: data.telegramAnnInvite },
+        instagram: { claim: true, claimed: false, goClicked: false, link: data.instagram },
+        youtube: { claim: true, claimed: false, goClicked: false, link: data.youtube },
+        discord: { claim: true, claimed: false, goClicked: false, link: data.discord },
+        website: { claim: true, claimed: false, goClicked: false, link: data.website }
     });
 
     const [hasJoinedChat, setHasJoinedChat] = useState(false);
     const [hasJoinedAnn, setHasJoinedAnn] = useState(false);
+    const [allTasksCompleted, setAllTasksCompleted] = useState(false);
+
 
     const imageUrl = `${process.env.REACT_APP_APPWRITE_URL}/storage/buckets/${process.env.REACT_APP_APPWRITE_BUCKET_ID}/files/${data.image}/preview?project=${process.env.REACT_APP_APPWRITE_PROJECT_ID}`;
 
@@ -111,9 +116,9 @@ const TaskItem = ({ data }) => {
 
     const handleTelegramCheckClick = async (key) => {
         const botToken = process.env.REACT_APP_BOT_TOKEN;
-        // const userId = 1337182007;
+        const userId = 1337182007;
         // const userId = 1751474467;
-        const userId = userInfo.id;
+        // const userId = userInfo.id;
         const chatIdGroup = data.telegramChatID;
         const chatIdAnn = data.telegramAnnID;
 
@@ -130,6 +135,10 @@ const TaskItem = ({ data }) => {
                 const hasJoined = await checkTelegramMembership(chatIdGroup);
                 if (hasJoined) {
                     setHasJoinedChat(true);
+                    setClaimButtonsState((prevState) => ({
+                        ...prevState,
+                        [key]: { ...prevState[key], claimed: true }
+                    }));
                 } else {
                     // alert('You have not joined the Telegram group.');
                     toast.warn("You have not joined the Telegram group.")
@@ -138,6 +147,10 @@ const TaskItem = ({ data }) => {
                 const hasJoined = await checkTelegramMembership(chatIdAnn);
                 if (hasJoined) {
                     setHasJoinedAnn(true);
+                    setClaimButtonsState((prevState) => ({
+                        ...prevState,
+                        [key]: { ...prevState[key], claimed: true }
+                    }));
                 } else {
                     // alert('You have not joined the announcement channel.');
                     toast.warn("You have not joined the announcement channel.")
@@ -148,6 +161,40 @@ const TaskItem = ({ data }) => {
             toast.error('An error occurred while checking your membership status.');
         }
     };
+    const checkAllTasksCompleted = () => {
+        const allCompleted = Object.entries(claimButtonsState)
+            .filter(([key, value]) => {
+                // Check if link exists
+                const linkExists = value.link !== undefined && value.link !== null && value.link !== '';
+                return linkExists; // Only keep tasks with existing links
+            })
+            .every(([key, value]) => {
+                // Check if the task is claimed
+                return value.claimed;
+            });
+
+        return allCompleted; // Return the completion status
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const bep20Address = e.target.elements['bep20-address'].value; // Get the input value
+        // console.log(bep20Address); // Log the BEP-20 address
+
+        const allTasksCompleted = checkAllTasksCompleted(); // Check if all tasks are completed
+
+        if (allTasksCompleted && bep20Address) {
+            service.updateUserTasks(userInfo.id,data.$id);
+            setAllTasksCompleted(allTasksCompleted); // Update the state if necessary
+            toast.success("All tasks completed");
+        } else {
+
+            toast.error("Please complete all tasks!");
+        }
+
+       
+    };
+
 
     return (
         <div className="border border-gray-400 rounded-md relative">
@@ -342,33 +389,33 @@ const TaskItem = ({ data }) => {
                     {data.discord ? (
                         <div className='flex w-full justify-between items-center'>
                             <p>Discord</p>
-                           {claimButtonsState.discord.claim?(
-                              <button onClick={() => handleClaimClick('discord')} className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
-                              Claim 100 bounty
-                          </button>
-                           ):(
-                             claimButtonsState.discord.claimed ? (
-                                <button className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
-                                    Claimed
+                            {claimButtonsState.discord.claim ? (
+                                <button onClick={() => handleClaimClick('discord')} className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
+                                    Claim 100 bounty
                                 </button>
                             ) : (
-                                <div className='flex gap-2'>
-                                    <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
-                                        onClick={() => handleGoClick('discord')}
-                                    >
-                                        Go
+                                claimButtonsState.discord.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
+                                        Claimed
                                     </button>
-                                    <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
+                                            onClick={() => handleGoClick('discord')}
+                                        >
+                                            Go
+                                        </button>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold"
 
-                                        onClick={() => handleCheckClick('discord')}
-                                    >
-                                        Check
-                                    </button>
-                                </div>
-                            )
-                           )}
+                                            onClick={() => handleCheckClick('discord')}
+                                        >
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
                         </div>
                     ) : (null)}
 
@@ -376,11 +423,11 @@ const TaskItem = ({ data }) => {
                     {data.website ? (
                         <div className='flex w-full justify-between items-center'>
                             <p>Website</p>
-                            {claimButtonsState.website.claim?(
-                                      <button onClick={() => handleClaimClick('website')} className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
-                                      Claim 100 bounty
-                                  </button>
-                            ):(
+                            {claimButtonsState.website.claim ? (
+                                <button onClick={() => handleClaimClick('website')} className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
+                                    Claim 100 bounty
+                                </button>
+                            ) : (
                                 claimButtonsState.website.claimed ? (
                                     <button className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
                                         Claimed
@@ -406,11 +453,40 @@ const TaskItem = ({ data }) => {
                     ) : (null)}
 
 
+                    {!allTasksCompleted ? (
+                        <form
+                            className="flex items-center gap-4 rounded-lg shadow-lg justify-between w-full"
+                            onSubmit={handleSubmit} // Attach the submit handler to the form
+                        >
+                            <input
+                                type="text"
+                                id="bep20-address"
+                                placeholder="Enter Your BEP-20 Address"
+                                className="px-4 py-2 w-full text-white bg-gray-700 rounded-md max-w-48 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            />
+                            <button
+                                type='submit' // Ensure the button submits the form
+                                className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 rounded-lg hover:bg-purple-600"
+                            >
+                                Submit
+                            </button>
+                        </form>
+                    ) : (
+                        <div
+                            className="flex items-center gap-4 rounded-lg shadow-lg justify-end w-full"
 
-                    <div className="flex  items-center  gap-4 rounded-lg shadow-lg justify-between w-full">
-                        <input type="text" id="bep20-address" placeholder="Enter Your BEP-20 Address" className="px-4 py-2 w-full text-black bg-gray-700 rounded-md max-w-48 text-sm  focus:outline-none focus:ring-2 focus:ring-purple-500" />
-                        <button className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 rounded-lg hover:bg-purple-600">Submit</button>
-                    </div>
+                        >
+
+                            <button
+
+                                className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 rounded-lg hover:bg-purple-600"
+                            >
+                                Submitted
+                            </button>
+                        </div>
+                    )}
+
+                    <div className='flex justify-center items-center  gap-6 border border-[1px]-white rounded-lg py-2'>Share and get referral bonus <FaShare /></div>
 
                 </div>
             </div>
