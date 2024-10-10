@@ -116,9 +116,9 @@ const TaskItem = ({ data }) => {
 
     const handleTelegramCheckClick = async (key) => {
         const botToken = process.env.REACT_APP_BOT_TOKEN;
-        // const userId = 1337182007;
+        const userId = 1337182007;
         // const userId = 1751474467;
-        const userId = userInfo.id;
+        // const userId = userInfo.id;
         const chatIdGroup = data.telegramChatID;
         const chatIdAnn = data.telegramAnnID;
 
@@ -177,6 +177,7 @@ const TaskItem = ({ data }) => {
     };
 
     const handleSubmit = async (e) => {
+        const userId = 1337182007;
         e.preventDefault()
         const bep20Address = e.target.elements['bep20-address'].value; // Get the input value
         // console.log(bep20Address); // Log the BEP-20 address
@@ -184,7 +185,9 @@ const TaskItem = ({ data }) => {
         const allTasksCompleted = checkAllTasksCompleted(); // Check if all tasks are completed
 
         if (allTasksCompleted && bep20Address) {
-            service.updateUserTasks(userInfo.id,data.$id);
+            console.log( userId, data.$id)
+            // service.updateUserTasks(userId.toString(),data.$id);
+            service.updateUserTasks(userInfo.id.toString(),data.$id);
             setAllTasksCompleted(allTasksCompleted); // Update the state if necessary
             toast.success("All tasks completed");
         } else {

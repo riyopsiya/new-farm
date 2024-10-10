@@ -60,6 +60,7 @@ async updateUserTasks(userId,taskId){
             process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
             userId
         )
+        console.log(user)
 
         const allTasks=user.tasks
         const newTasks= [...allTasks,taskId]
