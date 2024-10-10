@@ -28,7 +28,7 @@ export class Service{
       return this.databases.createDocument(
           process.env.REACT_APP_APPWRITE_DATABASE_ID,
           process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
-          newUser.userID,
+          newUser.userID.toSring(),
           newUser,
       )
     } catch (error) {
@@ -39,12 +39,12 @@ export class Service{
 
 //get existing user
 
-async getUser(userID){
+async getUser(userId){
     try {
        return await this.databases.getDocument(
            process.env.REACT_APP_APPWRITE_DATABASE_ID,
            process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
-           userID
+           userId
        )
     } catch (error) {
        console.log("Appwrite serive :: getUser :: error", error)

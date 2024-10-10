@@ -35,7 +35,7 @@ function App() {
 
 
           // Check if user exists in the Appwrite database
-          const existingUser = await service.getUser(userId);
+          const existingUser = await service.getUser(userId.toString());
           if (existingUser) {
             
             // User exists, dispatch login with user data
