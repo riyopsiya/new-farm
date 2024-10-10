@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { FaShare } from 'react-icons/fa6';
 import service from '../appwrite/database';
+import { VscGlobe } from 'react-icons/vsc';
 
 const TaskItem = ({ data }) => {
     const { userInfo } = useSelector((state) => state.user);
@@ -26,6 +27,54 @@ const TaskItem = ({ data }) => {
     const [hasJoinedChat, setHasJoinedChat] = useState(false);
     const [hasJoinedAnn, setHasJoinedAnn] = useState(false);
     const [allTasksCompleted, setAllTasksCompleted] = useState(false);
+
+
+        const fetchUserData = async () => {
+        try {
+            // const userId = 1337182007;  // Hardcoded userId, ideally this should come dynamically
+    
+            // Fetch user data from the service
+            const userData = await service.getUser(userInfo.id);
+            // console.log("User Data:", userData);
+    
+            const userTasks = userData.tasks;  
+            const taskId = data.$id;
+              
+            // Find if the task exists in the user's tasks
+            const findTask = userTasks.find(id => id === taskId);  
+            // console.log("Found Task:", findTask);
+    
+            if (findTask) {
+                setAllTasksCompleted(true);
+                setHasJoinedChat(true);
+                setHasJoinedAnn(true)
+                // console.log(`Task ${taskId} is completed by the user.`);
+
+                setClaimButtonsState(prevState => {
+                    const updatedState = { ...prevState };
+        
+                    // Iterate over each task in claimButtonsState
+                    Object.keys(updatedState).forEach(key => {
+                   
+                        updatedState[key].claim = false;
+                            updatedState[key].claimed = true;
+                  
+                    });
+        
+                    return updatedState;
+                });
+            } else {
+                console.log(`Task ${taskId} is not completed by the user.`);
+            }
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    };
+    
+
+    useEffect(()=>{
+       fetchUserData()
+    },[])
 
 
     const imageUrl = `${process.env.REACT_APP_APPWRITE_URL}/storage/buckets/${process.env.REACT_APP_APPWRITE_BUCKET_ID}/files/${data.image}/preview?project=${process.env.REACT_APP_APPWRITE_PROJECT_ID}`;
@@ -116,9 +165,9 @@ const TaskItem = ({ data }) => {
 
     const handleTelegramCheckClick = async (key) => {
         const botToken = process.env.REACT_APP_BOT_TOKEN;
-        const userId = 1337182007;
+        // const userId = 1337182007;
         // const userId = 1751474467;
-        // const userId = userInfo.id;
+        const userId = userInfo.id;
         const chatIdGroup = data.telegramChatID;
         const chatIdAnn = data.telegramAnnID;
 
@@ -177,17 +226,17 @@ const TaskItem = ({ data }) => {
     };
 
     const handleSubmit = async (e) => {
-        const userId = 1337182007;
+        const userId = userInfo.id;
+        // const userId = 1337182007;
         e.preventDefault()
-        const bep20Address = e.target.elements['bep20-address'].value; // Get the input value
-        // console.log(bep20Address); // Log the BEP-20 address
-
+        const bep20Address = e.target.elements['bep20-address'].value;
+     
         const allTasksCompleted = checkAllTasksCompleted(); // Check if all tasks are completed
 
         if (allTasksCompleted && bep20Address) {
             console.log( userId, data.$id)
-            // service.updateUserTasks(userId.toString(),data.$id);
-            service.updateUserTasks(userInfo.id.toString(),data.$id);
+            service.updateUserTasks(userId.toString(),data.$id);
+         
             setAllTasksCompleted(allTasksCompleted); // Update the state if necessary
             toast.success("All tasks completed");
         } else {
@@ -197,6 +246,7 @@ const TaskItem = ({ data }) => {
 
        
     };
+
 
 
     return (
@@ -224,7 +274,7 @@ const TaskItem = ({ data }) => {
                     {data.twitter ? (
                         <div className='flex w-full justify-between items-center'>
                             <p>Follow On X (Twitter)</p>
-                            {claimButtonsState.X.claim ? (
+                            {claimButtonsState.X.claim  ? (
                                 <button onClick={() => handleClaimClick('X')} className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
                                     Claim 100 bounty
                                 </button>

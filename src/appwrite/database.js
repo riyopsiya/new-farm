@@ -44,7 +44,7 @@ async getUser(userId){
        return await this.databases.getDocument(
            process.env.REACT_APP_APPWRITE_DATABASE_ID,
            process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
-           userId
+           userId.toString() 
        )
     } catch (error) {
        console.log("Appwrite serive :: getUser :: error", error)
@@ -52,35 +52,45 @@ async getUser(userId){
     }
 }
 
-//update user tasks
-async updateUserTasks(userId,taskId){
+async updateUserTasks(userId, taskId) {
     try {
-        const user=await this.databases.getDocument(
+        // Logging input types for debugging
+        console.log(typeof userId, typeof taskId);
+
+        // Fetch the user document from Appwrite
+        const user = await this.databases.getDocument(
             process.env.REACT_APP_APPWRITE_DATABASE_ID,
             process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
             userId
-        )
-        console.log(user)
+        );
 
-        const allTasks=user.tasks
-        const newTasks= [...allTasks,taskId]
-    //    const newCoins=user.coins+coinAmt
+        // Destructure necessary fields from user document
+        const { tasks, userID, coins } = user;
 
-        return this.databases.updateDocument(
+        // Check if the taskId already exists in the tasks array to avoid duplicates
+        const newTasks = tasks.includes(taskId) ? tasks : [...tasks, taskId];
+
+        // Log updated tasks and user info for debugging
+        console.log("User ID:", userID);
+        console.log("Updated Tasks:", newTasks);
+
+        // Update the user document in Appwrite
+        return await this.databases.updateDocument(
             process.env.REACT_APP_APPWRITE_DATABASE_ID,
-            process.env.REACT_APP_APPWRITE_TASKS_COLLECTION_ID,
-            userId,   //get from from frontend
+            process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
+            userId,   // User ID from frontend
             {
-                userID:user.userID,
-                tasks:newTasks,
-                coins:user.coins
+                userID,  // Keep userID unchanged
+                tasks: newTasks,  // Updated tasks
+                coins     // Assuming no change to coins in this operation
             }
-        )
-        
+        );
     } catch (error) {
-        console.log("Appwrite serive :: updateData :: error", error)
+        // Improved error handling
+        console.error("Error updating user tasks:", error);
     }
 }
+
 
 
     //create methods
