@@ -12,7 +12,13 @@ const TaskItem = ({ data }) => {
     const { userInfo } = useSelector((state) => state.user);
     const [isOpen, setIsOpen] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
-    // console.log(data)
+
+    const botToken = process.env.REACT_APP_BOT_TOKEN;
+    // const userId = 1337182007;
+    // const userId = 1751474467;
+    const userId = userInfo.id;
+    const chatIdGroup = data.telegramChatID;
+    const chatIdAnn = data.telegramAnnID;
 
     const [claimButtonsState, setClaimButtonsState] = useState({
         X: { claim: true, claimed: false, goClicked: false, link: data.twitter },
@@ -31,10 +37,11 @@ const TaskItem = ({ data }) => {
 
         const fetchUserData = async () => {
         try {
-            // const userId = 1337182007;  // Hardcoded userId, ideally this should come dynamically
+            // const userId = 1337182007; 
+            // const userId = userInfo.id; 
     
             // Fetch user data from the service
-            const userData = await service.getUser(userInfo.id);
+            const userData = await service.getUser(userId);
             // console.log("User Data:", userData);
     
             const userTasks = userData.tasks;  
@@ -164,12 +171,7 @@ const TaskItem = ({ data }) => {
     };
 
     const handleTelegramCheckClick = async (key) => {
-        const botToken = process.env.REACT_APP_BOT_TOKEN;
-        // const userId = 1337182007;
-        // const userId = 1751474467;
-        const userId = userInfo.id;
-        const chatIdGroup = data.telegramChatID;
-        const chatIdAnn = data.telegramAnnID;
+     
 
         const checkTelegramMembership = async (chatId) => {
             const url = `https://api.telegram.org/bot${botToken}/getChatMember?chat_id=-100${chatId}&user_id=${userId}`;
@@ -226,7 +228,7 @@ const TaskItem = ({ data }) => {
     };
 
     const handleSubmit = async (e) => {
-        const userId = userInfo.id;
+        // const userId = userInfo.id;
         // const userId = 1337182007;
         e.preventDefault()
         const bep20Address = e.target.elements['bep20-address'].value;
@@ -235,7 +237,13 @@ const TaskItem = ({ data }) => {
 
         if (allTasksCompleted && bep20Address) {
             console.log( userId, data.$id)
-            service.updateUserTasks(userId.toString(),data.$id);
+           await service.updateUserTasks(userId.toString(),data.$id);
+           
+           const newUserData={
+            userId,
+            bep20Address,
+           }
+           await service.updateCompanyUsers(data.$id,newUserData)
          
             setAllTasksCompleted(allTasksCompleted); // Update the state if necessary
             toast.success("All tasks completed");
