@@ -37,9 +37,7 @@ const TaskItem = ({ data }) => {
 
         const fetchUserData = async () => {
         try {
-            // const userId = 1337182007; 
-            // const userId = userInfo.id; 
-    
+     
             // Fetch user data from the service
             const userData = await service.getUser(userId);
             // console.log("User Data:", userData);
@@ -542,7 +540,7 @@ const TaskItem = ({ data }) => {
 
                                 className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 rounded-lg hover:bg-purple-600"
                             >
-                                Submitted
+                                Wallet address submitted
                             </button>
                         </div>
                     )}

@@ -20,6 +20,8 @@ export class Service {
         this.storage = new Storage(this.client);
     }
 
+
+   
     //create a new user
 
     async createUser(newUser) {
@@ -91,6 +93,29 @@ export class Service {
         }
     }
 
+
+    //update user coins
+
+    // Replace this with your Appwrite service for updating user coins
+async updateUserCoins (userId, newAmount) {
+    try {
+     
+      const databaseId = process.env.REACT_APP_APPWRITE_DATABASE_ID;
+      const collectionId = process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID;
+  
+      const updatedDocument = await this.databases.updateDocument(
+        databaseId,
+        collectionId,
+        userId,
+        { coins: newAmount }
+      );
+  
+      return updatedDocument;
+    } catch (error) {
+      console.error("Error updating document:", error);
+      throw error;
+    }
+  };
 
 
     //create methods
