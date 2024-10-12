@@ -21,7 +21,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch();
-  
+
 
 
   const fetchUserData = async () => {
@@ -36,21 +36,25 @@ function App() {
 
           // Check if user exists in the Appwrite database
           const existingUser = await service.getUser(userId.toString());
+
+
+
           if (existingUser) {
-            
             // User exists, dispatch login with user data
-            // dispatch(login(user));
+            // dispatch(login(existingUser));
           } else {
             // User doesn't exist, create a new user in the database
             // toast.success('user not exist,creating a new') 
             const newUser = {
               userID: userId,
-              // tasks: [],
+
               coins: 1000,
+              taps: 100
             };
 
-            const createdUser=await service.createUser(newUser);
-   
+            const createdUser = await service.createUser(newUser);
+            // dispatch(login(createdUser));
+
           }
         } else {
           console.log('User data not available');
@@ -60,24 +64,24 @@ function App() {
       }
     } catch (error) {
       console.log(error);
-    } 
+    }
   };
 
 
   const fetchTasksData = async () => {
 
     try {
-    
-      
-      const socialTasks =await  service.getAllData('social')
-      console.log( socialTasks.documents)
+
+
+      const socialTasks = await service.getAllData('social')
+
       if (socialTasks?.documents) {
-        
+
         dispatch(setSocialTasks(socialTasks?.documents))
       }
       const premiumTasks = await service.getAllData('premium')
 
-     
+
 
       dispatch(setPremiumTasks(premiumTasks.documents))
 
@@ -100,20 +104,20 @@ function App() {
     <>
       <Router>
 
-      <ToastContainer
+        <ToastContainer
           className={'text-sm '}
-            position="top-center"
-            autoClose={2000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
-          // transition: Bounce,
-          />
+          position="top-center"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        // transition: Bounce,
+        />
 
         <Header />
 

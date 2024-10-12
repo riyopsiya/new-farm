@@ -4,29 +4,16 @@ import { useSelector } from "react-redux";
 import { Client, Databases } from "appwrite";
 import service from "../appwrite/database";
 
-
-
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
-  const userId = userInfo?.id || 1337182007; // Use userInfo.id if available
-  const localStorageCoins = localStorage.getItem("bountyAmount")
-    ? parseFloat(localStorage.getItem("bountyAmount"))
-    : 0;
+  const userId = userInfo?.id || 1337182007;
 
   const [user, setUser] = useState([]);
-  const [bountyAmount, setBountyAmount] = useState(localStorageCoins);
-  const [timeLeft, setTimeLeft] = useState(
-    localStorage.getItem("timeLeft")
-      ? parseInt(localStorage.getItem("timeLeft"))
-      : initialTime
-  );
-  const [isFarming, setIsFarming] = useState(
-    localStorage.getItem("isFarming") === "true"
-  );
-  const [taps, setTaps] = useState(
-    localStorage.getItem("taps") ? parseInt(localStorage.getItem("taps")) : 100
-  );
+  const [bountyAmount, setBountyAmount] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(initialTime);
+  const [isFarming, setIsFarming] = useState(false);
+  const [taps, setTaps] = useState(100);
   const [floatingPlusPosition, setFloatingPlusPosition] = useState(null);
 
   // Initialize Appwrite client
@@ -45,10 +32,11 @@ const Home = () => {
 
     // Subscribe to real-time updates on the user's document
     const unsubscribe = client.subscribe(channel, (response) => {
-      console.log(response)
       if (response.payload && response.payload.coins) {
         setBountyAmount(response.payload.coins);
-        localStorage.setItem("bountyAmount", response.payload.coins);
+      }
+      if (response.payload && response.payload.taps) {
+        setTaps(response.payload.taps);
       }
     });
 
@@ -67,47 +55,48 @@ const Home = () => {
       );
       setUser(userData);
       setBountyAmount(userData.coins);
-      localStorage.setItem("bountyAmount", userData.coins);
+      setTaps(userData.taps); // Initialize taps from user data
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   };
 
   useEffect(() => {
-    if (localStorageCoins > 0) {
-      setBountyAmount(localStorageCoins);
-    }
     fetchUserData();
   }, []);
 
   // Timer and farming logic
   useEffect(() => {
-    if (isFarming) {
-      const savedStartTime = localStorage.getItem("startTime");
-      const elapsedTime = Math.floor((Date.now() - savedStartTime) / 1000);
-      const newTimeLeft = Math.max(initialTime - elapsedTime, 0);
-
+    const savedEndTime = localStorage.getItem("endTime");
+    if (savedEndTime) {
+      const endTime = Number(savedEndTime);
+      const newTimeLeft = Math.max(Math.floor((endTime - Date.now()) / 1000), 0);
       setTimeLeft(newTimeLeft);
-      localStorage.setItem("timeLeft", newTimeLeft);
 
       if (newTimeLeft === 0) {
-        setIsFarming(false);
-        setTaps(100);
-        localStorage.setItem("taps", 100);
+        resetFarming();
+      } else {
+        setIsFarming(true);
       }
     }
-  }, [isFarming]);
+  }, []);
+
+  const resetFarming = () => {
+    setIsFarming(false);
+    setTaps(100);
+    localStorage.removeItem("endTime"); // Remove end time from local storage
+    service.updateUserData(userId, { taps: 100 }); // Reset taps in the database
+  };
 
   // Countdown timer effect
   useEffect(() => {
     let timer;
     if (isFarming && timeLeft > 0) {
       timer = setInterval(() => {
-        setTimeLeft((prevTime) => {
-          const updatedTime = prevTime - 1;
-          localStorage.setItem("timeLeft", updatedTime);
-          return updatedTime;
-        });
+        setTimeLeft((prevTime) => prevTime - 1);
+        if (timeLeft <= 1) {
+          resetFarming();
+        }
       }, 1000);
     }
 
@@ -117,35 +106,30 @@ const Home = () => {
   // Handle start farming
   const handleStartFarming = () => {
     if (timeLeft === 0) {
-      setTimeLeft(8 * 60 * 60); // Reset to 8 hours
+      setTimeLeft(8*60*60); // Reset to 8 hours
       setTaps(100);
-      localStorage.setItem("taps", 100);
+      service.updateUserData(userId, { taps: 100 }); // Reset taps in the database
     }
     setIsFarming(true);
-    localStorage.setItem("isFarming", "true");
-    localStorage.setItem("startTime", Date.now());
+    const endTime = Date.now() + initialTime * 1000; // Calculate end time
+    localStorage.setItem("endTime", endTime); // Save end time in local storage
   };
 
   // Handle image tap
   const handleImageTap = async () => {
     if (taps > 0) {
       const newAmount = bountyAmount + 1;
+      const newTaps = taps - 1;
 
       setBountyAmount(newAmount);
-      localStorage.setItem("bountyAmount", newAmount);
+      setTaps(newTaps);
 
-      setTaps((prevTaps) => {
-        const newTaps = prevTaps - 1;
-        localStorage.setItem("taps", newTaps);
-        return newTaps;
-      });
-
-      // Update the user's coins in the database
+      // Update the user's coins and taps in the database
       try {
-        await service.updateUserCoins(userId, newAmount); // Appwrite call to update coins
-        console.log("Coins updated in Appwrite:", newAmount);
+        await service.updateUserData(userId, { coins: newAmount, taps: newTaps }); // Appwrite call to update coins and taps
+        console.log("Coins and taps updated in Appwrite:", newAmount, newTaps);
       } catch (error) {
-        console.error("Error updating coins in Appwrite:", error);
+        console.error("Error updating coins and taps in Appwrite:", error);
       }
 
       // Floating +1 animation
@@ -170,23 +154,33 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-between h-[70vh] bg-[#1f221f] text-white p-4 overflow-hidden">
+    <div className="flex flex-col items-center justify-between h-[65vh] bg-[#1f221f] text-white p-4 overflow-hidden">
       {(userInfo.first_name || userInfo.username) ? (
-        <div className="w-full flex text-left px-4">
-          <h2 className="font-bold text-lg md:text-xl">
-            Welcome, {userInfo.first_name || userInfo.username}!
-          </h2>
-        </div>
-      ) : null}
+       <div className="w-full flex flex-col text-left px-4 gap-4">
+       <h2 className="font-bold text-lg md:text-xl">
+       Welcome, {userInfo.first_name || userInfo.username}!
+      
+       </h2>
 
-      <div className="flex space-x-4 p-3 items-center justify-start w-full rounded-lg text-xs">
-        <div className="bg-gradient-to-r from-black to-[#7d5126] px-8 py-3 rounded-lg font-bold">
-          {formatTime(timeLeft)} Left
-        </div>
-        <div className="px-3 py-3 rounded-md border border-[#7d5126]">
-          {taps} Taps
-        </div>
-      </div>
+          <div className="flex space-x-4  items-center justify-start w-full rounded-lg text-xs">
+            <div className="bg-gradient-to-r from-black to-[#7d5126] px-8 py-3 rounded-lg font-bold">
+              {formatTime(timeLeft)} Left
+            </div>
+            <div className="px-3 py-3 rounded-md border border-[#7d5126]">
+              {taps} Taps
+            </div>
+          </div>
+     </div>
+      ) : null}
+     
+     <div className="flex space-x-4  items-center justify-start w-full rounded-lg text-xs">
+            <div className="bg-gradient-to-r from-black to-[#7d5126] px-8 py-3 rounded-lg font-bold">
+              {formatTime(timeLeft)} Left
+            </div>
+            <div className="px-3 py-3 rounded-md border border-[#7d5126]">
+              {taps} Taps
+            </div>
+          </div>
 
       <div className="relative mt-4 w-full flex justify-center" onClick={handleImageTap}>
         <img

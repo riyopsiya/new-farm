@@ -10,13 +10,15 @@ import { VscGlobe } from 'react-icons/vsc';
 
 const TaskItem = ({ data }) => {
     const { userInfo } = useSelector((state) => state.user);
+
     const [isOpen, setIsOpen] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
+    const [tasksCnt, setTasksCnt] = useState(0)
 
     const botToken = process.env.REACT_APP_BOT_TOKEN;
     // const userId = 1337182007;
     // const userId = 1751474467;
-    const userId = userInfo.id;
+    const userId = userInfo.id || 1337182007;
     const chatIdGroup = data.telegramChatID;
     const chatIdAnn = data.telegramAnnID;
 
@@ -35,20 +37,20 @@ const TaskItem = ({ data }) => {
     const [allTasksCompleted, setAllTasksCompleted] = useState(false);
 
 
-        const fetchUserData = async () => {
+    const fetchUserData = async () => {
         try {
-     
+
             // Fetch user data from the service
             const userData = await service.getUser(userId);
             // console.log("User Data:", userData);
-    
-            const userTasks = userData.tasks;  
+
+            const userTasks = userData.tasks;
             const taskId = data.$id;
-              
+
             // Find if the task exists in the user's tasks
-            const findTask = userTasks.find(id => id === taskId);  
+            const findTask = userTasks.find(id => id === taskId);
             // console.log("Found Task:", findTask);
-    
+
             if (findTask) {
                 setAllTasksCompleted(true);
                 setHasJoinedChat(true);
@@ -57,15 +59,15 @@ const TaskItem = ({ data }) => {
 
                 setClaimButtonsState(prevState => {
                     const updatedState = { ...prevState };
-        
+
                     // Iterate over each task in claimButtonsState
                     Object.keys(updatedState).forEach(key => {
-                   
+
                         updatedState[key].claim = false;
-                            updatedState[key].claimed = true;
-                  
+                        updatedState[key].claimed = true;
+
                     });
-        
+
                     return updatedState;
                 });
             } else {
@@ -75,11 +77,11 @@ const TaskItem = ({ data }) => {
             console.error("Error fetching user data:", error);
         }
     };
-    
 
-    useEffect(()=>{
-       fetchUserData()
-    },[])
+
+    useEffect(() => {
+        fetchUserData()
+    }, [])
 
 
     const imageUrl = `${process.env.REACT_APP_APPWRITE_URL}/storage/buckets/${process.env.REACT_APP_APPWRITE_BUCKET_ID}/files/${data.image}/preview?project=${process.env.REACT_APP_APPWRITE_PROJECT_ID}`;
@@ -161,6 +163,7 @@ const TaskItem = ({ data }) => {
                     ...prevState,
                     [key]: { ...prevState[key], claimed: true }
                 }));
+                setTasksCnt(tasksCnt + 1)
             }
         } catch (error) {
             console.error('Error checking task:', error);
@@ -169,7 +172,7 @@ const TaskItem = ({ data }) => {
     };
 
     const handleTelegramCheckClick = async (key) => {
-     
+
 
         const checkTelegramMembership = async (chatId) => {
             const url = `https://api.telegram.org/bot${botToken}/getChatMember?chat_id=-100${chatId}&user_id=${userId}`;
@@ -184,6 +187,7 @@ const TaskItem = ({ data }) => {
                 const hasJoined = await checkTelegramMembership(chatIdGroup);
                 if (hasJoined) {
                     setHasJoinedChat(true);
+                    setTasksCnt(tasksCnt + 1)
                     setClaimButtonsState((prevState) => ({
                         ...prevState,
                         [key]: { ...prevState[key], claimed: true }
@@ -196,6 +200,7 @@ const TaskItem = ({ data }) => {
                 const hasJoined = await checkTelegramMembership(chatIdAnn);
                 if (hasJoined) {
                     setHasJoinedAnn(true);
+                    setTasksCnt(tasksCnt + 1)
                     setClaimButtonsState((prevState) => ({
                         ...prevState,
                         [key]: { ...prevState[key], claimed: true }
@@ -230,19 +235,21 @@ const TaskItem = ({ data }) => {
         // const userId = 1337182007;
         e.preventDefault()
         const bep20Address = e.target.elements['bep20-address'].value;
-     
+
         const allTasksCompleted = checkAllTasksCompleted(); // Check if all tasks are completed
 
         if (allTasksCompleted && bep20Address) {
-            console.log( userId, data.$id)
-           await service.updateUserTasks(userId.toString(),data.$id);
-           
-           const newUserData={
-            userId,
-            bep20Address,
-           }
-           await service.updateCompanyUsers(data.$id,newUserData)
-         
+
+            console.log(userId, data.$id)
+            await service.updateUserTasks(userId.toString(), data.$id);
+            await service.updateUserCoins(userId, tasksCnt * 100)
+
+            const newUserData = {
+                userId,
+                bep20Address,
+            }
+            await service.updateCompanyUsers(data.$id, newUserData)
+
             setAllTasksCompleted(allTasksCompleted); // Update the state if necessary
             toast.success("All tasks completed");
         } else {
@@ -250,11 +257,22 @@ const TaskItem = ({ data }) => {
             toast.error("Please complete all tasks!");
         }
 
-       
+
     };
 
 
 
+
+    const handleShare = () => {
+        console.log(data);
+    
+        const message = `🏆 Earn exclusive bounties and collect coins! 💰 Stay updated with all the latest news and announcements. 🚀 Follow our official Telegram announcement channel for special rewards, important notifications, and more:\n\nJoin the Channel.\n\nDon’t miss out on the treasure!`;
+        const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(data.telegramAnnInvite)}&text=${encodeURIComponent(message)} `;
+    
+        // Open Telegram app or web version
+        window.open(telegramUrl, '_blank');
+    };
+    
     return (
         <div className="border border-gray-400 rounded-md relative">
             <FiChevronDown
@@ -280,7 +298,7 @@ const TaskItem = ({ data }) => {
                     {data.twitter ? (
                         <div className='flex w-full justify-between items-center'>
                             <p>Follow On X (Twitter)</p>
-                            {claimButtonsState.X.claim  ? (
+                            {claimButtonsState.X.claim ? (
                                 <button onClick={() => handleClaimClick('X')} className="bg-gradient-to-r from-black to-[#7d5126] px-4 py-2 rounded-lg text-xs font-bold">
                                     Claim 100 bounty
                                 </button>
@@ -545,7 +563,7 @@ const TaskItem = ({ data }) => {
                         </div>
                     )}
 
-                    <div className='flex justify-center items-center  gap-6 border border-[1px]-white rounded-lg py-2'>Share and get referral bonus <FaShare /></div>
+                    <button onClick={handleShare} className='flex justify-center items-center  gap-6 border border-[1px]-white rounded-lg py-2'>Share and get referral bonus <FaShare /></button>
 
                 </div>
             </div>

@@ -21,7 +21,7 @@ export class Service {
     }
 
 
-   
+
     //create a new user
 
     async createUser(newUser) {
@@ -97,25 +97,69 @@ export class Service {
     //update user coins
 
     // Replace this with your Appwrite service for updating user coins
-async updateUserCoins (userId, newAmount) {
-    try {
-     
-      const databaseId = process.env.REACT_APP_APPWRITE_DATABASE_ID;
-      const collectionId = process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID;
-  
-      const updatedDocument = await this.databases.updateDocument(
-        databaseId,
-        collectionId,
-        userId,
-        { coins: newAmount }
-      );
-  
-      return updatedDocument;
-    } catch (error) {
-      console.error("Error updating document:", error);
-      throw error;
-    }
-  };
+    async updateUserCoins(userId, newCoins) {
+        try {
+
+
+            const getUser = await this.databases.getDocument(
+                process.env.REACT_APP_APPWRITE_DATABASE_ID,
+                process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
+                userId.toString()
+            )
+
+            const newAmt = getUser.coins + newCoins;
+
+            const updatedDocument = await this.databases.updateDocument(
+                process.env.REACT_APP_APPWRITE_DATABASE_ID,
+                process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
+                userId.toString(),
+                { coins: newAmt }
+            );
+
+            return updatedDocument;
+        } catch (error) {
+            console.error("Error updating document:", error);
+            throw error;
+        }
+    };
+
+
+    async updateUserTaps(userId, taps) {
+        try {
+            await this.databases.updateDocument(
+                process.env.REACT_APP_APPWRITE_DATABASE_ID,
+                process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
+                userId,
+                taps
+            );
+        } catch (error) {
+            console.error("Error updating user data in Appwrite:", error);
+        }
+    };
+
+
+    // Replace this with your Appwrite service for updating user coins
+    async updateUserData(userId, data) {
+        try {
+
+            const databaseId = process.env.REACT_APP_APPWRITE_DATABASE_ID;
+            const collectionId = process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID;
+
+            const updatedDocument = await this.databases.updateDocument(
+                databaseId,
+                collectionId,
+                userId,
+                data
+            );
+
+            return updatedDocument;
+        } catch (error) {
+            console.error("Error updating document:", error);
+            throw error;
+        }
+    };
+
+
 
 
     //create methods
@@ -176,18 +220,6 @@ async updateUserCoins (userId, newAmount) {
     }
 
 
-    // async deleteData(documentID){
-    //         try {
-    //              return this.databases.deleteDocument(
-    //                 process.env.REACT_APP_APPWRITE_DATABASE_ID,
-    //                 process.env.REACT_APP_APPWRITE_TASKS_COLLECTION_ID,
-    //                 documentID
-    //              )
-    //         } catch (error) {
-    //             console.log("Appwrite serive :: deleteData :: error", error)
-    //             return false
-    //         }
-    // }
 
 
     async getData(documentID) {
@@ -236,43 +268,7 @@ async updateUserCoins (userId, newAmount) {
 
 
 
-    // file upload service
 
-    async uploadFile(file) {
-        try {
-
-            return await this.storage.createFile(
-                process.env.REACT_APP_APPWRITE_BUCKET_ID,
-                ID.unique(),
-                file
-            )
-
-        } catch (error) {
-            console.log("Appwrite serive :: uploadFile :: error", error);
-            return false
-        }
-    }
-
-    async deleteFile(fileId) {
-        try {
-            await this.storage.deleteFile(
-                process.env.REACT_APP_APPWRITE_BUCKET_ID,
-                fileId
-            )
-            return true
-        } catch (error) {
-            console.log("Appwrite serive :: deleteFile :: error", error);
-            return false
-        }
-    }
-
-
-    getFilePreview(fileId) {
-        return this.storage.getFilePreview(
-            process.env.REACT_APP_APPWRITE_BUCKET_ID,
-            fileId
-        )
-    }
 }
 
 const service = new Service();
