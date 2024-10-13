@@ -7,7 +7,7 @@ import service from "../appwrite/database";
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
-  const userId = userInfo?.id;
+  const userId = userInfo?.id ;
   // const userId = 1337182007 ;
 
   const [user, setUser] = useState([]);
@@ -20,59 +20,53 @@ const Home = () => {
   // Initialize Appwrite client
   const client = new Client();
   const databases = new Databases(client);
+
+  // WebSocket connection for real-time updates
   useEffect(() => {
-    // Ensure userId is available before fetching data or subscribing
     if (!userId) return;
-  
-    // Initialize Appwrite client
+
     client
-      .setEndpoint(process.env.REACT_APP_APPWRITE_URL)
-      .setProject(process.env.REACT_APP_APPWRITE_PROJECT_ID);
-  
+      .setEndpoint(process.env.REACT_APP_APPWRITE_URL) // Your Appwrite endpoint
+      .setProject(process.env.REACT_APP_APPWRITE_PROJECT_ID); // Your Appwrite project ID
+
     const channel = `databases.${process.env.REACT_APP_APPWRITE_DATABASE_ID}.collections.${process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID}.documents.${userId}`;
-  
+
     // Subscribe to real-time updates on the user's document
     const unsubscribe = client.subscribe(channel, (response) => {
       if (response.payload && response.payload.coins) {
+        console.log(response.payload)
         setBountyAmount(response.payload.coins);
       }
       if (response.payload && response.payload.taps) {
         setTaps(response.payload.taps);
       }
     });
-  
-    // Clean up the subscription when the component unmounts
+
     return () => {
-      unsubscribe();
+      unsubscribe(); // Clean up the subscription when the component unmounts
     };
-  }, [userId, client]); // Add `client` to the dependency array to prevent potential issues
-  
-  
+  }, [userId]);
 
-// Fetch user data for coins from Appwrite
-const fetchUserData = async () => {
-  if (!userId) return; // Ensure userId is available before fetching data
+  // Fetch user data for coins from Appwrite
+  const fetchUserData = async () => {
+    try {
+      const userData = await databases.getDocument(
+        process.env.REACT_APP_APPWRITE_DATABASE_ID,
+        process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
+        userId.toString()
+      );
+      console.log(userData)
+      setUser(userData);
+      setBountyAmount(userData.coins);
+      setTaps(userData.taps); // Initialize taps from user data
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
-  try {
-    const userData = await databases.getDocument(
-      process.env.REACT_APP_APPWRITE_DATABASE_ID,
-      process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
-      userId.toString()
-    );
-    console.log(userData);
-    setUser(userData);
-    setBountyAmount(userData.coins);
-    setTaps(userData.taps); // Initialize taps from user data
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-};
-
-useEffect(() => {
-  if (userId) {
+  useEffect(() => {
     fetchUserData();
-  }
-}, [userId]); 
+  }, []);
 
   // Timer and farming logic
   useEffect(() => {
@@ -115,7 +109,7 @@ useEffect(() => {
   // Handle start farming
   const handleStartFarming = () => {
     if (timeLeft === 0) {
-      setTimeLeft(8 * 60 * 60); // Reset to 8 hours
+      setTimeLeft(8*60*60); // Reset to 8 hours
       setTaps(100);
       service.updateUserData(userId, { taps: 100 }); // Reset taps in the database
     }
@@ -165,12 +159,12 @@ useEffect(() => {
   return (
     <div className="flex flex-col items-center justify-between h-[65vh] bg-[#1f221f] text-white p-4 overflow-hidden">
       {(userInfo.first_name || userInfo.username) ? (
-        <div className="w-full flex flex-col text-left px-4 gap-4">
-          <h2 className="font-bold text-lg md:text-xl">
-            Welcome, {userInfo.first_name || userInfo.username}!
-
-
-          </h2>
+       <div className="w-full flex flex-col text-left px-4 gap-4">
+       <h2 className="font-bold text-lg md:text-xl">
+       Welcome, {userInfo.first_name || userInfo.username}!
+       
+      
+       </h2>
 
           <div className="flex space-x-4  items-center justify-start w-full rounded-lg text-xs">
             <div className="bg-gradient-to-r from-black to-[#7d5126] px-8 py-3 rounded-lg font-bold">
@@ -180,10 +174,10 @@ useEffect(() => {
               {taps} Taps
             </div>
           </div>
-        </div>
+     </div>
       ) : null}
-
-      {/* <div className="flex space-x-4  items-center justify-start w-full rounded-lg text-xs">
+     
+     {/* <div className="flex space-x-4  items-center justify-start w-full rounded-lg text-xs">
             <div className="bg-gradient-to-r from-black to-[#7d5126] px-8 py-3 rounded-lg font-bold">
               {formatTime(timeLeft)} Left
             </div>
@@ -212,7 +206,7 @@ useEffect(() => {
       </div>
 
       <div className="text-center mt-4">
-        {bountyAmount && <h2 className="text-3xl font-bold">{bountyAmount.toFixed(2)} BNTY</h2>}
+       {bountyAmount && <h2 className="text-3xl font-bold">{bountyAmount.toFixed(2)} BNTY</h2>} 
         <p className="text-gray-400">Bounty Token</p>
       </div>
 
