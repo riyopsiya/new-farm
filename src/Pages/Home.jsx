@@ -164,7 +164,7 @@ const Home = () => {
        
       
        </h2>
-  <h2>{userInfo}</h2>
+  <h2>{userInfo.id}</h2>
           <div className="flex space-x-4  items-center justify-start w-full rounded-lg text-xs">
             <div className="bg-gradient-to-r from-black to-[#7d5126] px-8 py-3 rounded-lg font-bold">
               {formatTime(timeLeft)} Left
