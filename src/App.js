@@ -93,9 +93,6 @@ function App() {
   }
 
 
-  if(loading){
-    return  <div>Loading...</div>
-  }
 
 
   useEffect(() => {
@@ -104,6 +101,11 @@ function App() {
     fetchTasksData()
 
   }, [loading]);
+
+  if(loading){
+    return  <div>Loading...</div>
+  }
+
   return (
     <>
       <Router>
