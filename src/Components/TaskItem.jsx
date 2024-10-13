@@ -18,7 +18,8 @@ const TaskItem = ({ data }) => {
     const botToken = process.env.REACT_APP_BOT_TOKEN;
     // const userId = 1337182007;
     // const userId = 1751474467;
-    const userId = userInfo.id || 1337182007;
+    const userId = userInfo.id ;
+    // const userId =1337182007;
     const chatIdGroup = data.telegramChatID;
     const chatIdAnn = data.telegramAnnID;
 
@@ -231,8 +232,7 @@ const TaskItem = ({ data }) => {
     };
 
     const handleSubmit = async (e) => {
-        // const userId = userInfo.id;
-        // const userId = 1337182007;
+       
         e.preventDefault()
         const bep20Address = e.target.elements['bep20-address'].value;
 

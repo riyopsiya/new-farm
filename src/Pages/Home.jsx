@@ -7,7 +7,8 @@ import service from "../appwrite/database";
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
-  const userId = userInfo?.id || 1337182007;
+  const userId = userInfo?.id ;
+  // const userId = 1337182007 ;
 
   const [user, setUser] = useState([]);
   const [bountyAmount, setBountyAmount] = useState(0);
