@@ -93,13 +93,17 @@ function App() {
   }
 
 
+  if(loading){
+    return  <div>Loading...</div>
+  }
+
 
   useEffect(() => {
 
     fetchUserData()
     fetchTasksData()
 
-  }, []);
+  }, [loading]);
   return (
     <>
       <Router>
