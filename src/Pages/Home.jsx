@@ -52,7 +52,7 @@ const Home = () => {
       const userData = await databases.getDocument(
         process.env.REACT_APP_APPWRITE_DATABASE_ID,
         process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
-        userId
+        userId.toString()
       );
       setUser(userData);
       setBountyAmount(userData.coins);
