@@ -54,9 +54,10 @@ const Home = () => {
         process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
         userId.toString()
       );
+      console.log(userData)
       setUser(userData);
-      setBountyAmount(userData.coins);
-      setTaps(userData.taps); // Initialize taps from user data
+      // setBountyAmount(userData.coins);
+      // setTaps(userData.taps); // Initialize taps from user data
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
