@@ -268,10 +268,46 @@ export class Service {
 
 
 
+        // file upload service
 
+        async uploadFile(file){
+            try {
+                
+                return await this.storage.createFile(
+                    process.env.REACT_APP_APPWRITE_BUCKET_ID,
+                    ID.unique(),
+                    file
+                )
+              
+            } catch (error) {
+                console.log("Appwrite serive :: uploadFile :: error", error);
+                return false
+            }
+        }
+    
+        async deleteFile(fileId){
+            try {
+                await this.storage.deleteFile(
+                    process.env.REACT_APP_APPWRITE_BUCKET_ID,
+                    fileId
+                )
+                return true
+            } catch (error) {
+                console.log("Appwrite serive :: deleteFile :: error", error);
+                return false
+            }
+        }
+
+
+        getFilePreview(fileId){
+            return this.storage.getFilePreview(
+                process.env.REACT_APP_APPWRITE_BUCKET_ID,
+                fileId
+            )
+        }
 }
 
-const service = new Service();
+const service=new Service();
 
 export default service;
 

@@ -6,19 +6,19 @@ import LoadingSkeleton from './Loading';
 const Premium = () => {
   const [loading, setLoading] = useState(true);
   const [premiumTasks, setPremiumTasks] = useState([]);
+  const [openTaskId, setOpenTaskId] = useState(null); // State to track the open task
 
   useEffect(() => {
     const fetchTasksData = async () => {
       try {
         const premiumTasksData = await service.getAllData('premium');
-        console.log('Fetched social tasks:', premiumTasksData.documents);
+        console.log('Fetched premium tasks:', premiumTasksData.documents);
        
         if (premiumTasksData?.documents) {
           setPremiumTasks(premiumTasksData.documents);
         }
-
       } catch (error) {
-        console.error('Error fetching social tasks:', error);
+        console.error('Error fetching premium tasks:', error);
       } finally {
         setLoading(false);
       }
@@ -27,8 +27,13 @@ const Premium = () => {
     fetchTasksData();
   }, []);
 
+  // Function to toggle the open task
+  const handleToggleTask = (taskId) => {
+    setOpenTaskId((prevOpenTaskId) => (prevOpenTaskId === taskId ? null : taskId));
+  };
+
   if (loading) {
-    return <div> <LoadingSkeleton/> </div>;
+    return <div><LoadingSkeleton /></div>;
   }
 
   if (premiumTasks.length === 0) {
@@ -46,7 +51,12 @@ const Premium = () => {
       {/* Task List */}
       <div className="space-y-4">
         {premiumTasks.map((data) => (
-          <TaskItem key={data.$id} data={data} />
+          <TaskItem
+            key={data.$id}
+            data={data}
+            isOpen={openTaskId === data.$id} // Pass whether this task is open
+            onToggle={() => handleToggleTask(data.$id)} // Pass toggle function
+          />
         ))}
       </div>
     </div>

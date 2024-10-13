@@ -6,19 +6,17 @@ import LoadingSkeleton from './Loading';
 const Social = () => {
   const [loading, setLoading] = useState(true);
   const [socialTasks, setSocialTasks] = useState([]);
-  
-
+  const [openTaskId, setOpenTaskId] = useState(null); // State to track the open task
 
   useEffect(() => {
     const fetchTasksData = async () => {
       try {
         const socialTasksData = await service.getAllData('social');
         console.log('Fetched social tasks:', socialTasksData.documents);
-        
+
         if (socialTasksData?.documents) {
           setSocialTasks(socialTasksData.documents);
         }
-
       } catch (error) {
         console.error('Error fetching social tasks:', error);
       } finally {
@@ -29,8 +27,13 @@ const Social = () => {
     fetchTasksData();
   }, []);
 
+  // Function to toggle the open task
+  const handleToggleTask = (taskId) => {
+    setOpenTaskId((prevOpenTaskId) => (prevOpenTaskId === taskId ? null : taskId));
+  };
+
   if (loading) {
-    return <div> <LoadingSkeleton/> </div>;
+    return <div><LoadingSkeleton /></div>;
   }
 
   if (socialTasks.length === 0) {
@@ -48,7 +51,12 @@ const Social = () => {
       {/* Task List */}
       <div className="space-y-4">
         {socialTasks.map((data) => (
-          <TaskItem key={data.$id} data={data} />
+          <TaskItem
+            key={data.$id}
+            data={data}
+            isOpen={openTaskId === data.$id} // Pass whether this task is open
+            onToggle={() => handleToggleTask(data.$id)} // Pass toggle function
+          />
         ))}
       </div>
     </div>

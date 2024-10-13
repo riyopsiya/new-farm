@@ -17,7 +17,8 @@ const AdminDashboard = () => {
         linkedin: '', // LinkedIn link
         youtube: '', // YouTube link
         discord: '', // Discord link
-        website: '' // Website link
+        website: '' ,// Website link
+        referralLink:''
     });
     const [image, setImage] = useState(null);
 
@@ -48,6 +49,7 @@ const AdminDashboard = () => {
                 youtube: formData.youtube, // Store YouTube link
                 discord: formData.discord, // Store Discord link
                 website: formData.website, // Store website link
+                referralLink: formData.referralLink,
                 image: imageFileId, // Store image file ID
             });
 
@@ -67,7 +69,8 @@ const AdminDashboard = () => {
                 linkedin: '',
                 youtube: '', // Reset YouTube link
                 discord: '', // Reset Discord link
-                website: ''
+                website: '',
+                referralLink:''
             });
             setImage(null);
 
@@ -159,11 +162,22 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Telegram Announce Invite Link</label>
+                    <label className="block text-sm font-bold mb-2">Telegram Announcement Channel Link</label>
                     <input
                         type="text"
                         name="telegramAnnInvite"
                         value={formData.telegramAnnInvite}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black"
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-sm font-bold mb-2">Referral Link</label>
+                    <input
+                        type="text"
+                        name="referralLink"
+                        placeholder="Referral Link"
+                        value={formData.referralLink}
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded bg-black"
                     />
@@ -219,6 +233,7 @@ const AdminDashboard = () => {
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded bg-black"
                     />
+
                 </div>
 
                 <div className="mb-4">
