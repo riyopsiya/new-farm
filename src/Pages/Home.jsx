@@ -204,7 +204,7 @@ const Home = () => {
       </div>
 
       <div className="text-center mt-4">
-        <h2 className="text-3xl font-bold">{bountyAmount.toFixed(2)} BNTY</h2>
+       {bountyAmount && <h2 className="text-3xl font-bold">{bountyAmount.toFixed(2)} BNTY</h2>} 
         <p className="text-gray-400">Bounty Token</p>
       </div>
 
