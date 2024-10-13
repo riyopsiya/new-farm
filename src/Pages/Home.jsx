@@ -11,7 +11,7 @@ const Home = () => {
   // const userId = 1337182007 ;
 
   const [user, setUser] = useState([]);
-  const [bountyAmount, setBountyAmount] = useState(0);
+  const [bountyAmount, setBountyAmount] = useState(1000);
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [isFarming, setIsFarming] = useState(false);
   const [taps, setTaps] = useState(100);
