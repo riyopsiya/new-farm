@@ -160,9 +160,10 @@ const Home = () => {
        <div className="w-full flex flex-col text-left px-4 gap-4">
        <h2 className="font-bold text-lg md:text-xl">
        Welcome, {userInfo.first_name || userInfo.username}!
+       
       
        </h2>
-
+  <h2>{userId}</h2>
           <div className="flex space-x-4  items-center justify-start w-full rounded-lg text-xs">
             <div className="bg-gradient-to-r from-black to-[#7d5126] px-8 py-3 rounded-lg font-bold">
               {formatTime(timeLeft)} Left
