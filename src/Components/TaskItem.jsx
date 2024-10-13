@@ -18,8 +18,8 @@ const TaskItem = ({ data }) => {
     const botToken = process.env.REACT_APP_BOT_TOKEN;
     // const userId = 1337182007
     // const userId = 1751474467;
-    const userId = userInfo.id ;
-    // const userId =1337182007;
+    const userId = userInfo?.id ;
+
     const chatIdGroup = data.telegramChatID;
     const chatIdAnn = data.telegramAnnID;
 
