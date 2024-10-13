@@ -57,7 +57,7 @@ export class Service {
     async updateUserTasks(userId, taskId) {
         try {
             // Logging input types for debugging
-            console.log(typeof userId, typeof taskId);
+      
 
             // Fetch the user document from Appwrite
             const user = await this.databases.getDocument(
