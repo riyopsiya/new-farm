@@ -7,8 +7,8 @@ import service from "../appwrite/database";
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
-  const userId = userInfo?.id ;
-  // const userId = 1337182007 ;
+  // const userId = userInfo?.id ;
+  const userId = 1337182007 ;
 
   const [user, setUser] = useState([]);
   const [bountyAmount, setBountyAmount] = useState(null);
@@ -56,8 +56,8 @@ const Home = () => {
       );
       console.log(userData)
       setUser(userData);
-      // setBountyAmount(userData.coins);
-      // setTaps(userData.taps); // Initialize taps from user data
+      setBountyAmount(userData.coins);
+      setTaps(userData.taps); // Initialize taps from user data
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
