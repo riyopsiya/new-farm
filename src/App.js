@@ -14,6 +14,7 @@ import { login } from './store/userSlice';
 import AdminDashboard from './Pages/Admin';
 import service from './appwrite/database';
 import { setPremiumTasks, setSocialTasks } from './store/dataSlice';
+import loadingGif from './images/Animation - 1728853348711.gif'
 
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -103,7 +104,11 @@ function App() {
   }, [loading]);
 
   if(loading){
-    return  <div>Loading...</div>
+    return <div className="w-screen h-screen flex justify-center items-center">
+    {/* <img src={loadingGif} alt="" className="h-64" /> */}
+    <iframe src="https://lottie.host/embed/330e3274-d251-4bce-a100-07f5cdf0e24c/KqrYQMghNl.json" className='h-48'></iframe>
+  </div>
+  
   }
 
   return (
