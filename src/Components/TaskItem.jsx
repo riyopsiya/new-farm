@@ -44,7 +44,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
             // Fetch user data from the service
             // const userData = await service.getUser(userId);
             // console.log("User Data:", userData);
-
+            
             const userTasks = userData.tasks;
             const taskId = data.$id;
 
@@ -550,13 +550,13 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
                         </form>
                     ) : (
                         <div
-                            className="flex items-center gap-4 rounded-lg shadow-lg justify-end w-full"
+                            className="flex items-center gap-4 rounded-lg shadow-lg justify-center w-full"
 
                         >
 
                             <button
 
-                                className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 rounded-lg hover:bg-purple-600"
+                                className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 text-xs font-semibold rounded-lg hover:bg-purple-600 w-full"
                             >
                                 Wallet address submitted
                             </button>
