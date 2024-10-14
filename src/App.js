@@ -10,7 +10,7 @@ import ReferralPage from './Pages/ReferralPage';
 import { useEffect, useState } from 'react';
 import ProfilePage from './Pages/ProfilePage';
 import { useDispatch } from 'react-redux';
-import { login } from './store/userSlice';
+import { login, setUserData } from './store/userSlice';
 import AdminDashboard from './Pages/Admin';
 import service from './appwrite/database';
 import { setPremiumTasks, setSocialTasks } from './store/dataSlice';
@@ -27,6 +27,8 @@ function App() {
 
   const fetchUserData = async () => {
     try {
+
+      //fetch userinfo fromn telegram
       if (window.Telegram?.WebApp) {
         const user = window.Telegram.WebApp.initDataUnsafe?.user;
 
@@ -42,7 +44,7 @@ function App() {
 
           if (existingUser) {
             // User exists, dispatch login with user data
-            // dispatch(login(existingUser));
+            dispatch(setUserData(existingUser));
           } else {
             // User doesn't exist, create a new user in the database
             // toast.success('user not exist,creating a new') 
@@ -54,7 +56,7 @@ function App() {
             };
 
             const createdUser = await service.createUser(newUser);
-            // dispatch(login(createdUser));
+            dispatch(setUserData(createdUser));
 
           }
         } else {

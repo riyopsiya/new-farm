@@ -9,7 +9,7 @@ import service from '../appwrite/database';
 import { VscGlobe } from 'react-icons/vsc';
 
 const TaskItem = ({ data, isOpen, onToggle }) => {
-    const { userInfo } = useSelector((state) => state.user);
+    const { userInfo,userData } = useSelector((state) => state.user);   //userInfo is telegram details of the user and userData is the data of user from appwrite
 
     // const [isOpen, setIsOpen] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
@@ -42,7 +42,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         try {
 
             // Fetch user data from the service
-            const userData = await service.getUser(userId);
+            // const userData = await service.getUser(userId);
             // console.log("User Data:", userData);
 
             const userTasks = userData.tasks;
