@@ -8,13 +8,14 @@ const AdminDashboard = () => {
         companyName: '',
         taskDuration: '',
         category: '',
+        addressType: '',
         telegramChatID: '',
         telegramChatInvite: '', // New state for Telegram chat invite link
         telegramAnnID: '', // Separate state for Telegram link
         telegramAnnInvite: '', // New state for Telegram announcement invite link
         twitter: '', // Twitter link
         instagram: '', // Instagram link
-        facebook:'',
+        facebook: '',
         linkedin: '', // LinkedIn link
         youtube: '', // YouTube link
         discord: '', // Discord link
@@ -51,8 +52,9 @@ const AdminDashboard = () => {
             // Save task data to Appwrite database
             const response = await service.addData({
                 companyName: formData.companyName,
-                taskDuration: formData.taskDuration, // E.g., "1 day", "2 days"
+                taskDuration: formData.taskDuration, 
                 category: formData.category,
+                addressType: formData.addressType,
                 telegramChatID: formData.telegramChatID,
                 telegramChatInvite: formData.telegramChatInvite, // Store Telegram chat invite link
                 telegramAnnID: formData.telegramAnnID, // Store Telegram link
@@ -68,7 +70,7 @@ const AdminDashboard = () => {
 
 
 
-                companytelegramChatInvite: formData.companytelegramChatInvite, // Store Telegram chat invite link
+                companyTelegramChatInvite: formData.companytelegramChatInvite, // Store Telegram chat invite link
                 companyTelegramAnnInvite: formData.companyTelegramAnnInvite, // Store Telegram announcement invite link
                 companyTwitter: formData.companyTwitter,
                 companyInstagram: formData.companyInstagram,
@@ -90,6 +92,7 @@ const AdminDashboard = () => {
                 companyName: '',
                 taskDuration: '',
                 category: '',
+                addressType: '',
                 telegramChatID: '',
                 telegramChatInvite: '', // Reset Telegram chat invite link
                 telegramAnnID: '',
@@ -171,6 +174,23 @@ const AdminDashboard = () => {
                         <option value="premium">Premium</option>
                     </select>
                 </div>
+
+                <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2 w-40" htmlFor="addressType">Exchange Type<span className="text-red-500 ml-2">*</span></label>
+                    <select id="addressType" name="addressType" className="w-full px-1 py-2 bg-black text-white border border-transparent rounded-lg" value={formData.addressType} onChange={handleInputChange} required>
+                        <option value="" className="bg-black text-black" disabled>Select an address type</option>
+                        <option value="BEP-20">BEP-20</option>
+                        <option value="Solana">Solana</option>
+                        <option value="ETH">ETH</option>
+                        <option value="TRC-20">TRC-20</option>
+                        <option value="TON">TON</option>
+                        <option value="BRC-20">BRC-20</option>
+                        <option value="Base">Base</option>
+                        <option value="Avalanche">Avalanche</option>
+                        <option value="Near">Near</option>
+                    </select>
+                </div>
+
 
 
                 {/* social media links for bounty tap */}

@@ -9,15 +9,15 @@ import service from '../appwrite/database';
 
 const TaskItem = ({ data, isOpen, onToggle }) => {
     const { userInfo, userData } = useSelector((state) => state.user);   //userInfo is telegram details of the user and userData is the data of user from appwrite
-    // console.log(data)
+    console.log(data)
     // const [isOpen, setIsOpen] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
     const [tasksCnt, setTasksCnt] = useState(0)
 
     const botToken = process.env.REACT_APP_BOT_TOKEN;
-    const userId = 1337182007
+    // const userId = 1337182007
     // const userId = 1751474467;
-    // const userId = userInfo?.id;
+    const userId = userInfo?.id;
 
     const chatIdGroup = data.telegramChatID;
     const chatIdAnn = data.telegramAnnID;
@@ -353,7 +353,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     {/* Follow on X (Twitter) */}
                     {data.companyTwitter ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p>Follow {data.companyName} On X </p>
+                            <p>Follow {data.companyName}'s X </p>
                             {claimButtonsState.companyTwitter.claim ? (
                                 <button onClick={() => handleClaimClick('companyTwitter')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
                                     Claim 100 bounty
@@ -421,7 +421,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     {/* Telegram Announcement */}
                     {data.companyTelegramAnnInvite ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p>Follow {data.companyName} Telegram Announcement</p>
+                            <p>Follow {data.companyName} Telegram Ann</p>
                             {claimButtonsState.companyTelegramAnnInvite.claim ? (
                                 <button onClick={() => handleClaimClick('companyTelegramAnnInvite')} className="bg-gradient-to-r from-black to-[#7d5126]   px-2 py-2 rounded-lg text-xs font-bold ">
                                     Claim 100 bounty
@@ -1002,7 +1002,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                             <input
                                 type="text"
                                 id="bep20-address"
-                                placeholder="Enter Your BEP-20 Address"
+                                placeholder={`${data.addressType} address`}
                                 className="px-2 py-2 w-full text-white bg-gray-900 rounded-md max-w-48 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
                             />
                             <button
