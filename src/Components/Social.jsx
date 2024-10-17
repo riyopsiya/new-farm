@@ -13,8 +13,8 @@ const Social = () => {
   const [openTaskId, setOpenTaskId] = useState(null); // State to track the open task
   const { userInfo } = useSelector((state) => state.user);  
 
-  // const userId = 1337182007
-  const userId = userInfo?.id
+  const userId = 1337182007
+  // const userId = userInfo?.id
 
   // Function to separate tasks based on userTasks
   const separateTasks = (userTasks, socialTasksData) => {

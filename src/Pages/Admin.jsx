@@ -14,11 +14,25 @@ const AdminDashboard = () => {
         telegramAnnInvite: '', // New state for Telegram announcement invite link
         twitter: '', // Twitter link
         instagram: '', // Instagram link
+        facebook:'',
         linkedin: '', // LinkedIn link
         youtube: '', // YouTube link
         discord: '', // Discord link
-        website: '' ,// Website link
-        referralLink:''
+        website: '',// Website link
+        referralLink: '',
+
+
+        companytelegramChatInvite: '', // Reset Telegram chat invite link
+        companyTelegramAnnInvite: '', // Reset Telegram announcement invite link
+        companyTwitter: '',
+        companyFacebook: '',
+        companyInstagram: '',
+        companyLinkedin: '',
+        companyYoutube: '', // Reset YouTube link
+        companyDiscord: '', // Reset Discord link
+        companyWebsite: '',
+        companyMedium: '',
+        companyReferralLink: ''
     });
     const [image, setImage] = useState(null);
 
@@ -49,7 +63,22 @@ const AdminDashboard = () => {
                 youtube: formData.youtube, // Store YouTube link
                 discord: formData.discord, // Store Discord link
                 website: formData.website, // Store website link
+                medium: formData.medium, // Store website link
                 referralLink: formData.referralLink,
+
+
+
+                companytelegramChatInvite: formData.companytelegramChatInvite, // Store Telegram chat invite link
+                companyTelegramAnnInvite: formData.companyTelegramAnnInvite, // Store Telegram announcement invite link
+                companyTwitter: formData.companyTwitter,
+                companyInstagram: formData.companyInstagram,
+                companyLinkedin: formData.companyLinkedin,
+                companyYoutube: formData.companyYoutube, // Store YouTube link
+                companyDiscord: formData.companyDiscord, // Store Discord link
+                companyWebsite: formData.companyWebsite, // Store website link
+                companyReferralLink: formData.companyReferralLink,
+                companyMedium: formData.companyMedium,
+
                 image: imageFileId, // Store image file ID
             });
 
@@ -57,6 +86,7 @@ const AdminDashboard = () => {
 
             // Clear form after submission
             setFormData({
+
                 companyName: '',
                 taskDuration: '',
                 category: '',
@@ -65,12 +95,28 @@ const AdminDashboard = () => {
                 telegramAnnID: '',
                 telegramAnnInvite: '', // Reset Telegram announcement invite link
                 twitter: '',
+                facebook: '',
                 instagram: '',
                 linkedin: '',
                 youtube: '', // Reset YouTube link
                 discord: '', // Reset Discord link
                 website: '',
-                referralLink:''
+                medium: '',
+                referralLink: '',
+
+
+
+                companytelegramChatInvite: '', // Reset Telegram chat invite link
+                companyTelegramAnnInvite: '', // Reset Telegram announcement invite link
+                companyTwitter: '',
+                companyFacebook: '',
+                companyInstagram: '',
+                companyLinkedin: '',
+                companyYoutube: '', // Reset YouTube link
+                companyDiscord: '', // Reset Discord link
+                companyWebsite: '',
+                companyMedium: '',
+                companyReferralLink: ''
             });
             setImage(null);
 
@@ -116,7 +162,7 @@ const AdminDashboard = () => {
                         required
                     />
                 </div>
-                
+
                 <div className="mb-4">
                     <label className="block text-sm font-medium mb-2 w-40" htmlFor="category">Exchange Type<span className="text-red-500 ml-2">*</span></label>
                     <select id="category" name="category" className="w-full px-1 py-2 bg-black text-white border border-transparent rounded-lg" value={formData.category} onChange={handleInputChange} required>
@@ -126,53 +172,48 @@ const AdminDashboard = () => {
                     </select>
                 </div>
 
-                <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Telegram Group ID</label>
+
+                {/* social media links for bounty tap */}
+                <div className="mb-4 ">
+                    <label className="block text-sm font-bold mb-2">Social Media Links (Bounty Tap)</label>
                     <input
                         type="text"
+                        placeholder='Telegram Chat ID'
                         name="telegramChatID"
                         value={formData.telegramChatID}
                         onChange={handleInputChange}
-                        className="w-full p-2 border rounded bg-black"
-                        required
-                    />
-                </div>
+                        className="w-full p-2 border rounded bg-black mb-2"
 
-                <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Telegram Chat Invite Link</label>
+                    />
+
                     <input
                         type="text"
                         name="telegramChatInvite"
+                        placeholder='Telegram Chat Invite'
                         value={formData.telegramChatInvite}
                         onChange={handleInputChange}
-                        className="w-full p-2 border rounded bg-black"
+                        className="w-full p-2 border rounded bg-black mb-2"
                     />
-                </div>
 
-                <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Telegram Announce ID</label>
                     <input
                         type="text"
                         name="telegramAnnID"
+                        placeholder='Telegram Ann ID'
                         value={formData.telegramAnnID}
                         onChange={handleInputChange}
-                        className="w-full p-2 border rounded bg-black"
-                        required
-                    />
-                </div>
+                        className="w-full p-2 border rounded bg-black mb-2"
 
-                <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Telegram Announcement Channel Link</label>
+                    />
+
                     <input
                         type="text"
                         name="telegramAnnInvite"
+                        placeholder='Telegram Announcement Invite'
                         value={formData.telegramAnnInvite}
                         onChange={handleInputChange}
-                        className="w-full p-2 border rounded bg-black"
+                        className="w-full p-2 border rounded bg-black mb-2"
                     />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Referral Link</label>
+
                     <input
                         type="text"
                         name="referralLink"
@@ -181,10 +222,7 @@ const AdminDashboard = () => {
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded bg-black"
                     />
-                </div>
 
-                <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Social Media Links (Optional)</label>
                     <input
                         type="text"
                         name="twitter"
@@ -223,7 +261,7 @@ const AdminDashboard = () => {
                         placeholder="Discord Link"
                         value={formData.discord}
                         onChange={handleInputChange}
-                        className="w-full p-2 border rounded bg-black"
+                        className="w-full p-2 border rounded bg-black mb-2"
                     />
                     <input
                         type="text"
@@ -231,10 +269,135 @@ const AdminDashboard = () => {
                         placeholder="Website Link"
                         value={formData.website}
                         onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+
+                    <input
+                        type="text"
+                        name="facebook"
+                        placeholder="Facebook Link"
+                        value={formData.facebook}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+
+                    <input
+                        type="text"
+                        name="medium"
+                        placeholder="Medium Link"
+                        value={formData.medium}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+
+                    <input
+                        type="text"
+                        name="referralLink"
+                        placeholder="Referral Link"
+                        value={formData.referralLink}
+                        onChange={handleInputChange}
                         className="w-full p-2 border rounded bg-black"
                     />
 
                 </div>
+
+
+                {/* social media links for client company */}
+
+                <div className="mb-4">
+                    <label className="block text-sm font-bold mb-2">Social Media Links (Company)</label>
+
+                    <input
+                        type="text"
+                        placeholder='Company Telegram Chat Invite'
+                        name="companytelegramChatInvite"
+                        value={formData.companytelegramChatInvite}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+
+                    <input
+                        type="text"
+                        placeholder='Company Telegram Announcement Invite'
+                        name="companyTelegramAnnInvite"
+                        value={formData.companyTelegramAnnInvite}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Company Twitter Link"
+                        name="companyTwitter"
+                        value={formData.companyTwitter}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Company Instagram Link"
+                        name="companyInstagram"
+                        value={formData.companyInstagram}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Company LinkedIn Link"
+                        name="companyLinkedin"
+                        value={formData.companyLinkedin}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Company YouTube Link"
+                        name="companyYoutube"
+                        value={formData.companyYoutube}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Company Discord Link"
+                        name="companyDiscord"
+                        value={formData.companyDiscord}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Company Website Link"
+                        name="companyWebsite"
+                        value={formData.companyWebsite}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Company Referral Link"
+                        name="companyReferralLink"
+                        value={formData.companyReferralLink}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Company Medium Link"
+                        name="companyMedium"
+                        value={formData.companyMedium}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black"
+                    />
+                </div>
+
 
                 <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Task Image</label>
