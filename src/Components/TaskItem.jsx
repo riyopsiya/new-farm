@@ -279,20 +279,21 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
     const handleSubmit = async (e) => {
 
         e.preventDefault()
-        const bep20Address = e.target.elements['bep20-address'].value;
+        const walletAddress = e.target.elements['walletAddress'].value;
 
         const allTasksCompleted = checkAllTasksCompleted(); // Check if all tasks are completed
-        console.log(allTasksCompleted)
+  
 
-        if (allTasksCompleted && bep20Address) {
+        if (allTasksCompleted && walletAddress) {
 
-            console.log(userId, data.$id)
+          
             await service.updateUserTasks(userId.toString(), data.$id);
             await service.updateUserCoins(userId, tasksCnt * 100)
 
             const newUserData = {
                 userId,
-                bep20Address,
+               walletAddress: walletAddress,
+               walletType:data?.addressType
             }
             await service.updateCompanyUsers(data.$id, newUserData)
 
@@ -1001,7 +1002,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                         >
                             <input
                                 type="text"
-                                id="bep20-address"
+                                id="walletAddress"
                                 placeholder={`${data.addressType} address`}
                                 className="px-2 py-2 w-full text-white bg-gray-900 rounded-md max-w-48 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
                             />
