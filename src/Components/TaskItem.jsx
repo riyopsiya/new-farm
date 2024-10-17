@@ -9,7 +9,7 @@ import service from '../appwrite/database';
 
 const TaskItem = ({ data, isOpen, onToggle }) => {
     const { userInfo, userData } = useSelector((state) => state.user);   //userInfo is telegram details of the user and userData is the data of user from appwrite
-    console.log(data)
+    // console.log(data)
     // const [isOpen, setIsOpen] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
     const [tasksCnt, setTasksCnt] = useState(0)
@@ -1003,7 +1003,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                             <input
                                 type="text"
                                 id="walletAddress"
-                                placeholder={`${data.addressType} address`}
+                                placeholder={`Enter your ${data.addressType} address`}
                                 className="px-2 py-2 w-full text-white bg-gray-900 rounded-md max-w-48 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
                             />
                             <button

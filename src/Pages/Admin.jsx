@@ -142,7 +142,7 @@ const AdminDashboard = () => {
             <h2 className="text-2xl font-bold mb-4">Add Task</h2>
             <form onSubmit={handleSubmit} className='mb-10'>
                 <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Company Name</label>
+                    <label className="block text-sm font-bold mb-2">Client Name</label>
                     <input
                         type="text"
                         name="companyName"
@@ -209,7 +209,7 @@ const AdminDashboard = () => {
                     <input
                         type="text"
                         name="telegramChatInvite"
-                        placeholder='Telegram Chat Invite'
+                        placeholder='Telegram Chat Link'
                         value={formData.telegramChatInvite}
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded bg-black mb-2"
@@ -228,21 +228,13 @@ const AdminDashboard = () => {
                     <input
                         type="text"
                         name="telegramAnnInvite"
-                        placeholder='Telegram Announcement Invite'
+                        placeholder='Telegram Announcement Link'
                         value={formData.telegramAnnInvite}
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded bg-black mb-2"
                     />
 
-                    <input
-                        type="text"
-                        name="referralLink"
-                        placeholder="Referral Link"
-                        value={formData.referralLink}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border rounded bg-black"
-                    />
-
+                  
                     <input
                         type="text"
                         name="twitter"
@@ -325,11 +317,11 @@ const AdminDashboard = () => {
                 {/* social media links for client company */}
 
                 <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Social Media Links (Company)</label>
+                    <label className="block text-sm font-bold mb-2">Social Media Links (Client)</label>
 
                     <input
                         type="text"
-                        placeholder='Company Telegram Chat Invite'
+                        placeholder='Client Telegram Chat Link'
                         name="companytelegramChatInvite"
                         value={formData.companytelegramChatInvite}
                         onChange={handleInputChange}
@@ -338,7 +330,7 @@ const AdminDashboard = () => {
 
                     <input
                         type="text"
-                        placeholder='Company Telegram Announcement Invite'
+                        placeholder='Client Telegram Announcement Link'
                         name="companyTelegramAnnInvite"
                         value={formData.companyTelegramAnnInvite}
                         onChange={handleInputChange}
@@ -347,7 +339,7 @@ const AdminDashboard = () => {
 
                     <input
                         type="text"
-                        placeholder="Company Twitter Link"
+                        placeholder="Client Twitter Link"
                         name="companyTwitter"
                         value={formData.companyTwitter}
                         onChange={handleInputChange}
@@ -356,7 +348,7 @@ const AdminDashboard = () => {
 
                     <input
                         type="text"
-                        placeholder="Company Instagram Link"
+                        placeholder="Client Instagram Link"
                         name="companyInstagram"
                         value={formData.companyInstagram}
                         onChange={handleInputChange}
@@ -365,7 +357,7 @@ const AdminDashboard = () => {
 
                     <input
                         type="text"
-                        placeholder="Company LinkedIn Link"
+                        placeholder="Client LinkedIn Link"
                         name="companyLinkedin"
                         value={formData.companyLinkedin}
                         onChange={handleInputChange}
@@ -374,7 +366,7 @@ const AdminDashboard = () => {
 
                     <input
                         type="text"
-                        placeholder="Company YouTube Link"
+                        placeholder="Client YouTube Link"
                         name="companyYoutube"
                         value={formData.companyYoutube}
                         onChange={handleInputChange}
@@ -383,7 +375,7 @@ const AdminDashboard = () => {
 
                     <input
                         type="text"
-                        placeholder="Company Discord Link"
+                        placeholder="Client Discord Link"
                         name="companyDiscord"
                         value={formData.companyDiscord}
                         onChange={handleInputChange}
@@ -392,7 +384,7 @@ const AdminDashboard = () => {
 
                     <input
                         type="text"
-                        placeholder="Company Website Link"
+                        placeholder="Client Website Link"
                         name="companyWebsite"
                         value={formData.companyWebsite}
                         onChange={handleInputChange}
@@ -401,7 +393,7 @@ const AdminDashboard = () => {
 
                     <input
                         type="text"
-                        placeholder="Company Referral Link"
+                        placeholder="Client Referral Link"
                         name="companyReferralLink"
                         value={formData.companyReferralLink}
                         onChange={handleInputChange}
@@ -410,7 +402,7 @@ const AdminDashboard = () => {
 
                     <input
                         type="text"
-                        placeholder="Company Medium Link"
+                        placeholder="Client Medium Link"
                         name="companyMedium"
                         value={formData.companyMedium}
                         onChange={handleInputChange}
