@@ -37,10 +37,10 @@ const Social = () => {
   // Function to separate tasks based on userTasks, filtering expired and completed tasks with grace period
   const separateTasks = (userTasks, socialTasksData) => {
     const completed = socialTasksData?.filter(
-      task => userTasks.includes(task.$id) && isWithinGracePeriod(task)
+      task => userTasks?.includes(task.$id) && isWithinGracePeriod(task)
     ) || [];
     const notCompleted = socialTasksData?.filter(
-      task => !userTasks.includes(task.$id) && !isTaskExpired(task)
+      task => !userTasks?.includes(task.$id) && !isTaskExpired(task)
     ) || [];
 
     return { completed, notCompleted };
@@ -87,7 +87,7 @@ const Social = () => {
 
   return (
     <div>
-      {notCompletedTasks?.length > 0 && (
+      {notCompletedTasks?.length > 0 ? (
         <div>
           <div className="flex justify-center my-4">
             <div className="border border-gray-400 rounded-md px-4 py-2 text-sm font-semibold">
@@ -106,14 +106,16 @@ const Social = () => {
             ))}
           </div>
         </div>
+      ): (
+        <div className="flex justify-center mt-12">No new tasks available</div>
       )}
 
       {completedTasks?.length > 0 && (
         <div>
           <div className="flex justify-center my-4">
             <div className="border border-gray-400 rounded-md px-4 py-2 mt-6 text-sm font-semibold">
-              {completedTasks.length > 0 
-                ? `${completedTasks.length} ${completedTasks.length > 1 ? 'tasks' : 'task'} completed` 
+              {completedTasks.length > 0
+                ? `${completedTasks.length} ${completedTasks.length > 1 ? 'tasks' : 'task'} completed`
                 : 'No tasks completed'}
             </div>
           </div>

@@ -37,10 +37,10 @@ const Premium = () => {
   // Function to separate tasks based on userTasks, filtering expired and completed tasks with grace period
   const separateTasks = (userTasks, premiumTasksData) => {
     const completed = premiumTasksData?.filter(
-      task => userTasks.includes(task.$id) && isWithinGracePeriod(task)
+      task => userTasks?.includes(task.$id) && isWithinGracePeriod(task)
     ) || [];
     const notCompleted = premiumTasksData?.filter(
-      task => !userTasks.includes(task.$id) && !isTaskExpired(task)
+      task => !userTasks?.includes(task.$id) && !isTaskExpired(task)
     ) || [];
 
     return { completed, notCompleted };
