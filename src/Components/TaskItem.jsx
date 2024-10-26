@@ -269,6 +269,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
                 return linkExists; // Only keep tasks with existing links
             })
             .every(([key, value]) => {
+                console.log(key,value)
                 // Check if the task is claimed
                 return value.claimed;
             });
@@ -282,7 +283,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         const walletAddress = e.target.elements['walletAddress'].value;
 
         const allTasksCompleted = checkAllTasksCompleted(); // Check if all tasks are completed
-  
+       console.log(allTasksCompleted)
 
         if (allTasksCompleted && walletAddress) {
 
