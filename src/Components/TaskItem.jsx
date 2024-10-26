@@ -54,7 +54,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
     const fetchUserData = async () => {
         try {
-// Fetch user data from the service
+            // Fetch user data from the service
             // const userData = await service.getUser(userId);
             // console.log("User Data:", userData);
 
@@ -73,7 +73,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
                 setClaimButtonsState(prevState => {
                     const updatedState = { ...prevState };
-                    
+
                     // Iterate over each task in claimButtonsState
                     Object.keys(updatedState).forEach(key => {
 
@@ -186,7 +186,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         }
 
         // // Enable "Check" button after "Go" is clicked
-        
+
         setClaimButtonsState((prevState) => ({
             ...prevState,
             [key]: { ...prevState[key], goClicked: true }
@@ -195,18 +195,18 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
     const handleCheckClick = async (key) => {
         try {
-            
+
             if (!claimButtonsState[key].goClicked) {
                 if (key === 'website') toast.error('Please visit the website')
                 else toast.error(`Please follow on the ${key} page`)
             }
             else {
-              
+
                 setClaimButtonsState((prevState) => ({
                     ...prevState,
                     [key]: { ...prevState[key], claimed: true }
                 }));
-               
+
                 setTasksCnt(tasksCnt + 1)
             }
         } catch (error) {
@@ -263,13 +263,13 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         const allCompleted = Object.entries(claimButtonsState)
             .filter(([key, value]) => {
                 // Check if link exists
-                console.log(key,value)
+                console.log(key, value)
                 const linkExists = value.link !== undefined && value.link !== null && value.link !== '';
-                
+
                 return linkExists; // Only keep tasks with existing links
             })
             .every(([key, value]) => {
-                console.log(key,value)
+                console.log(key, value)
                 // Check if the task is claimed
                 return value.claimed;
             });
@@ -283,18 +283,18 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         const walletAddress = e.target.elements['walletAddress'].value;
 
         const allTasksCompleted = checkAllTasksCompleted(); // Check if all tasks are completed
-       console.log(allTasksCompleted)
+        console.log(allTasksCompleted)
 
         if (allTasksCompleted && walletAddress) {
 
-          
+
             await service.updateUserTasks(userId.toString(), data.$id);
             await service.updateUserCoins(userId, tasksCnt * 100)
 
             const newUserData = {
                 userId,
-               walletAddress: walletAddress,
-               walletType:data?.addressType
+                walletAddress: walletAddress,
+                walletType: data?.addressType
             }
             await service.updateCompanyUsers(data.$id, newUserData)
 
@@ -428,7 +428,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                                 <button onClick={() => handleClaimClick('companyTelegramAnnInvite')} className="bg-gradient-to-r from-black to-[#7d5126]   px-2 py-2 rounded-lg text-xs font-bold ">
                                     Claim 100 bounty
                                 </button>
-                                
+
                             ) : (
                                 claimButtonsState.companyTelegramAnnInvite.claimed ? (
                                     <button className="bg-gradient-to-r from-black  to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold">
@@ -489,8 +489,8 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
 
                     ) : (null)}
 
-                     {/* LinkedIn */}
-                     {data.companyLinkedin ? (
+                    {/* LinkedIn */}
+                    {data.companyLinkedin ? (
                         <div className='flex w-full justify-between items-center'>
                             <p>Follow {data.companyName} on LinkedIn</p>
                             {claimButtonsState.companyLinkedin.claim ? (
@@ -996,38 +996,38 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     ) : (null)}
 
 
-                    {!allTasksCompleted ? (
-                        <form
-                            className="flex items-center gap-4 rounded-lg shadow-lg justify-between w-full"
-                            onSubmit={handleSubmit} // Attach the submit handler to the form
-                        >
-                            <input
-                                type="text"
-                                id="walletAddress"
-                                placeholder={`Enter your ${data.addressType} address`}
-                                className="px-2 py-2 w-full text-white bg-gray-900 rounded-md max-w-48 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
-                            />
-                            <button
-                                type='submit' // Ensure the button submits the form
-                                className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 text-xs w-[12rem] font-bold  rounded-lg hover:bg-purple-600"
-                            >
-                                Submit
-                            </button>
-                        </form>
-                    ) : (
-                        <div
-                            className="flex items-center gap-4 rounded-lg shadow-lg justify-center w-full"
-
-                        >
-
-                            <button
-
-                                className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 text-xs font-semibold rounded-lg hover:bg-purple-600 w-full"
-                            >
-                                Wallet address submitted
-                            </button>
-                        </div>
+                    {data.category === "social" && (
+                        <>
+                            {!allTasksCompleted ? (
+                                <form
+                                    className="flex items-center gap-4 rounded-lg shadow-lg justify-between w-full"
+                                    onSubmit={handleSubmit} // Attach the submit handler to the form
+                                >
+                                    <input
+                                        type="text"
+                                        id="walletAddress"
+                                        placeholder={`Enter your ${data.addressType} address`}
+                                        className="px-2 py-2 w-full text-white bg-gray-900 rounded-md max-w-48 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                    />
+                                    <button
+                                        type="submit" // Ensure the button submits the form
+                                        className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 text-xs w-[12rem] font-bold rounded-lg hover:bg-purple-600"
+                                    >
+                                        Submit
+                                    </button>
+                                </form>
+                            ) : (
+                                <div className="flex items-center gap-4 rounded-lg shadow-lg justify-center w-full">
+                                    <button
+                                        className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 text-xs font-semibold rounded-lg hover:bg-purple-600 w-full"
+                                    >
+                                        Wallet address submitted
+                                    </button>
+                                </div>
+                            )}
+                        </>
                     )}
+
 
                     {data.referralLink ? (<button onClick={handleShare} className='flex justify-center items-center  gap-6 border border-[1px]-white rounded-lg py-2'>Share and get referral bonus <FaShare /></button>
                     ) : (null)}
@@ -1035,7 +1035,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
             </div>
 
 
-           
+
         </div>
     );
 };
