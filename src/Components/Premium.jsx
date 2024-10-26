@@ -9,19 +9,39 @@ const Premium = () => {
   const [premiumTasks, setPremiumTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
   const [notCompletedTasks, setNotCompletedTasks] = useState([]);
-  const [openTaskId, setOpenTaskId] = useState(null); // State to track the open task
-  const { userInfo } = useSelector((state) => state.user);  
+  const [openTaskId, setOpenTaskId] = useState(null);
+  const { userInfo } = useSelector((state) => state.user);
 
-  // const userId = 1337182007
-  const userId = userInfo?.id
-  // Function to separate tasks based on userTasks
+  const userId = userInfo?.id;
+
+  // Function to determine if a task is expired
+  const isTaskExpired = (task) => {
+    const currentTime = Date.now();
+    const taskCreatedTime = new Date(task.$createdAt).getTime();
+    const durationInMs = parseInt(task.taskDuration, 10) * 60 * 1000;
+
+    return currentTime - taskCreatedTime >= durationInMs;
+  };
+
+  // Function to determine if a task is within the 30-day grace period after expiry
+  const isWithinGracePeriod = (task) => {
+    const currentTime = Date.now();
+    const taskCreatedTime = new Date(task.$createdAt).getTime();
+    const durationInMs = parseInt(task.taskDuration, 10) * 60 * 1000;
+    const gracePeriodInMs = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+
+    // Check if the current time is within 30 days after the task expiry
+    return currentTime <= taskCreatedTime + durationInMs + gracePeriodInMs;
+  };
+
+  // Function to separate tasks based on userTasks, filtering expired and completed tasks with grace period
   const separateTasks = (userTasks, premiumTasksData) => {
-    // Log the fetched premium tasks data
-    console.log('Premium Tasks Data:', premiumTasksData);
-
-    // Use the correct array for filtering
-    const completed = premiumTasksData?.filter(task => userTasks.includes(task.$id)) || [];
-    const notCompleted = premiumTasksData?.filter(task => !userTasks.includes(task.$id)) || [];
+    const completed = premiumTasksData?.filter(
+      task => userTasks.includes(task.$id) && isWithinGracePeriod(task)
+    ) || [];
+    const notCompleted = premiumTasksData?.filter(
+      task => !userTasks.includes(task.$id) && !isTaskExpired(task)
+    ) || [];
 
     return { completed, notCompleted };
   };
@@ -39,13 +59,8 @@ const Premium = () => {
 
         // Separate the tasks
         const { completed, notCompleted } = separateTasks(userTasks, premiumTasksData.documents);
-        console.log('Completed Tasks:', completed);
-        console.log('Not Completed Tasks:', notCompleted);
 
-        // Set premium tasks and their completed status
-        if (premiumTasksData?.documents) {
-          setPremiumTasks(premiumTasksData.documents);
-        }
+        setPremiumTasks(premiumTasksData.documents || []);
         setCompletedTasks(completed);
         setNotCompletedTasks(notCompleted);
       } catch (error) {
@@ -58,7 +73,6 @@ const Premium = () => {
     fetchTasksData();
   }, []);
 
-  // Function to toggle the open task
   const handleToggleTask = (taskId) => {
     setOpenTaskId((prevOpenTaskId) => (prevOpenTaskId === taskId ? null : taskId));
   };
@@ -73,52 +87,49 @@ const Premium = () => {
 
   return (
     <div>
-      {notCompletedTasks?.length > 0 ? (<div>
-
-        <div className="flex justify-center my-4">
-          <div className="border border-gray-400 rounded-md px-4 py-2 text-sm font-semibold">
-            {notCompletedTasks?.length} New tasks available
-          </div>
-        </div>
-
-        {/* Task List */}
-        <div className="space-y-4">
-          {notCompletedTasks.map((data) => (
-            <TaskItem
-              key={data.$id}
-              data={data}
-              isOpen={openTaskId === data.$id} // Pass whether this task is open
-              onToggle={() => handleToggleTask(data.$id)} // Pass toggle function
-            />
-          ))}
-        </div>
-      </div>) : (
-        <div className="flex justify-center mt-12">No new tasks available</div>
-      )}
-      {completedTasks.length ? (
+      {notCompletedTasks?.length > 0 ? (
         <div>
-
           <div className="flex justify-center my-4">
-            <div className="border border-gray-400 rounded-md px-4 py-2 mt-6 text-sm">
-              {completedTasks.length > 0
-                ? `${completedTasks.length} ${completedTasks.length > 1 ? 'tasks' : 'task'} completed`
-                : 'No tasks completed'}
+            <div className="border border-gray-400 rounded-md px-4 py-2 text-sm font-semibold">
+              {notCompletedTasks?.length} New tasks available
             </div>
           </div>
 
-          {/* Task List for Completed Tasks */}
+          <div className="space-y-4">
+            {notCompletedTasks.map((data) => (
+              <TaskItem
+                key={data.$id}
+                data={data}
+                isOpen={openTaskId === data.$id}
+                onToggle={() => handleToggleTask(data.$id)}
+              />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="flex justify-center mt-12">No new tasks available</div>
+      )}
+
+      {completedTasks.length > 0 && (
+        <div>
+          <div className="flex justify-center my-4">
+            <div className="border border-gray-400 rounded-md px-4 py-2 mt-6 text-sm">
+              {completedTasks.length} {completedTasks.length > 1 ? 'tasks' : 'task'} completed
+            </div>
+          </div>
+
           <div className="space-y-4 mb-8">
             {completedTasks.map((data) => (
               <TaskItem
                 key={data.$id}
                 data={data}
-                isOpen={openTaskId === data.$id} // Pass whether this task is open
-                onToggle={() => handleToggleTask(data.$id)} // Pass toggle function
+                isOpen={openTaskId === data.$id}
+                onToggle={() => handleToggleTask(data.$id)}
               />
             ))}
           </div>
         </div>
-      ) : (null)}
+      )}
     </div>
   );
 };

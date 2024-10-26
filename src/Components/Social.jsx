@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import TaskItem from './TaskItem';
 import service from '../appwrite/database';
 import LoadingSkeleton from './Loading';
-import { not } from 'ajv/dist/compile/codegen';
 import { useSelector } from 'react-redux';
 
 const Social = () => {
@@ -10,24 +9,42 @@ const Social = () => {
   const [socialTasks, setSocialTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
   const [notCompletedTasks, setNotCompletedTasks] = useState([]);
-  const [openTaskId, setOpenTaskId] = useState(null); // State to track the open task
-  const { userInfo } = useSelector((state) => state.user);  
+  const [openTaskId, setOpenTaskId] = useState(null);
+  const { userInfo } = useSelector((state) => state.user);
 
-  const userId = 1337182007
-  // const userId = userInfo?.id
+  const userId = 1337182007;
 
-  // Function to separate tasks based on userTasks
+  // Function to determine if a task is expired
+  const isTaskExpired = (task) => {
+    const currentTime = Date.now();
+    const taskCreatedTime = new Date(task.$createdAt).getTime();
+    const durationInMs = parseInt(task.taskDuration, 10) * 60 * 1000;
+
+    return currentTime - taskCreatedTime >= durationInMs;
+  };
+
+  // Function to determine if a task is within the 30-day grace period after expiry
+  const isWithinGracePeriod = (task) => {
+    const currentTime = Date.now();
+    const taskCreatedTime = new Date(task.$createdAt).getTime();
+    const durationInMs = parseInt(task.taskDuration, 10) * 60 * 1000;
+    const gracePeriodInMs = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+
+    // Check if the current time is within 30 days after the task expiry
+    return currentTime <= taskCreatedTime + durationInMs + gracePeriodInMs;
+  };
+
+  // Function to separate tasks based on userTasks, filtering expired and completed tasks with grace period
   const separateTasks = (userTasks, socialTasksData) => {
-    // Log the fetched social tasks data
-    console.log('Social Tasks Data:', socialTasksData);
-
-    // Use the correct array for filtering
-    const completed = socialTasksData?.filter(task => userTasks.includes(task.$id)) || [];
-    const notCompleted = socialTasksData?.filter(task => !userTasks.includes(task.$id)) || [];
+    const completed = socialTasksData?.filter(
+      task => userTasks.includes(task.$id) && isWithinGracePeriod(task)
+    ) || [];
+    const notCompleted = socialTasksData?.filter(
+      task => !userTasks.includes(task.$id) && !isTaskExpired(task)
+    ) || [];
 
     return { completed, notCompleted };
   };
-
 
   useEffect(() => {
     const fetchTasksData = async () => {
@@ -42,19 +59,10 @@ const Social = () => {
 
         // Separate the tasks
         const { completed, notCompleted } = separateTasks(userTasks, socialTasksData.documents);
-        console.log('Completed Tasks:', completed);
-        console.log('Not Completed Tasks:', notCompleted);
 
-        // Check if socialTasksData.documents exists before setting state
-        if (socialTasksData?.documents) {
-          setSocialTasks(socialTasksData.documents);
-        }
-        if (completed) {
-          setCompletedTasks(completed);
-        }
-        if (notCompleted) {
-          setNotCompletedTasks(notCompleted);
-        }
+        setSocialTasks(socialTasksData.documents || []);
+        setCompletedTasks(completed);
+        setNotCompletedTasks(notCompleted);
       } catch (error) {
         console.error('Error fetching social tasks:', error);
       } finally {
@@ -65,7 +73,6 @@ const Social = () => {
     fetchTasksData();
   }, []);
 
-  // Function to toggle the open task
   const handleToggleTask = (taskId) => {
     setOpenTaskId((prevOpenTaskId) => (prevOpenTaskId === taskId ? null : taskId));
   };
@@ -80,53 +87,49 @@ const Social = () => {
 
   return (
     <div>
-
-      {notCompletedTasks?.length > 0 ? (<div>
-
-        <div className="flex justify-center my-4">
-          <div className="border border-gray-400 rounded-md px-4 py-2 text-sm font-semibold">
-            {notCompletedTasks?.length} New tasks available
-          </div>
-        </div>
-
-        {/* Task List */}
-        <div className="space-y-4">
-          {notCompletedTasks.map((data) => (
-            <TaskItem
-              key={data.$id}
-              data={data}
-              isOpen={openTaskId === data.$id} // Pass whether this task is open
-              onToggle={() => handleToggleTask(data.$id)} // Pass toggle function
-            />
-          ))}
-        </div>
-      </div>) : (null)}
-
-
-      {completedTasks?.length > 0 ? (
+      {notCompletedTasks?.length > 0 && (
         <div>
-          <div className="flex justify-center my-4  ">
-            <div className="border border-gray-400 rounded-md px-4 py-2 mt-6 text-sm font-semibold">
-             {completedTasks.length > 0 
-      ? `${completedTasks.length} ${completedTasks.length > 1 ? 'tasks' : 'task'} completed` 
-      : 'No tasks completed'}
+          <div className="flex justify-center my-4">
+            <div className="border border-gray-400 rounded-md px-4 py-2 text-sm font-semibold">
+              {notCompletedTasks?.length} New tasks available
             </div>
           </div>
 
+          <div className="space-y-4">
+            {notCompletedTasks.map((data) => (
+              <TaskItem
+                key={data.$id}
+                data={data}
+                isOpen={openTaskId === data.$id}
+                onToggle={() => handleToggleTask(data.$id)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
-          {/* Task List */}
+      {completedTasks?.length > 0 && (
+        <div>
+          <div className="flex justify-center my-4">
+            <div className="border border-gray-400 rounded-md px-4 py-2 mt-6 text-sm font-semibold">
+              {completedTasks.length > 0 
+                ? `${completedTasks.length} ${completedTasks.length > 1 ? 'tasks' : 'task'} completed` 
+                : 'No tasks completed'}
+            </div>
+          </div>
+
           <div className="space-y-4 mb-8">
             {completedTasks.map((data) => (
               <TaskItem
                 key={data.$id}
                 data={data}
-                isOpen={openTaskId === data.$id} // Pass whether this task is open
-                onToggle={() => handleToggleTask(data.$id)} // Pass toggle function
+                isOpen={openTaskId === data.$id}
+                onToggle={() => handleToggleTask(data.$id)}
               />
             ))}
           </div>
         </div>
-      ) : (null)}
+      )}
     </div>
   );
 };
