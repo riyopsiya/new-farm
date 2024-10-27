@@ -66,8 +66,19 @@ const Home = () => {
     fetchUserData();
   }, []);
 
+
+ 
+
+
   // Initialize timer and check if farming is ongoing
   useEffect(() => {
+ //check if timer is over 
+ if (timeLeft === 0) {
+  setTimeLeft(initialTime);
+  setTaps(100);
+  service.updateUserData(userId, { taps: 100 });
+}
+
     const savedEndTime = localStorage.getItem("endTime");
     if (savedEndTime) {
       const endTime = Number(savedEndTime);

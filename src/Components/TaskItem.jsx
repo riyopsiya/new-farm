@@ -9,6 +9,7 @@ import service from '../appwrite/database';
 
 const TaskItem = ({ data, isOpen, onToggle }) => {
     const { userInfo, userData } = useSelector((state) => state.user);   //userInfo is telegram details of the user and userData is the data of user from appwrite
+    const [walletAddress, setWalletAddress] = useState("");
     // console.log(data)
     // const [isOpen, setIsOpen] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
@@ -996,37 +997,39 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     ) : (null)}
 
 
-                    {data.category === "social" && (
-                        <>
-                            {!allTasksCompleted ? (
-                                <form
-                                    className="flex items-center gap-4 rounded-lg shadow-lg justify-between w-full"
-                                    onSubmit={handleSubmit} // Attach the submit handler to the form
-                                >
-                                    <input
-                                        type="text"
-                                        id="walletAddress"
-                                        placeholder={`Enter your ${data.addressType} address`}
-                                        className="px-2 py-2 w-full text-white bg-gray-900 rounded-md max-w-48 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                    />
-                                    <button
-                                        type="submit" // Ensure the button submits the form
-                                        className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 text-xs w-[12rem] font-bold rounded-lg hover:bg-purple-600"
-                                    >
-                                        Submit
-                                    </button>
-                                </form>
-                            ) : (
-                                <div className="flex items-center gap-4 rounded-lg shadow-lg justify-center w-full">
-                                    <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 text-xs font-semibold rounded-lg hover:bg-purple-600 w-full"
-                                    >
-                                        Wallet address submitted
-                                    </button>
-                                </div>
-                            )}
-                        </>
-                    )}
+{data.category === "social" && (
+    <>
+        {!allTasksCompleted ? (
+            <form
+                className="flex items-center gap-4 rounded-lg shadow-lg justify-between w-full"
+                onSubmit={handleSubmit}
+            >
+                <input
+                    type="text"
+                    id="walletAddress"
+                    value={walletAddress}
+                    onChange={(e) => setWalletAddress(e.target.value)} // Update walletAddress state on change
+                    placeholder={`Enter your ${data.addressType} address`}
+                    className="px-2 py-2 w-full text-white bg-gray-900 rounded-md max-w-48 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+                <button
+                    type="submit"
+                    className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 text-xs w-[12rem] font-bold rounded-lg hover:bg-purple-600"
+                >
+                    Submit
+                </button>
+            </form>
+        ) : (
+            <div className="flex items-center gap-4 rounded-lg shadow-lg justify-center w-full">
+                <button
+                    className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 text-xs font-semibold rounded-lg hover:bg-purple-600 w-full"
+                >
+                    Wallet address submitted
+                </button>
+            </div>
+        )}
+    </>
+)}
 
 
                     {data.referralLink ? (<button onClick={handleShare} className='flex justify-center items-center  gap-6 border border-[1px]-white rounded-lg py-2'>Share and get referral bonus <FaShare /></button>

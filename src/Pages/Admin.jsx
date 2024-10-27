@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Client, Databases, Storage } from 'appwrite';
 import service from '../appwrite/database';
+import { toast } from 'react-toastify';
 
 const AdminDashboard = () => {
     // State for form fields and image
@@ -52,7 +53,7 @@ const AdminDashboard = () => {
             // Save task data to Appwrite database
             const response = await service.addData({
                 companyName: formData.companyName,
-                taskDuration: formData.taskDuration, 
+                taskDuration: formData.taskDuration,
                 category: formData.category,
                 addressType: formData.addressType,
                 telegramChatID: formData.telegramChatID,
@@ -123,6 +124,8 @@ const AdminDashboard = () => {
             });
             setImage(null);
 
+
+            toast.success('Task added successfully.')
         } catch (error) {
             console.error('Error adding task:', error);
         }
@@ -234,7 +237,7 @@ const AdminDashboard = () => {
                         className="w-full p-2 border rounded bg-black mb-2"
                     />
 
-                  
+
                     <input
                         type="text"
                         name="twitter"
