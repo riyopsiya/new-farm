@@ -12,8 +12,8 @@ const Social = () => {
   const [openTaskId, setOpenTaskId] = useState(null);
   const { userInfo } = useSelector((state) => state.user);
 
-  const userId = 1337182007;
-  // const userId = userInfo?.id;
+  // const userId = 1337182007;
+  const userId = userInfo?.id;
 
   // Function to determine if a task is expired
   const isTaskExpired = (task) => {
