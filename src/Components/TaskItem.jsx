@@ -35,6 +35,11 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         website: { claim: true, claimed: false, goClicked: false, link: data.website },
 
         companyTwitter: { claim: true, claimed: false, goClicked: false, link: data.companyTwitter },
+        postLink: { claim: true, claimed: false, goClicked: false, link: data.postLink },
+        appLink: { claim: true, claimed: false, goClicked: false, link: data.appLink },
+        taskLink: { claim: true, claimed: false, goClicked: false, link: data.taskLink },
+        campaignLink: { claim: true, claimed: false, goClicked: false, link: data.campaignLink },
+        registerLink: { claim: true, claimed: false, goClicked: false, link: data.registerLink },
         companyTelegramChatInvite: { claim: true, claimed: false, goClicked: false, link: data.companyTelegramChatInvite },
         companyTelegramAnnInvite: { claim: true, claimed: false, goClicked: false, link: data.companyTelegramAnnInvite },
         companyFacebook: { claim: true, claimed: false, goClicked: false, link: data.companyFacebook },
@@ -46,7 +51,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         companyWebsite: { claim: true, claimed: false, goClicked: false, link: data.companyWebsite },
 
     });
-
+ 
 
     const [hasJoinedChat, setHasJoinedChat] = useState(false);
     const [hasJoinedAnn, setHasJoinedAnn] = useState(false);
@@ -184,7 +189,21 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
             window.open(data.companyMedium, '_blank');
         } else if (key === 'companyWebsite') {
             window.open(data.companyWebsite, '_blank');
+            
+        }else if (key === 'postLink') {
+            window.open(data.postLink, '_blank');
+        }else if (key === 'appLink') {
+            window.open(data.appLink, '_blank');
+        }else if (key === 'taskLink') {
+            window.open(data.taskLink, '_blank');
+        }else if (key === 'campaignLink') {
+            window.open(data.campaignLink, '_blank');
+        }else if (key === 'registerLink') {
+            window.open(data.registerLink, '_blank');
         }
+
+
+      
 
         // // Enable "Check" button after "Go" is clicked
 
@@ -199,7 +218,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
             if (!claimButtonsState[key].goClicked) {
                 if (key === 'website') toast.error('Please visit the website')
-                else toast.error(`Please follow on the ${key} page`)
+                else toast.error(`Please complete the given task.`)
             }
             else {
 
@@ -455,6 +474,186 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                         </div>
 
                     ) : (null)}
+
+
+                    {/* app  */}
+
+                    {data.appLink ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p>Download {data.companyName}'s app</p>
+                            {claimButtonsState.appLink.claim ? (
+                                <button onClick={() => handleClaimClick('appLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
+                                    Claim 100 bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.appLink.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            onClick={() => handleGoClick('appLink')}
+                                        >
+                                            Download
+                                        </button>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            onClick={() => handleCheckClick('appLink')}
+                                        >
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+
+                    ) : (null)}
+
+                      {/* post  */}
+
+                      {data.postLink ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p>Like, RT and comment on the post.</p>
+                            {claimButtonsState.postLink.claim ? (
+                                <button onClick={() => handleClaimClick('postLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
+                                    Claim 100 bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.postLink.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            onClick={() => handleGoClick('postLink')}
+                                        >
+                                            Go
+                                        </button>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            onClick={() => handleCheckClick('postLink')}
+                                        >
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+
+                    ) : (null)}
+
+
+                      {/* task  */}
+
+                      {data.taskLink ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p>Complete the task.</p>
+                            {claimButtonsState.taskLink.claim ? (
+                                <button onClick={() => handleClaimClick('taskLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
+                                    Claim 100 bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.taskLink.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            onClick={() => handleGoClick('taskLink')}
+                                        >
+                                            Go
+                                        </button>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            onClick={() => handleCheckClick('taskLink')}
+                                        >
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+
+                    ) : (null)}
+
+
+                      {/* campaign  */}
+
+                      {data.campaignLink ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p>Participate in campaign</p>
+                            {claimButtonsState.campaignLink.claim ? (
+                                <button onClick={() => handleClaimClick('campaignLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
+                                    Claim 100 bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.campaignLink.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            onClick={() => handleGoClick('campaignLink')}
+                                        >
+                                            Go
+                                        </button>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            onClick={() => handleCheckClick('campaignLink')}
+                                        >
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+
+                    ) : (null)}
+
+
+                      {/* register  */}
+
+                      {data.registerLink ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p>Complete the Registration</p>
+                            {claimButtonsState.registerLink.claim ? (
+                                <button onClick={() => handleClaimClick('registerLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
+                                    Claim 100 bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.registerLink.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            onClick={() => handleGoClick('registerLink')}
+                                        >
+                                            Go
+                                        </button>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            onClick={() => handleCheckClick('registerLink')}
+                                        >
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+
+                    ) : (null)}
+
 
                     {/* Instagram */}
                     {data.companyInstagram ? (
@@ -997,39 +1196,41 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     ) : (null)}
 
 
-{data.category === "social" && (
-    <>
-        {!allTasksCompleted ? (
-            <form
-                className="flex items-center gap-4 rounded-lg shadow-lg justify-between w-full"
-                onSubmit={handleSubmit}
-            >
-                <input
-                    type="text"
-                    id="walletAddress"
-                    value={walletAddress}
-                    onChange={(e) => setWalletAddress(e.target.value)} // Update walletAddress state on change
-                    placeholder={`Enter your ${data.addressType} address`}
-                    className="px-2 py-2 w-full text-white bg-gray-900 rounded-md max-w-48 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-                <button
-                    type="submit"
-                    className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 text-xs w-[12rem] font-bold rounded-lg hover:bg-purple-600"
-                >
-                    Submit
-                </button>
-            </form>
-        ) : (
-            <div className="flex items-center gap-4 rounded-lg shadow-lg justify-center w-full">
-                <button
-                    className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 text-xs font-semibold rounded-lg hover:bg-purple-600 w-full"
-                >
-                    Wallet address submitted
-                </button>
-            </div>
-        )}
-    </>
-)}
+                    {/* {data.category === "social" && ( */}
+                    {/* <> */}
+                    {!allTasksCompleted ? (
+                        <form
+                            className="flex items-center gap-4 rounded-lg shadow-lg justify-between w-full"
+                            onSubmit={handleSubmit}
+                        >
+                            <input
+                                type="text"
+                                id="walletAddress"
+                                value={walletAddress}
+                                onChange={(e) => setWalletAddress(e.target.value)} // Update walletAddress state on change
+                                placeholder={`Enter your ${data.addressType} address`}
+                                className="px-2 py-2 w-full text-white bg-gray-900 rounded-md max-w-48 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            />
+                            <button
+                                type="submit"
+                                className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 text-xs w-[12rem] font-bold rounded-lg hover:bg-purple-600"
+                            >
+                                Submit
+                            </button>
+                        </form>
+                    ) : (
+                        <div className="flex items-center gap-4 rounded-lg shadow-lg justify-center w-full">
+                            <button
+                                className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 text-xs font-semibold rounded-lg hover:bg-purple-600 w-full"
+                            >
+                                Wallet address submitted
+                            </button>
+                        </div>
+                    )}
+                    {/* </> */}
+                    {/* )} */}
+
+
 
 
                     {data.referralLink ? (<button onClick={handleShare} className='flex justify-center items-center  gap-6 border border-[1px]-white rounded-lg py-2'>Share and get referral bonus <FaShare /></button>

@@ -26,6 +26,11 @@ const AdminDashboard = () => {
 
         companytelegramChatInvite: '', // Reset Telegram chat invite link
         companyTelegramAnnInvite: '', // Reset Telegram announcement invite link
+        postLink: '', // post link
+        appLink: '', // app link
+        taskLink: '', // task link
+        campaignLink: '', // campaign link
+        registerLink: '', // register link
         companyTwitter: '',
         companyFacebook: '',
         companyInstagram: '',
@@ -73,6 +78,12 @@ const AdminDashboard = () => {
 
                 companyTelegramChatInvite: formData.companytelegramChatInvite, // Store Telegram chat invite link
                 companyTelegramAnnInvite: formData.companyTelegramAnnInvite, // Store Telegram announcement invite link
+                postLink: formData.postLink, // Store Telegram announcement invite link
+                appLink: formData.appLink, // Store Telegram announcement invite link
+                taskLink: formData.taskLink, // Store Telegram announcement invite link
+                campaignLink: formData.campaignLink, // Store Telegram announcement invite link
+                registerLink: formData.registerLink, // Store Telegram announcement invite link
+
                 companyTwitter: formData.companyTwitter,
                 companyInstagram: formData.companyInstagram,
                 companyLinkedin: formData.companyLinkedin,
@@ -112,6 +123,11 @@ const AdminDashboard = () => {
 
                 companytelegramChatInvite: '', // Reset Telegram chat invite link
                 companyTelegramAnnInvite: '', // Reset Telegram announcement invite link
+                postLink: '', // Reset Telegram announcement invite link
+                appLink: '', // app link
+                taskLink: '', // task link
+                campaignLink: '', // campaign link
+                registerLink: '', // register link
                 companyTwitter: '',
                 companyFacebook: '',
                 companyInstagram: '',
@@ -170,7 +186,7 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2 w-40" htmlFor="category">Exchange Type<span className="text-red-500 ml-2">*</span></label>
+                    <label className="block text-sm font-medium mb-2 w-40" htmlFor="category">Category<span className="text-red-500 ml-2">*</span></label>
                     <select id="category" name="category" className="w-full px-1 py-2 bg-black text-white border border-transparent rounded-lg" value={formData.category} onChange={handleInputChange} required>
                         <option value="" className="bg-black text-black" disabled>Select a category</option>
                         <option value="social">Social</option>
@@ -179,7 +195,7 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2 w-40" htmlFor="addressType">Exchange Type<span className="text-red-500 ml-2">*</span></label>
+                    <label className="block text-sm font-medium mb-2 w-40" htmlFor="addressType">Wallet Address<span className="text-red-500 ml-2">*</span></label>
                     <select id="addressType" name="addressType" className="w-full px-1 py-2 bg-black text-white border border-transparent rounded-lg" value={formData.addressType} onChange={handleInputChange} required>
                         <option value="" className="bg-black text-black" disabled>Select an address type</option>
                         <option value="BEP-20">BEP-20</option>
@@ -336,6 +352,47 @@ const AdminDashboard = () => {
                         placeholder='Client Telegram Announcement Link'
                         name="companyTelegramAnnInvite"
                         value={formData.companyTelegramAnnInvite}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Client Post Link"
+                        name="postLink"
+                        value={formData.postLink}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Client app Link"
+                        name="appLink"
+                        value={formData.appLink}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Client task Link"
+                        name="taskLink"
+                        value={formData.taskLink}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Campaign Link"
+                        name="campaignLink"
+                        value={formData.campaignLink}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Registration Link"
+                        name="registerLink"
+                        value={formData.registerLink}
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded bg-black mb-2"
                     />
