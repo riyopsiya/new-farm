@@ -8,9 +8,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
-  const userId = 1337182007;
+  // const userId = 1337182007;
   // const userId = 1751474467;
-  // const userId = userInfo?.id ;
+  const userId = userInfo?.id ;
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState([]);
   const [bountyAmount, setBountyAmount] = useState(null);
