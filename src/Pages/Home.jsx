@@ -8,9 +8,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
-  // const userId = 1337182007;
+  const userId = 1337182007;
   // const userId = 1751474467;
-  const userId = userInfo?.id ;
+  // const userId = userInfo?.id ;
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState([]);
   const [bountyAmount, setBountyAmount] = useState(null);
@@ -211,42 +211,37 @@ useEffect(() => {
     localStorage.setItem("isFarming", true);
     localStorage.setItem("timeLeft", initialTime); // Store the initial time left
   };
-
   useEffect(() => {
     const savedStartTime = localStorage.getItem("startTime");
-    const lastSavedTime = localStorage.getItem("lastSaved");
     const isFarmingActive = localStorage.getItem("isFarming") === "true";
     const initialTimeLeft = parseInt(localStorage.getItem("timeLeft"), 10);
-
+  
     if (isFarmingActive && savedStartTime) {
       const currentTime = Date.now();
-      const elapsedTime = Math.floor((currentTime - parseInt(lastSavedTime, 10)) / 1000); // Calculate elapsed time in seconds
-
+      const elapsedTime = Math.floor((currentTime - parseInt(savedStartTime, 10)) / 1000); // Elapsed time in seconds
+  
       console.log("Elapsed time in seconds:", elapsedTime);
-
-      // Calculate total coins earned based on elapsed time
-
-      // const totalCoinsEarned = calculatePerSecondEarning(bountyAmount) * elapsedTime;
-      // console.log("Coins earned during inactivity:", totalCoinsEarned);
-     
-// saveUserData(bountyAmountRef.current+ totalCoinsEarned)
-
-
-      // Update the bounty amount with the earned coins
-      // console.log(user)
-      // setBountyAmount((prevBounty) => prevBounty + totalCoinsEarned);
-      // setBountyAmount(bountyAmount + totalCoinsEarned);
-
-      // Calculate the remaining time
+  
+      // Calculate remaining time based on elapsed time
       const remainingTime = Math.max(0, initialTimeLeft - elapsedTime);
-      setTimeLeft(remainingTime);
-
-      // Reset farming if the remaining time is zero
-      if (remainingTime === 0) {
-        resetFarming();
+      
+      // If time is left, continue the timer with the remaining time; otherwise, reset farming
+      if (remainingTime > 0) {
+        setTimeLeft(remainingTime);
+      } else {
+        resetFarming(); // This should handle resetting taps and bounty if the timer completes
       }
+  
+      // Calculate total coins earned during inactivity
+      const totalCoinsEarned = calculatePerSecondEarning(bountyAmount) * elapsedTime;
+      console.log("Coins earned during inactivity:", totalCoinsEarned);
+      saveUserData(bountyAmountRef.current + totalCoinsEarned);
+  
+      // Update bounty amount with earned coins
+      setBountyAmount((prevBounty) => prevBounty + totalCoinsEarned);
     }
   }, []);
+  
 
 
 
