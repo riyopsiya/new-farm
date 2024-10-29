@@ -119,7 +119,7 @@ useEffect(() => {
   if (isFarmingActive && lastSavedTime) {
     // Calculate elapsed time since last save
     const currentTime = Date.now();
-    const elapsedTime = Math.floor((currentTime - lastSavedTime) / 1000);
+    const elapsedTime = Math.floor((currentTime - savedTimeLeft) / 1000);
 
     // Calculate coins earned during the time app was closed
     const offlineCoinsEarned = calculatePerSecondEarning(savedBountyAmount) * elapsedTime;
