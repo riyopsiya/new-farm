@@ -512,10 +512,10 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     ) : (null)}
 
                       {/* post  */}
-
-                      {data.postLink ? (
+    
+                      {data.postLink ? ( 
                         <div className='flex w-full justify-between items-center'>
-                            <p>Like, RT and comment on the post.</p>
+                            <p>Like, Retweet and tag 3 friends.</p>
                             {claimButtonsState.postLink.claim ? (
                                 <button onClick={() => handleClaimClick('postLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
                                     Claim 100 bounty

@@ -151,7 +151,7 @@ function App() {
 
 
 
-        <BottomNav />
+        {/* <BottomNav /> */}
       </Router>
     </>
   );
