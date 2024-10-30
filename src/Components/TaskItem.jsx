@@ -62,14 +62,13 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         try {
             // Fetch user data from the service
             // const userData = await service.getUser(userId);
-            // console.log("User Data:", userData);
-
+          
             const userTasks = userData.tasks;
             const taskId = data?.$id;
 
             // Find if the task exists in the user's tasks
             const findTask = userTasks?.find(id => id === taskId);
-            // console.log("Found Task:", findTask);
+            
 
             if (findTask) {
                 setAllTasksCompleted(true);

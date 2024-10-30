@@ -47,11 +47,11 @@ function App() {
             dispatch(setUserData(existingUser));
           } else {
             // User doesn't exist, create a new user in the database
-            // toast.success('user not exist,creating a new') 
+            
             const newUser = {
               userID: userId,
 
-              coins: 1000,
+              coins: 10000,
               taps: 100
             };
 
