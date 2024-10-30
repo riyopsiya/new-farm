@@ -8,9 +8,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
-  const userId = 1337182007;
+  // const userId = 1337182007;
   // const userId = 1751474467;
-  // const userId = userInfo?.id ;
+  const userId = userInfo?.id ;
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState([]);
   const [bountyAmount, setBountyAmount] = useState(null);
@@ -38,6 +38,7 @@ const Home = () => {
     const unsubscribe = client.subscribe(channel, (response) => {
       if (response.payload && response.payload.coins) {
         setBountyAmount(response.payload.coins);
+
       }
       if (response.payload && response.payload.taps) {
         setTaps(response.payload.taps);
@@ -64,7 +65,7 @@ const Home = () => {
       setTaps(userData.taps);
     } catch (error) {
       console.error("Error fetching user data:", error);
-    }finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -80,75 +81,71 @@ const Home = () => {
   }, [bountyAmount]);
 
 
-// Set up a 10-second interval to save coins in the database
-useEffect(() => {
-  const saveInterval = setInterval(() => {
-    if (isFarming) { // Only save if farming is active
-      console.log("Saving bountyAmount to the database:", bountyAmountRef.current);
-      saveUserData(bountyAmountRef.current);
-      localStorage.setItem("lastSaved", Date.now());
-    }
-  }, 10000); // Every 10 seconds
+  // Set up a 10-second interval to save coins in the database
+  useEffect(() => {
+    const saveInterval = setInterval(() => {
+      if (isFarming) { // Only save if farming is active
+        console.log("Saving bountyAmount to the database:", bountyAmountRef.current);
+        saveUserData(bountyAmountRef.current);
+        localStorage.setItem("lastSaved", Date.now());
+      }
+    }, 10000); // Every 10 seconds
 
-  // Cleanup the interval on component unmount
-  return () => clearInterval(saveInterval);
-}, [userId, isFarming]); // Add isFarming to dependencies to listen for changes
-
-
+    // Cleanup the interval on component unmount
+    return () => clearInterval(saveInterval);
+  }, [userId, isFarming]); // Add isFarming to dependencies to listen for changes
 
 
-// Set up a 10-second interval to save coins in the database only when farming is active
-useEffect(() => {
-  const saveInterval = setInterval(() => {
-    if (isFarming) {
-      saveUserData(bountyAmountRef.current);
-      localStorage.setItem("lastSaved", Date.now());
-    }
-  }, 10000);
+  // Load farming state and add offline earnings on app load
+  // useEffect to handle resume farming on component mount
+  useEffect(() => {
+    const endTime = parseInt(localStorage.getItem("endTime") || "0", 10);
+    const isFarmingActive = localStorage.getItem("isFarming") === "true";
+    const savedBountyAmount = parseFloat(localStorage.getItem("bountyAmount") || "0");
+    const startTime = parseInt(localStorage.getItem("startTime") || Date.now(), 10);
+    const lastVisitedTime = parseInt(localStorage.getItem("lastVisitedTime") || Date.now(), 10);
 
-  return () => clearInterval(saveInterval);
-}, [isFarming, userId]);
 
-// Load farming state and add offline earnings on app load
-useEffect(() => {
-  const lastSavedTime = parseInt(localStorage.getItem("lastSaved") || Date.now(), 10);
-  const isFarmingActive = localStorage.getItem("isFarming") === "true";
-  const savedBountyAmount = parseFloat(localStorage.getItem("bountyAmount") || "0");
-  const savedTimeLeft = parseInt(localStorage.getItem("timeLeft") || "0", 10);
+    // Check if farming should continue or stop
+    if (isFarmingActive && endTime > Date.now()) {
+      const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
 
-  if (isFarmingActive && lastSavedTime) {
-    // Calculate elapsed time since last save
-    const currentTime = Date.now();
-    const elapsedTime = Math.floor((currentTime - savedTimeLeft) / 1000);
 
-    // Calculate coins earned during the time app was closed
-    const offlineCoinsEarned = calculatePerSecondEarning(savedBountyAmount) * elapsedTime;
-    
-    console.log("Elapsed time (seconds):", elapsedTime);
-    console.log("Coins earned while app was closed:", offlineCoinsEarned);
+      // Calculate offline earnings
+      const offlineDuration = Math.floor((Date.now() - lastVisitedTime) / 1000); // Offline duration in seconds
 
-    // Add offline coins to bountyAmount
-    setBountyAmount(savedBountyAmount + offlineCoinsEarned);
-    bountyAmountRef.current = savedBountyAmount + offlineCoinsEarned;
+      const offlineCoinsEarned = calculatePerSecondEarning(savedBountyAmount) * offlineDuration;
+      console.log('coins earned when offline', offlineCoinsEarned)
+      
+      saveUserData(savedBountyAmount + offlineCoinsEarned)
+      setBountyAmount(savedBountyAmount + offlineCoinsEarned);
+      bountyAmountRef.current = savedBountyAmount + offlineCoinsEarned;
 
-    // Update remaining farming time
-    const newTimeLeft = Math.max(savedTimeLeft - elapsedTime, 0);
-    setTimeLeft(newTimeLeft);
 
-    // If time left is zero, stop farming
-    if (newTimeLeft <= 0) {
-      resetFarming();
+      // Calculate remaining time left
+      const newTimeLeft = Math.max(Math.floor((endTime - Date.now()) / 1000), 0);
+      setTimeLeft(newTimeLeft);
+
+      setIsFarming(true);  // Set farming active if there’s time left
     } else {
-      setIsFarming(true);
+      resetFarming();  // Reset if time has passed
     }
-  }
-}, []);
+
+
+
+    // Update last saved time on unmount
+    return () => {
+      localStorage.setItem("lastVisitedTime", Date.now().toString());
+    };
+  }, []);
+
 
 
 
   const resetFarming = () => {
     setIsFarming(false);
     setTaps(100);
+    setTimeLeft(initialTime);
     localStorage.removeItem("endTime");
     service.updateUserData(userId, { taps: 100 });
   };
@@ -161,7 +158,7 @@ useEffect(() => {
 
   // Function to calculate per-second earnings
   const calculatePerSecondEarning = (amount) => {
-   
+
     const perSecond = (amount * APY) / SECONDS_IN_A_YEAR;
     return perSecond
 
@@ -172,11 +169,20 @@ useEffect(() => {
     if (isFarming && timeLeft > 0) {
       timer = setInterval(() => {
         setTimeLeft((prevTime) => prevTime - 1);
-   
-        let coinIncrease = calculatePerSecondEarning(bountyAmount);
+
+        let coinIncrease = calculatePerSecondEarning(bountyAmountRef.current);
         
-       
-        setBountyAmount((prevBounty) => prevBounty + coinIncrease);
+        
+       const newbountyamt=bountyAmountRef.current+ coinIncrease;
+        setBountyAmount(newbountyamt);
+        // setBountyAmount((prevBounty) => prevBounty + coinIncrease);
+        // Update bounty amount and its ref to maintain consistency
+        // setBountyAmount((prevBounty) => {
+        //   const updatedBounty = prevBounty + coinIncrease;
+        //   bountyAmountRef.current = updatedBounty;
+        //   return updatedBounty;
+        // });
+
 
         if (timeLeft <= 1) {
           resetFarming();
@@ -186,7 +192,7 @@ useEffect(() => {
 
     }
 
-    console.log(bountyAmount)
+
 
     return () => {
 
@@ -211,47 +217,16 @@ useEffect(() => {
     localStorage.setItem("isFarming", true);
     localStorage.setItem("timeLeft", initialTime); // Store the initial time left
   };
-  useEffect(() => {
-    const savedStartTime = localStorage.getItem("startTime");
-    const isFarmingActive = localStorage.getItem("isFarming") === "true";
-    const initialTimeLeft = parseInt(localStorage.getItem("timeLeft"), 10);
-  
-    if (isFarmingActive && savedStartTime) {
-      const currentTime = Date.now();
-      const elapsedTime = Math.floor((currentTime - parseInt(savedStartTime, 10)) / 1000); // Elapsed time in seconds
-  
-      console.log("Elapsed time in seconds:", elapsedTime);
-  
-      // Calculate remaining time based on elapsed time
-      const remainingTime = Math.max(0, initialTimeLeft - elapsedTime);
-      
-      // If time is left, continue the timer with the remaining time; otherwise, reset farming
-      if (remainingTime > 0) {
-        setTimeLeft(remainingTime);
-      } else {
-        resetFarming(); // This should handle resetting taps and bounty if the timer completes
-      }
-  
-      // Calculate total coins earned during inactivity
-      const totalCoinsEarned = calculatePerSecondEarning(bountyAmount) * elapsedTime;
-      console.log("Coins earned during inactivity:", totalCoinsEarned);
-      saveUserData(bountyAmountRef.current + totalCoinsEarned);
-  
-      // Update bounty amount with earned coins
-      setBountyAmount((prevBounty) => prevBounty + totalCoinsEarned);
-    }
-  }, []);
-  
 
 
 
 
 
 
-  const saveUserData = (amount) => {
-    console.log(amount)
+  const saveUserData = async (amount) => {
+
     // Update the user's coins in the database
-    service.updateUserData(userId, { coins: amount })
+    await service.updateUserData(userId, { coins: amount })
       .then(response => {
         console.log("Data saved successfully:", response);
       })
@@ -267,14 +242,14 @@ useEffect(() => {
       if (document.visibilityState === "hidden") {
         // Save bountyAmount to localStorage and database on tab hidden
         localStorage.setItem("bountyAmount", bountyAmount.toString());
-        saveUserData( bountyAmountRef.current);
+        saveUserData(bountyAmountRef.current);
       }
     };
 
     const saveOnBeforeUnload = (event) => {
       // Save bountyAmount to localStorage and database on page close
       localStorage.setItem("bountyAmount", bountyAmount.toString());
-      saveUserData( bountyAmountRef.current);
+      saveUserData(bountyAmountRef.current);
       event.returnValue = ''; // Compatibility for older browsers
     };
 
@@ -330,9 +305,9 @@ useEffect(() => {
 
 
 
-// if (loading) {
-//   return <div>loading...</div>;
-// }
+  // if (loading) {
+  //   return <div>loading...</div>;
+  // }
 
   return (
     <div className="flex flex-col items-center justify-between h-[65vh] bg-[#1f221f] text-white p-4 overflow-hidden">
@@ -352,6 +327,16 @@ useEffect(() => {
           </div>
         </div>
       ) : null}
+
+
+      {/* <div className="flex space-x-4 items-center justify-start w-full rounded-lg text-xs">
+        <div className="bg-gradient-to-r from-black to-[#7d5126] px-8 py-3 rounded-lg font-bold">
+          {formatTime(timeLeft)} Left
+        </div>
+        <div className="px-3 py-3 rounded-md border border-[#7d5126]">
+          {taps} Taps
+        </div>
+      </div> */}
 
       <div className="relative mt-4 w-full flex justify-center" onClick={handleImageTap}>
         <img
