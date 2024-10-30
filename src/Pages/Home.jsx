@@ -113,7 +113,7 @@ const Home = () => {
 
       // Calculate offline earnings
       const offlineDuration = Math.floor((Date.now() - lastVisitedTime) / 1000); // Offline duration in seconds
-
+console.log('offline duration',offlineDuration)
       const offlineCoinsEarned = calculatePerSecondEarning(savedBountyAmount) * offlineDuration;
       console.log('coins earned when offline', offlineCoinsEarned)
       
@@ -173,9 +173,9 @@ const Home = () => {
         let coinIncrease = calculatePerSecondEarning(bountyAmountRef.current);
         
         
-       const newbountyamt=bountyAmountRef.current+ coinIncrease;
-        setBountyAmount(newbountyamt);
-        // setBountyAmount((prevBounty) => prevBounty + coinIncrease);
+      //  const newbountyamt=bountyAmountRef.current+ coinIncrease;
+        // setBountyAmount(newbountyamt);
+        setBountyAmount((prevBounty) => prevBounty + coinIncrease);
         // Update bounty amount and its ref to maintain consistency
         // setBountyAmount((prevBounty) => {
         //   const updatedBounty = prevBounty + coinIncrease;
