@@ -570,18 +570,47 @@ const Home = () => {
     };
   }, [userId]);
 
+  // const handleImageTap = async () => {
+  //   if (taps > 0) {
+  //     const newAmount = bountyAmount + 1;
+  //     setBountyAmount(newAmount);
+  //     setTaps(taps - 1);
+  //     try {
+  //       await service.updateUserData(userId, { coins: newAmount, taps: taps - 1 });
+  //     } catch (error) {
+  //       console.error("Error updating coins and taps in Appwrite:", error);
+  //     }
+  //   }
+  // };
+
+  
+  // Handle image tap
   const handleImageTap = async () => {
     if (taps > 0) {
       const newAmount = bountyAmount + 1;
+      const newTaps = taps - 1;
+
       setBountyAmount(newAmount);
-      setTaps(taps - 1);
+      setTaps(newTaps);
+
       try {
-        await service.updateUserData(userId, { coins: newAmount, taps: taps - 1 });
+        await service.updateUserData(userId, { coins: newAmount, taps: newTaps });
       } catch (error) {
         console.error("Error updating coins and taps in Appwrite:", error);
       }
+
+      // Floating +1 animation
+      const randomX = Math.random() * 50 + 25;
+      const randomY = Math.random() * 40 + 10;
+      setFloatingPlusPosition({ x: randomX, y: randomY });
+
+      setTimeout(() => {
+        setFloatingPlusPosition(null);
+      }, 1000);
     }
   };
+
+
 
   const formatTime = (seconds) => {
     const h = Math.floor(seconds / 3600);
