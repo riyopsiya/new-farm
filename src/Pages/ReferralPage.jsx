@@ -8,7 +8,7 @@ const ReferralPage = () => {
     const handleInviteClick = () => {
         const referralCode = userData?.referralCode;
         const appInviteLink = "http://t.me/notcoincollablybot/notcoinbot"; // Replace with your actual invite link
-        const message = `🚀 Join me on Bounty Tap and start earning rewards!\n\n🔗 App Link: ${appInviteLink}\n\n💰 Use my referral code to get started: ${referralCode}\n\nTap here to copy the referral code: https://t.me/share/url?url=${encodeURIComponent(referralCode)}`;
+        const message = `🚀 Join me on Bounty Tap and start earning rewards!\n\n🔗 App Link: ${appInviteLink}\n\n💰 Use my referral code to get started: ${referralCode}`;
     
         if (window.Telegram?.WebApp) {
             window.Telegram.WebApp.openLink(`https://t.me/share/url?url=${encodeURIComponent(message)}`);
