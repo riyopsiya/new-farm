@@ -38,7 +38,7 @@ const Home = () => {
     const unsubscribe = client.subscribe(channel, (response) => {
       if (response.payload && response.payload.coins) {
         setBountyAmount(response.payload.coins);
-
+        bountyAmountRef.current = response.payload.coins;
       }
       if (response.payload && response.payload.taps) {
         setTaps(response.payload.taps);
@@ -62,6 +62,7 @@ const Home = () => {
       console.log(userData)
       setUser(userData);
       setBountyAmount(userData.coins);
+      bountyAmountRef.current = userData.coins;
       setTaps(userData.taps);
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -75,10 +76,10 @@ const Home = () => {
   }, []);
 
 
-  // Update the ref whenever bountyAmount changes
-  useEffect(() => {
-    bountyAmountRef.current = bountyAmount;
-  }, [bountyAmount]);
+  // // Update the ref whenever bountyAmount changes
+  // useEffect(() => {
+  //   bountyAmountRef.current = bountyAmount;
+  // }, [bountyAmount]);
 
 
   // Set up a 10-second interval to save coins in the database
