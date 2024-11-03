@@ -51,7 +51,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         companyWebsite: { claim: true, claimed: false, goClicked: false, link: data.companyWebsite },
 
     });
- 
+
 
     const [hasJoinedChat, setHasJoinedChat] = useState(false);
     const [hasJoinedAnn, setHasJoinedAnn] = useState(false);
@@ -62,13 +62,13 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         try {
             // Fetch user data from the service
             // const userData = await service.getUser(userId);
-          
+
             const userTasks = userData.tasks;
             const taskId = data?.$id;
 
             // Find if the task exists in the user's tasks
             const findTask = userTasks?.find(id => id === taskId);
-            
+
 
             if (findTask) {
                 setAllTasksCompleted(true);
@@ -188,21 +188,21 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
             window.open(data.companyMedium, '_blank');
         } else if (key === 'companyWebsite') {
             window.open(data.companyWebsite, '_blank');
-            
-        }else if (key === 'postLink') {
+
+        } else if (key === 'postLink') {
             window.open(data.postLink, '_blank');
-        }else if (key === 'appLink') {
+        } else if (key === 'appLink') {
             window.open(data.appLink, '_blank');
-        }else if (key === 'taskLink') {
+        } else if (key === 'taskLink') {
             window.open(data.taskLink, '_blank');
-        }else if (key === 'campaignLink') {
+        } else if (key === 'campaignLink') {
             window.open(data.campaignLink, '_blank');
-        }else if (key === 'registerLink') {
+        } else if (key === 'registerLink') {
             window.open(data.registerLink, '_blank');
         }
 
 
-      
+
 
         // // Enable "Check" button after "Go" is clicked
 
@@ -510,9 +510,9 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
 
                     ) : (null)}
 
-                      {/* post  */}
-    
-                      {data.postLink ? ( 
+                    {/* post  */}
+
+                    {data.postLink ? (
                         <div className='flex w-full justify-between items-center'>
                             <p>Like, Retweet and tag 3 friends.</p>
                             {claimButtonsState.postLink.claim ? (
@@ -546,9 +546,9 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     ) : (null)}
 
 
-                      {/* task  */}
+                    {/* task  */}
 
-                      {data.taskLink ? (
+                    {data.taskLink ? (
                         <div className='flex w-full justify-between items-center'>
                             <p>Complete the task.</p>
                             {claimButtonsState.taskLink.claim ? (
@@ -582,9 +582,9 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     ) : (null)}
 
 
-                      {/* campaign  */}
+                    {/* campaign  */}
 
-                      {data.campaignLink ? (
+                    {data.campaignLink ? (
                         <div className='flex w-full justify-between items-center'>
                             <p>Participate in campaign</p>
                             {claimButtonsState.campaignLink.claim ? (
@@ -618,9 +618,9 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     ) : (null)}
 
 
-                      {/* register  */}
+                    {/* register  */}
 
-                      {data.registerLink ? (
+                    {data.registerLink ? (
                         <div className='flex w-full justify-between items-center'>
                             <p>Complete the Registration</p>
                             {claimButtonsState.registerLink.claim ? (

@@ -20,7 +20,7 @@ const Social = () => {
   const isTaskExpired = (task) => {
     const currentTime = Date.now();
     const taskCreatedTime = new Date(task.$createdAt).getTime();
-    const durationInMs = parseInt(task.taskDuration, 10) * 60 * 1000;
+    const durationInMs = parseInt(task.taskDuration, 10) * 60 * 60* 1000;
 
     return currentTime - taskCreatedTime >= durationInMs;
   };
@@ -29,7 +29,7 @@ const Social = () => {
   const isWithinGracePeriod = (task) => {
     const currentTime = Date.now();
     const taskCreatedTime = new Date(task.$createdAt).getTime();
-    const durationInMs = parseInt(task.taskDuration, 10) * 60 * 1000;
+    const durationInMs = parseInt(task.taskDuration, 10) * 60 * 60 * 1000;
     const gracePeriodInMs = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
 
     // Check if the current time is within 30 days after the task expiry
@@ -42,6 +42,7 @@ const Social = () => {
       task => userTasks?.includes(task.$id) && isWithinGracePeriod(task)
     ) || [];
     const notCompleted = socialTasksData?.filter(
+     
       task => !userTasks?.includes(task.$id) && !isTaskExpired(task)
     ) || [];
 

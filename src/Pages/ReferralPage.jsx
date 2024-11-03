@@ -1,6 +1,23 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 const ReferralPage = () => {
+
+    const { userData } = useSelector((state) => state.user);
+    
+    // Function to handle inviting friends by sharing the referral link
+    const handleInviteClick = () => {
+        const referralCode=userData?.referralCode
+        const message = `Join Bounty Tap and start earning! Use my referral code: ${referralCode}`;
+        
+        // Open Telegram's share interface with the message
+        if (window.Telegram?.WebApp) {
+            window.Telegram.WebApp.openLink(`https://t.me/share/url?url=${encodeURIComponent(message)}`);
+        } else {
+            console.log("Telegram WebApp not available.");
+        }
+    };
+
     return (
         <div className=" text-white min-h-screen p-6 flex flex-col items-center justify-start gap-8">
 
@@ -42,7 +59,7 @@ const ReferralPage = () => {
             </div>
 
             {/* Invite button */}
-            <button className="bg-gradient-to-r from-black to-[#7d5126] text-white font-semibold py-2 px-4 rounded-md w-full">
+            <button  onClick={handleInviteClick} className="bg-gradient-to-r from-black to-[#7d5126] text-white font-semibold py-2 px-4 rounded-md w-full">
                 Invite Your Friends
             </button>
 
