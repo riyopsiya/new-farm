@@ -54,7 +54,7 @@ function App() {
             // User doesn't exist, check for referral code in the URL
             const urlParams = new URLSearchParams(window.location.search);
             const referralCode = urlParams.get('referralCode'); // Use the correct key for your referral code
-
+         toast.success(referralCode)
             if (referralCode) {
               handleNewUserWithReferral(userId, referralCode);
             } else {
