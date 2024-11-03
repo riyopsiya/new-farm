@@ -55,10 +55,8 @@ function App() {
             // const urlParams = new URLSearchParams(window.location.search);
             const referralCode = window.Telegram.WebApp.initDataUnsafe?.start_param; // Use the correct key for your referral code
             if (referralCode) {
-              toast.success('refer code is found')
               handleNewUserWithReferral(userId, referralCode);
             } else {
-              toast.error('refer code is not found')
               handleNewUser(userId);
             }
           }
@@ -90,7 +88,7 @@ function App() {
   const handleNewUserWithReferral = async (userId, referralCode) => {
     // Check if the referral code exists and belongs to a valid user
     const referrer = await service.getUserByReferralCode(referralCode);
-    console.log(referrer)
+    
     if (referrer) {
       // Create new user with bonus coins for both users
       const newUser = {
@@ -106,10 +104,10 @@ function App() {
       // Update the referrer with additional coins
       referrer.coins += 1000;
       await service.updateUserData(referrer.userID, { coins: referrer.coins });
-
+      toast.success("1000 coins Referral bonus recieved.")
       console.log("Referral bonus awarded to both users");
     } else {
-      alert("Invalid referral code. Creating new user without referral bonus.");
+
       handleNewUser(userId);
     }
   };
