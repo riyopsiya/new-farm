@@ -53,7 +53,7 @@ function App() {
           } else {
             // User doesn't exist, check for referral code in the URL
             // const urlParams = new URLSearchParams(window.location.search);
-            const referralCode = window.Telegram.WebApp.initDataUnsafe.start_param; // Use the correct key for your referral code
+            const referralCode = window.Telegram.WebApp.initDataUnsafe?.start_param; // Use the correct key for your referral code
             if (referralCode) {
               toast.success('refer code is found')
               handleNewUserWithReferral(userId, referralCode);
@@ -70,6 +70,8 @@ function App() {
       }
     } catch (error) {
       console.log(error);
+    }finally {
+      setLoading(false);
     }
   };
 
@@ -132,7 +134,7 @@ function App() {
   
     fetchUserData();
     fetchTasksData();
-  }, []);
+  }, [loading]);
 
   if (loading) {
     return (
