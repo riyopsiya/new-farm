@@ -4,6 +4,7 @@ import { IoMdCheckboxOutline } from "react-icons/io";
 import { IoIosRocket } from "react-icons/io";
 import { IoMdPerson } from "react-icons/io";
 import { NavLink } from 'react-router-dom';
+import { BiWallet } from 'react-icons/bi';
 
 const BottomNav = () => {
     return (
@@ -13,7 +14,7 @@ const BottomNav = () => {
                 <NavLink 
                     to={'/'} 
                     className={({ isActive }) => 
-                        `flex flex-col items-center ${isActive ? 'text-yellow-500' : ''}`}
+                        `flex flex-col items-center ${isActive ? 'text-[#e48f3a]' : ''}`}
                 >
                     <RiHome4Fill className='text-2xl' />
                     <span className="text-xs mt-1">Home</span>
@@ -23,7 +24,7 @@ const BottomNav = () => {
                 <NavLink 
                     to={'/tasks'} 
                     className={({ isActive }) => 
-                        `flex flex-col items-center ${isActive ? 'text-yellow-500' : ''}`}
+                        `flex flex-col items-center ${isActive ? 'text-[#e48f3a]' : ''}`}
                 >
                     <IoMdCheckboxOutline className='text-2xl' />
                     <span className="text-xs mt-1">Tasks</span>
@@ -33,17 +34,17 @@ const BottomNav = () => {
                 <NavLink 
                     to={'/boost'} 
                     className={({ isActive }) => 
-                        `flex flex-col items-center ${isActive ? 'text-yellow-500' : ''}`}
+                        `flex flex-col items-center ${isActive ? 'text-[#e48f3a]' : ''}`}
                 >
-                    <IoIosRocket className='text-2xl' />
-                    <span className="text-xs mt-1">Boost</span>
+                    <BiWallet className='text-2xl' />
+                    <span className="text-xs mt-1">Wallet</span>
                 </NavLink>
 
                 {/* Invite */}
                 <NavLink 
                     to={'/referral'} 
                     className={({ isActive }) => 
-                        `flex flex-col items-center ${isActive ? 'text-yellow-500' : ''}`}
+                        `flex flex-col items-center ${isActive ? 'text-[#e48f3a]' : ''}`}
                 >
                     <IoMdPerson className='text-2xl' />
                     <span className="text-xs mt-1">Invite</span>

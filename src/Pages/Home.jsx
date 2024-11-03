@@ -118,7 +118,7 @@
 // console.log('saved bounty amt',savedBountyAmount)
 //       const offlineCoinsEarned = calculatePerSecondEarning(savedBountyAmount) * offlineDuration;
 //       console.log('coins earned when offline', offlineCoinsEarned)
-      
+
 //       saveUserData(savedBountyAmount + offlineCoinsEarned)
 //       setBountyAmount(savedBountyAmount + offlineCoinsEarned);
 //       bountyAmountRef.current = savedBountyAmount + offlineCoinsEarned;
@@ -173,8 +173,8 @@
 //         setTimeLeft((prevTime) => prevTime - 1);
 
 //         let coinIncrease = calculatePerSecondEarning(bountyAmountRef.current);
-        
-        
+
+
 //       //  const newbountyamt=bountyAmountRef.current+ coinIncrease;
 //         // setBountyAmount(newbountyamt);
 //         setBountyAmount((prevBounty) => prevBounty + coinIncrease);
@@ -407,8 +407,8 @@ const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
   // const userId = 1337182007; // This could be dynamic
-    // const userId = 1751474467;
-  const userId = userInfo?.id ;
+  // const userId = 1751474467;
+  const userId = userInfo?.id;
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
   const [bountyAmount, setBountyAmount] = useState(0);
@@ -486,9 +486,9 @@ const Home = () => {
 
     if (isFarmingActive && endTime > Date.now()) {
       const offlineDuration = Math.floor((Date.now() - lastVisitedTime) / 1000);
-      console.log('offline duration',offlineDuration)
+      console.log('offline duration', offlineDuration)
       const offlineCoinsEarned = calculatePerSecondEarning(savedBountyAmount) * offlineDuration;
-      console.log('offline coins earned',offlineCoinsEarned)
+      console.log('offline coins earned', offlineCoinsEarned)
       setBountyAmount(savedBountyAmount + offlineCoinsEarned);
       saveUserData(savedBountyAmount + offlineCoinsEarned);
       setTimeLeft(Math.max(Math.floor((endTime - Date.now()) / 1000), 0));
@@ -558,7 +558,7 @@ const Home = () => {
     const saveOnBeforeUnload = (event) => {
       localStorage.setItem("bountyAmount", bountyAmountRef.current.toString());
       saveUserData(bountyAmountRef.current);
-      event.returnValue = ''; 
+      event.returnValue = '';
     };
 
     document.addEventListener("visibilitychange", saveOnVisibilityChange);
@@ -583,7 +583,7 @@ const Home = () => {
   //   }
   // };
 
-  
+
   // Handle image tap
   const handleImageTap = async () => {
     if (taps > 0) {
@@ -622,8 +622,11 @@ const Home = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="flex flex-col items-center justify-between h-[65vh] bg-[#1f221f] text-white p-4 overflow-hidden">
-   {userInfo.first_name || userInfo.username ? (
+    <div className=" flex flex-col items-center justify-between h-[65vh] bg-[#1f221f] text-white p-4 overflow-hidden">
+       
+       {/* <div className='absolute -z-10  bg-gradient-to-tr from-black via-[#7d5126] to-black top-4  blur-3xl opacity-100 rounded-full h-96  w-24 lg:w-96'></div> */}
+
+      {userInfo.first_name || userInfo.username ? (
         <div className="w-full flex flex-col text-left px-4 gap-4">
           <h2 className="font-bold text-lg md:text-xl">
             Welcome, {userInfo.first_name || userInfo.username}!
