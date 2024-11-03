@@ -41,6 +41,27 @@ export class Service {
 
     //get existing user
 
+    async getUserByReferralCode(referralCode) {
+        try {
+            const result = await this.databases.listDocuments(
+                process.env.REACT_APP_APPWRITE_DATABASE_ID,
+                process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID, // Replace with your actual users collection ID
+                [Query.equal('referralCode', referralCode)] // Query to find user by referral code
+            );
+    
+            // Check if any documents were found
+            if (result.documents.length > 0) {
+                return result.documents[0]; // Return the first matching user
+            } else {
+                return null; // No user found with that referral code
+            }
+        } catch (error) {
+            console.log("Appwrite service :: getUserByReferralCode :: error", error);
+            return false; // Return false on error
+        }
+    }
+    
+
     async getUser(userId) {
         try {
             return await this.databases.getDocument(

@@ -87,7 +87,7 @@ function App() {
   const handleNewUserWithReferral = async (userId, referralCode) => {
     // Check if the referral code exists and belongs to a valid user
     const referrer = await service.getUserByReferralCode(referralCode);
-
+    console.log(referrer)
     if (referrer) {
       // Create new user with bonus coins for both users
       const newUser = {
@@ -113,6 +113,7 @@ function App() {
 
   const fetchTasksData = async () => {
     try {
+   
       const socialTasks = await service.getAllData('social');
       if (socialTasks?.documents) {
         dispatch(setSocialTasks(socialTasks?.documents));
@@ -127,6 +128,7 @@ function App() {
   };
 
   useEffect(() => {
+  
     fetchUserData();
     fetchTasksData();
   }, []);
