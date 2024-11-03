@@ -23,7 +23,19 @@ function App() {
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch();
 
+// Helper function to generate a unique referral code
+const generateReferralCode = () => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let code = '';
+  const codeLength = 8; // Length of the referral code, can be adjusted as needed
 
+  for (let i = 0; i < codeLength; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    code += characters[randomIndex];
+  }
+
+  return code;
+};
 
   const fetchUserData = async () => {
     try {
@@ -51,8 +63,9 @@ function App() {
             const newUser = {
               userID: userId,
 
-              coins: 10000,
-              taps: 100
+              coins: 1000,
+              taps: 100,
+              referralCode: generateReferralCode()
             };
 
             const createdUser = await service.createUser(newUser);
