@@ -486,15 +486,21 @@ const Home = () => {
 
     if (isFarmingActive && endTime > Date.now()) {
       const offlineDuration = Math.floor((Date.now() - lastVisitedTime) / 1000);
+      console.log('offline duration',offlineDuration)
       const offlineCoinsEarned = calculatePerSecondEarning(savedBountyAmount) * offlineDuration;
+      console.log('offline coins earned',offlineCoinsEarned)
       setBountyAmount(savedBountyAmount + offlineCoinsEarned);
+      saveUserData(savedBountyAmount + offlineCoinsEarned);
       setTimeLeft(Math.max(Math.floor((endTime - Date.now()) / 1000), 0));
       setIsFarming(true);
     } else {
       resetFarming();
     }
 
-    return () => localStorage.setItem("lastVisitedTime", Date.now().toString());
+    return () => {
+      localStorage.setItem("bountyAmount", bountyAmountRef.current.toString());
+      localStorage.setItem("lastVisitedTime", Date.now().toString());
+    }
   }, []);
 
   const resetFarming = () => {
