@@ -54,10 +54,11 @@ function App() {
             // User doesn't exist, check for referral code in the URL
             const urlParams = new URLSearchParams(window.location.search);
             const referralCode = urlParams.get('referralCode'); // Use the correct key for your referral code
-         toast.success(referralCode)
             if (referralCode) {
+              toast.success('refer code is found')
               handleNewUserWithReferral(userId, referralCode);
             } else {
+              toast.error('refer code is not found')
               handleNewUser(userId);
             }
           }
@@ -102,7 +103,7 @@ function App() {
 
       // Update the referrer with additional coins
       referrer.coins += 1000;
-      await service.updateUser(referrer.userID, { coins: referrer.coins });
+      await service.updateUserData(referrer.userID, { coins: referrer.coins });
 
       console.log("Referral bonus awarded to both users");
     } else {
