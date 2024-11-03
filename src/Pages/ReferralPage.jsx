@@ -11,10 +11,10 @@ const ReferralPage = () => {
 
         if (window.Telegram?.WebApp) {
             // Open the Telegram share link directly
-            window.Telegram.WebApp.openLink(`https://t.me/share/url?url=${encodeURIComponent(appInviteLink)}`);
+            window.Telegram.WebApp.openLink(`https://t.me/share/url?url=${encodeURIComponent(message)}`);
         } else {
             // Fallback for environments not supporting Telegram WebApp
-            const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(appInviteLink)}&text=${encodeURIComponent(message)}`;
+            const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(message)}`;
             window.open(telegramShareUrl, '_blank');
         }
     };
