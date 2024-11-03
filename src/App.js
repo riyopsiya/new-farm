@@ -52,8 +52,8 @@ function App() {
             dispatch(setUserData(existingUser));
           } else {
             // User doesn't exist, check for referral code in the URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const referralCode = urlParams.get('referralCode'); // Use the correct key for your referral code
+            // const urlParams = new URLSearchParams(window.location.search);
+            const referralCode = window.Telegram.WebApp.initDataUnsafe.start_param; // Use the correct key for your referral code
             if (referralCode) {
               toast.success('refer code is found')
               handleNewUserWithReferral(userId, referralCode);
