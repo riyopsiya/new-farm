@@ -8,9 +8,9 @@ import service from "../appwrite/database";
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
-  // const userId = 1337182007;
+  const userId = 1337182007;
   // const userId = 1751474467;
-  const userId = userInfo?.id;
+  // const userId = userInfo?.id;
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
   const [bountyAmount, setBountyAmount] = useState(1000);
@@ -96,37 +96,69 @@ const Home = () => {
     return () => clearInterval(saveInterval);
   }, [isFarming]);
 
+  // useEffect(() => {
+  //   const endTime = parseInt(localStorage.getItem("endTime") || "0", 10);
+  //   const isFarmingActive = localStorage.getItem("isFarming") === "true";
+  //   const savedBountyAmount = parseFloat(localStorage.getItem("bountyAmount") || "0");
+  //   const lastVisitedTime = parseInt(localStorage.getItem("lastVisitedTime") || Date.now(), 10);
+
+  //   if (isFarmingActive && endTime > Date.now()) {
+  //     const offlineDuration = Math.floor((Date.now() - lastVisitedTime) / 1000);
+  //     console.log('offline duration', offlineDuration)
+  //     const offlineCoinsEarned = calculatePerSecondEarning(savedBountyAmount) * offlineDuration;
+  //     console.log('offline coins earned', offlineCoinsEarned)
+
+  //     // Update bounty amount immediately with offline coins earned
+  //     const updatedBountyAmount = savedBountyAmount + offlineCoinsEarned;
+  //     setBountyAmount(updatedBountyAmount);
+  //     bountyAmountRef.current = updatedBountyAmount; // Update the ref to keep it in sync
+  //     saveUserData(updatedBountyAmount);
+
+
+  //     setTimeLeft(Math.max(Math.floor((endTime - Date.now()) / 1000), 0));
+  //     setIsFarming(true);
+  //   } else {
+  //     resetFarming();
+  //   }
+
+  //   return () => {
+  //     localStorage.setItem("bountyAmount", bountyAmountRef.current.toString());
+  //     localStorage.setItem("lastVisitedTime", Date.now().toString());
+  //   }
+  // }, []);
+
+
   useEffect(() => {
-    const endTime = parseInt(localStorage.getItem("endTime") || "0", 10);
-    const isFarmingActive = localStorage.getItem("isFarming") === "true";
-    const savedBountyAmount = parseFloat(localStorage.getItem("bountyAmount") || "0");
-    const lastVisitedTime = parseInt(localStorage.getItem("lastVisitedTime") || Date.now(), 10);
-
-    if (isFarmingActive && endTime > Date.now()) {
-      const offlineDuration = Math.floor((Date.now() - lastVisitedTime) / 1000);
-      console.log('offline duration', offlineDuration)
-      const offlineCoinsEarned = calculatePerSecondEarning(savedBountyAmount) * offlineDuration;
-      console.log('offline coins earned', offlineCoinsEarned)
-
-      // Update bounty amount immediately with offline coins earned
-      const updatedBountyAmount = savedBountyAmount + offlineCoinsEarned;
-      setBountyAmount(updatedBountyAmount);
-      bountyAmountRef.current = updatedBountyAmount; // Update the ref to keep it in sync
-      saveUserData(updatedBountyAmount);
-
-
-      setTimeLeft(Math.max(Math.floor((endTime - Date.now()) / 1000), 0));
-      setIsFarming(true);
-    } else {
-      resetFarming();
-    }
-
+    const calculateOfflineCoins = () => {
+      const endTime = parseInt(localStorage.getItem("endTime") || "0", 10);
+      const isFarmingActive = localStorage.getItem("isFarming") === "true";
+      const savedBountyAmount = parseFloat(localStorage.getItem("bountyAmount") || "0");
+      const lastVisitedTime = parseInt(localStorage.getItem("lastVisitedTime") || Date.now(), 10);
+  
+      if (isFarmingActive && endTime > Date.now()) {
+        const offlineDuration = Math.floor((Date.now() - lastVisitedTime) / 1000);
+        const offlineCoinsEarned = calculatePerSecondEarning(savedBountyAmount) * offlineDuration;
+        const updatedBountyAmount = savedBountyAmount + offlineCoinsEarned;
+  
+        setBountyAmount(updatedBountyAmount);
+        bountyAmountRef.current = updatedBountyAmount;
+        saveUserData(updatedBountyAmount); // Save updated amount to database
+  
+        setTimeLeft(Math.max(Math.floor((endTime - Date.now()) / 1000), 0));
+        setIsFarming(true);
+      } else {
+        resetFarming();
+      }
+    };
+  
+    calculateOfflineCoins();
+  
     return () => {
       localStorage.setItem("bountyAmount", bountyAmountRef.current.toString());
       localStorage.setItem("lastVisitedTime", Date.now().toString());
-    }
-  }, []);
-
+    };
+  }, [isFarming]); // Dependency on isFarming to recalculate if farming was active
+  
   const resetFarming = () => {
     setIsFarming(false);
     setTaps(100);
