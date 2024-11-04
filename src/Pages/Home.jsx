@@ -340,14 +340,14 @@ const Home = () => {
       ) : null}
 
 
-      <div className="flex space-x-4 items-center justify-start w-full rounded-lg text-xs">
+      {/* <div className="flex space-x-4 items-center justify-start w-full rounded-lg text-xs">
         <div className="bg-gradient-to-r from-black to-[#7d5126] px-8 py-3 rounded-lg font-bold">
           {formatTime(timeLeft)} Left
         </div>
         <div className="px-3 py-3 rounded-md border border-[#7d5126]">
           {taps} Taps
         </div>
-      </div>
+      </div> */}
 
       <div className="relative mt-4 w-full flex justify-center" onClick={handleImageTap}>
         <img
