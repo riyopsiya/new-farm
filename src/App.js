@@ -142,7 +142,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className='font-sans'>
       <Router>
         <ToastContainer
           className={'text-sm '}
@@ -168,7 +168,7 @@ function App() {
         </Routes>
         <BottomNav />
       </Router>
-    </>
+    </div>
   );
 }
 

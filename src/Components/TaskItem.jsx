@@ -349,7 +349,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
     };
 
     return (
-        <div className="border border-gray-400 rounded-md relative overflow-hidden ">
+        <div className="border border-gray-400 rounded-md relative overflow-hidden bg-[#181616] ">
             <FiChevronDown
                 className={`text-2xl font-bold absolute top-2 right-2 cursor-pointer transform transition-transform ${isOpen ? 'rotate-180' : 'rotate-0'}`}
                 onClick={onToggle}
