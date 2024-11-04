@@ -67,7 +67,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchUserData();
-  }, [loading]);
+  }, []);
 
   useEffect(() => {
     bountyAmountRef.current = bountyAmount;
