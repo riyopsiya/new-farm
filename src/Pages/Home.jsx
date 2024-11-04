@@ -8,9 +8,9 @@ import service from "../appwrite/database";
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
-  // const userId = 1337182007;
+  const userId = 1337182007;
   // const userId = 1751474467;
-  const userId = userInfo?.id;
+  // const userId = userInfo?.id;
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
   const [bountyAmount, setBountyAmount] = useState(1000);
@@ -260,14 +260,18 @@ const Home = () => {
 
       // Set initial floating +1 position
       setFloatingPlusPosition({ x: xPercent, y: yPercent });
-
-      // Move the floating +1 upwards after a short delay
       setTimeout(() => {
-        setFloatingPlusPosition((prevPosition) => ({
-          ...prevPosition,
-          y: prevPosition.y - 10, // Move up by 10% of the image height
-        }));
+        setFloatingPlusPosition((prevPosition) => {
+          if (prevPosition) { // Ensure prevPosition is not null
+            return {
+              ...prevPosition,
+              y: prevPosition.y - 10, // Move up by 10% of the image height
+            };
+          }
+          return prevPosition; // Return prevPosition if it's null
+        });
       }, 100); // Delay to start the animation
+  
 
       // Clear the floating +1 after the animation
       setTimeout(() => {
