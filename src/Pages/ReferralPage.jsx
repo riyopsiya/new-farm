@@ -7,19 +7,26 @@ const ReferralPage = () => {
     const handleInviteClick = () => {
         const referralCode = userData?.referralCode;
         const appInviteLink = "http://t.me/notcoincollablybot/notcoinbot";
-        const message = `🚀 Join me on Bounty Tap and start earning rewards!\n\n🔗 App Link: ${appInviteLink}?startapp=${referralCode}\n\n💰 Use my referral code to get a bonus of 2000 coins: ${referralCode}`;
         
-        const encodedMessage = encodeURIComponent(message);
-        const telegramShareUrl = `https://t.me/share/url?text=${encodedMessage}`;
+        const message = `🚀 Join me on Bounty Tap and start earning rewards! 🚀
+    
+    Earn guaranteed rewards and exclusive bonuses with Bounty Tap! Don’t miss out on this opportunity to start your earning journey today.
+    
+    🔗 App Link: ${appInviteLink}?startapp=${referralCode}
+    
+    💰 Use my referral code to get a bonus of 2000 coins: ${referralCode}`;
+    
+        const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(message)}`;
     
         if (window.Telegram?.WebApp) {
-            // Open the Telegram share link directly
-            window.Telegram.WebApp.openLink(telegramShareUrl);
+            // Open the Telegram share link directly within the Telegram WebApp
+            window.Telegram.WebApp.openLink(telegramUrl);
         } else {
             // Fallback for environments not supporting Telegram WebApp
-            window.open(telegramShareUrl, '_blank');
+            window.open(telegramUrl, '_blank');
         }
     };
+    
     
 
     return (

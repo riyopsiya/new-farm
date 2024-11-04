@@ -94,7 +94,9 @@ const Social = () => {
         <div>
           <div className="flex justify-center my-4">
             <div className="border border-gray-400 rounded-md px-4 py-2 text-sm font-semibold">
-              {notCompletedTasks?.length} New tasks available
+             
+
+              { `${notCompletedTasks.length} new ${notCompletedTasks.length > 1 ? 'tasks' : 'task'} available`}
             </div>
           </div>
 
@@ -110,7 +112,7 @@ const Social = () => {
           </div>
         </div>
       ): (
-        <div className="flex justify-center mt-12">No new tasks available</div>
+        <div className="flex justify-center mt-12">No new task available</div>
       )}
 
       {completedTasks?.length > 0 && (
