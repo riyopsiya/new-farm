@@ -13,7 +13,6 @@ import { login, setUserData } from './store/userSlice';
 import AdminDashboard from './Pages/Admin';
 import service from './appwrite/database';
 import { setPremiumTasks, setSocialTasks } from './store/dataSlice';
-import loadingGif from './images/Animation - 1728853348711.gif';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

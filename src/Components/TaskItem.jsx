@@ -349,13 +349,13 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
     };
 
     return (
-        <div className="border border-gray-400 rounded-md relative">
+        <div className="border border-gray-400 rounded-md relative overflow-hidden ">
             <FiChevronDown
                 className={`text-2xl font-bold absolute top-2 right-2 cursor-pointer transform transition-transform ${isOpen ? 'rotate-180' : 'rotate-0'}`}
                 onClick={onToggle}
             />
 
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 ">
                 <img onClick={onToggle} src={imageUrl} alt={data.companyName} className="h-24 object-cover w-full" />
             </div>
 
