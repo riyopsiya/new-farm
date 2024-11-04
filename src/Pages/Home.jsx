@@ -125,7 +125,7 @@ const Home = () => {
       localStorage.setItem("bountyAmount", bountyAmountRef.current.toString());
       localStorage.setItem("lastVisitedTime", Date.now().toString());
     }
-  }, [loading]);
+  }, []);
 
   const resetFarming = () => {
     setIsFarming(false);
