@@ -127,7 +127,6 @@ const Home = () => {
       const endTime = parseInt(localStorage.getItem("endTime") || "0", 10);
       const startTime = parseInt(localStorage.getItem("startTime") || "0", 10);
 
-      console.log(startTime)
       const isFarmingActive = localStorage.getItem("isFarming") === "true";
       const savedBountyAmount = parseFloat(localStorage.getItem("bountyAmount") || "0");
       const lastVisitedTime = parseInt(localStorage.getItem("lastVisitedTime") || Date.now(), 10);
@@ -259,7 +258,9 @@ const Home = () => {
       const yPercent = (offsetY / rect.height) * 100;
 
       // Set initial floating +1 position
-      setFloatingPlusPosition({ x: xPercent, y: yPercent });
+      // setFloatingPlusPosition({ x: xPercent, y: yPercent });
+      setFloatingPlusPosition({ x: xPercent, y: yPercent - 30 }); // Start a bit above the tap
+
       setTimeout(() => {
         setFloatingPlusPosition((prevPosition) => {
           if (prevPosition) { // Ensure prevPosition is not null
@@ -328,12 +329,12 @@ const Home = () => {
 
       {userInfo.first_name || userInfo.username ? (
         <div className="w-full flex flex-col text-left px-4 gap-4">
-          <h2 className="font-bold text-lg md:text-xl">
+          <h2 className="font-semibold text-md md:text-lg">
             Welcome, {userInfo.first_name || userInfo.username}!
           </h2>
 
           <div className="flex space-x-4 items-center justify-start w-full rounded-lg text-xs">
-            <div className="bg-gradient-to-r from-black to-[#7d5126] px-8 py-3 rounded-lg font-bold">
+            <div className="bg-gradient-to-r from-black to-[#7d5126] w-40 flex justify-center px-2 py-3 rounded-lg font-semibold">
               {formatTime(timeLeft)} Left
             </div>
             <div className="px-3 py-3 rounded-md border border-[#7d5126]">
@@ -343,16 +344,24 @@ const Home = () => {
         </div>
       ) : null}
 
+      
+    {/* <div className="w-full flex flex-col text-left px-4 gap-4">
+          <h2 className="font-semibold text-md md:text-lg">
+            Welcome, Hardik!
+          </h2>
 
-      {/* <div className="flex space-x-4 items-center justify-start w-full rounded-lg text-xs">
-        <div className="bg-gradient-to-r from-black to-[#7d5126] px-8 py-3 rounded-lg font-bold">
-          {formatTime(timeLeft)} Left
-        </div>
-        <div className="px-3 py-3 rounded-md border border-[#7d5126]">
-          {taps} Taps
-        </div>
-      </div> */}
+          <div className="flex space-x-4 items-center justify-start w-full rounded-lg text-xs">
+            <div className="bg-gradient-to-r from-black to-[#7d5126] w-40 flex justify-center px-2 py-3 rounded-lg font-semibold">
+              {formatTime(timeLeft)} Left
+            </div>
+            <div className="px-3 py-3 rounded-md border border-[#7d5126]">
+              {taps} Taps
+            </div>
+          </div>
+        </div> */}
 
+
+     
       <div className="relative mt-4 w-full flex justify-center" onClick={handleImageTap}>
         <img
           src={bountyimg}

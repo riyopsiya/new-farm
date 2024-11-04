@@ -16,7 +16,7 @@ const ProfilePage = () => {
         
         <h1 className="text-lg font-bold">Profile</h1>
         
-        {/* <NavLink to={'/admin'} className='p-6 py-2 text-sm bg-gradient-to-r from-black to-[#b1783e] font-semibold  rounded-lg'>Admin</NavLink> */}
+        <NavLink to={'/admin'} className='p-6 py-2 text-sm bg-gradient-to-r from-black to-[#b1783e] font-semibold  rounded-lg'>Admin</NavLink>
         {parseInt(process.env.REACT_APP_ADMIN_ID) ===  userInfo.id ? ( <NavLink to={'/admin'} className='p-6 py-2 text-sm bg-gradient-to-r from-black to-[#b1783e] font-semibold  rounded-lg'>Admin</NavLink>
         ):(null) }
       </div>
