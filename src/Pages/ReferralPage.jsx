@@ -34,7 +34,7 @@ const ReferralPage = () => {
                         <div className="h-4 w-4 absolute left-[1px] top-1 bg-black border-[5px] border-[#7d5126] rounded-full"></div>
                         <div className="ml-4">
                             <p className="text-white font-semibold">Share your referral link</p>
-                            <p className="text-gray-400">Spread Bounty Task among your friends.</p>
+                            <p className="text-gray-400">Spread Bounty Tap among your friends.</p>
                         </div>
                     </div>
 
@@ -42,7 +42,7 @@ const ReferralPage = () => {
                     <div className="flex items-start">
                         <div className="h-4 w-4 absolute left-[1px] bg-black border-[5px] border-[#7d5126] rounded-full"></div>
                         <div className="ml-4">
-                            <p className="text-white font-semibold">Your friends join Bounty Task</p>
+                            <p className="text-white font-semibold">Your friends join Bounty Tap</p>
                             <p className="text-gray-400">And begin farming tokens.</p>
                         </div>
                     </div>
@@ -51,8 +51,8 @@ const ReferralPage = () => {
                     <div className="flex items-start">
                         <div className="h-4 w-4 absolute left-[1px] bg-black border-[5px] border-[#7d5126] rounded-full"></div>
                         <div className="ml-4">
-                            <p className="text-white font-semibold">Earn 10% from your friend's farming</p>
-                            <p className="text-gray-400">Plus an additional 2.5% from their friends.</p>
+                            <p className="text-white font-semibold">Earn 1,000 Bounty tokens for each referral.</p>
+                            <p className="text-gray-400">Your friend earns 1,000 too when they sign up with your link.</p>
                         </div>
                     </div>
                 </div>
