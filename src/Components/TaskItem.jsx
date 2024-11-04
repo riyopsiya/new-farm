@@ -331,8 +331,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
 
     const handleShare = () => {
-        console.log(data);
-
+       
         const message = `🎉 Bounty Tap & ${data.companyName} Campaign 🎉
 
 Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards from ${data.companyName} in our collaborative airdrop campaign!

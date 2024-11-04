@@ -2,8 +2,15 @@ body {
   background-color:#111211 ;
   /* background-color:#1f221f ; */
   color: white;
-  background-image: radial-gradient(circle at center, rgba(125, 81, 38, 0.5), rgba(31, 34, 31, 0.8), #111211);
+  
  
+}
+
+.home-gradient {
+  background-image: radial-gradient(circle at center, rgba(125, 81, 38, 0.571), rgba(31, 34, 31, 0.8), #111211);
+}
+.gradient2 {
+  background-image: radial-gradient(circle at center, rgba(84, 56, 27, 0.263), rgba(31, 34, 31, 0.8), #111211);
 }
 .floating-plus {
   position: absolute;

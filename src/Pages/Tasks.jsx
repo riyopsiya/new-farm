@@ -22,7 +22,7 @@ const Tasks = () => {
     //   }
 
     return (
-        <div className="min-h-screen py-4 text-white px-4 mb-16">
+        <div className="min-h-screen py-4 text-white px-4 mb-16 gradient2">
 
             {/* Tab Switcher */}
             <div className="flex justify-around my-4 px-6 gap-2">

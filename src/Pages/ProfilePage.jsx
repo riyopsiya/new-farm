@@ -10,7 +10,7 @@ const ProfilePage = () => {
  
 
   return (
-    <div className=" text-white h-[40rem] flex flex-col gap-6">
+    <div className=" text-white h-[40rem] flex flex-col gap-6 home-gradient">
       
       <div className="flex items-center justify-between px-4 py-2 border-b border-gray-800">
         

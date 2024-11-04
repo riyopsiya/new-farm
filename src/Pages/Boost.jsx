@@ -4,7 +4,7 @@ import comingsoon from '../images/comingsoon.png'
 const Boost = () => {
   return (
     <div>
-        <div className='flex flex-col min-h-[40rem] justify-center gap-8 items-center '>
+        <div className='flex flex-col min-h-[40rem] justify-center gap-8 items-center home-gradient '>
             <img  src={comingsoon } alt="comingsoon" />
 
             <h2 className='text-3xl font-bold'>Coming soon...</h2>

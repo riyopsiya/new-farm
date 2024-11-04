@@ -30,7 +30,7 @@ Earn guaranteed rewards and exclusive bonuses with Bounty Tap! Don’t miss out 
 
 
     return (
-        <div className="text-white min-h-screen p-6 flex flex-col items-center justify-start gap-4 mb-8">
+        <div className="text-white min-h-screen p-6 flex flex-col items-center justify-start gap-4 mb-8 gradient2">
             {/* Title */}
             <h2 className="text-2xl font-bold mb-4">Invite Friends & Earn Rewards</h2>
 

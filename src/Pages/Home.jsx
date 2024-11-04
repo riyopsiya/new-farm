@@ -271,7 +271,7 @@ const Home = () => {
           }
           return prevPosition; // Return prevPosition if it's null
         });
-      }, 100); // Delay to start the animation
+      }, 1); // Delay to start the animation
   
 
       // Clear the floating +1 after the animation
@@ -323,7 +323,7 @@ const Home = () => {
   );
 
   return (
-    <div className=" flex flex-col items-center justify-between h-[65vh]  text-white p-4 overflow-hidden">
+    <div className=" flex flex-col items-center justify-between h-[65vh]  text-white p-4 overflow-hidden home-gradient">
 
       {/* <div className='absolute -z-10  bg-gradient-to-tr from-black via-[#7d5126] to-black top-4  blur-3xl opacity-100 rounded-full h-96  w-24 lg:w-96'></div> */}
 
