@@ -73,15 +73,7 @@ const Home = () => {
     bountyAmountRef.current = bountyAmount;
   }, [bountyAmount]);
 
-  // useEffect(() => {
-  //   const saveInterval = setInterval(() => {
-  //     console.log(111)
-  //     if (isFarming) saveUserData(bountyAmountRef.current);
-  //   }, 10000);
-
-  //   return () => clearInterval(saveInterval);
-  // }, [isFarming]);
-
+  
 
   useEffect(() => {
     let saveInterval;
