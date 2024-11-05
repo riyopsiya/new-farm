@@ -35,7 +35,7 @@ Earn guaranteed rewards and exclusive bonuses with BountyTap! Don’t miss out o
             <h2 className="text-2xl font-bold mb-4">Invite Friends & Earn Rewards</h2>
 
             {/* How it works */}
-            <div className="p-4">
+            <div className="p-4 mt-6">
                 <h3 className="text-xl font-semibold text-white mb-4">How it works</h3>
                 <div className="relative pl-6 space-y-8">
                     {/* Step 1 */}

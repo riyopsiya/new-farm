@@ -280,13 +280,13 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         const allCompleted = Object.entries(claimButtonsState)
             .filter(([key, value]) => {
                 // Check if link exists
-                console.log(key, value)
+            
                 const linkExists = value.link !== undefined && value.link !== null && value.link !== '';
 
                 return linkExists; // Only keep tasks with existing links
             })
             .every(([key, value]) => {
-                console.log(key, value)
+                
                 // Check if the task is claimed
                 return value.claimed;
             });
@@ -406,7 +406,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
 
                     {/* Telegram Chat */}
                     {data.companyTelegramChatInvite ? (<div className='flex w-full justify-between items-center'>
-                        <p className='max-w-48'>Follow {data.companyName} Telegram Group </p>
+                        <p className='max-w-48'>Follow {data.companyName}'s Telegram Group </p>
                         {claimButtonsState.companyTelegramChatInvite.claim ? (
                             <button onClick={() => handleClaimClick('companyTelegramChatInvite')} className="bg-gradient-to-r from-black to-[#7d5126]  px-2 py-2 rounded-lg text-xs font-bold  ">
                                 Claim 100 bounty
@@ -439,7 +439,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     {/* Telegram Announcement */}
                     {data.companyTelegramAnnInvite ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Follow {data.companyName} Telegram Ann</p>
+                            <p className='max-w-48'>Follow {data.companyName}'s Telegram Channel</p>
                             {claimButtonsState.companyTelegramAnnInvite.claim ? (
                                 <button onClick={() => handleClaimClick('companyTelegramAnnInvite')} className="bg-gradient-to-r from-black to-[#7d5126]   px-2 py-2 rounded-lg text-xs font-bold ">
                                     Claim 100 bounty
@@ -511,7 +511,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
 
                     {data.postLink ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Like, Retweet and tag 3 friends.</p>
+                            <p className='max-w-48'>Like, Retweet and tag 3 friends on post</p>
                             {claimButtonsState.postLink.claim ? (
                                 <button onClick={() => handleClaimClick('postLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
                                     Claim 100 bounty
@@ -547,7 +547,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
 
                     {data.taskLink ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Complete the task.</p>
+                            <p className='max-w-48'>Complete the task</p>
                             {claimButtonsState.taskLink.claim ? (
                                 <button onClick={() => handleClaimClick('taskLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
                                     Claim 100 bounty
@@ -856,7 +856,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     {/* Website */}
                     {data.companyWebsite ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Visit {data.companyName} Website</p>
+                            <p className='max-w-48'>Visit {data.companyName}'s Website</p>
                             {claimButtonsState.companyWebsite.claim ? (
                                 <button onClick={() => handleClaimClick('companyWebsite')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
                                     Claim 100 bounty
@@ -1061,7 +1061,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     {/* YouTube */}
                     {data.youtube ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Subscribe BountyTap's YouTube</p>
+                            <p className='max-w-48'>Subscribe BountyTap on YouTube</p>
                             {claimButtonsState.youtube.claim ? (
                                 <button onClick={() => handleClaimClick('youtube')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
                                     Claim 100 bounty
@@ -1192,8 +1192,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     ) : (null)}
 
 
-                    {/* {data.category === "social" && ( */}
-                    {/* <> */}
+                  
                     {!allTasksCompleted ? (
                         <form
                             className="flex items-center gap-4 rounded-lg shadow-lg justify-between w-full"
@@ -1223,11 +1222,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                             </button>
                         </div>
                     )}
-                    {/* </> */}
-                    {/* )} */}
-
-
-
+                  
 
                     {data.referralLink ? (<button onClick={handleShare} className='flex justify-center items-center  gap-6 border border-[1px]-white rounded-lg py-2'>Share and get referral bonus <FaShare /></button>
                     ) : (null)}

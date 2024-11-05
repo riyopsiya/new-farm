@@ -93,9 +93,7 @@ export class Service {
             // Check if the taskId already exists in the tasks array to avoid duplicates
             const newTasks = tasks.includes(taskId) ? tasks : [...tasks, taskId];
 
-            // Log updated tasks and user info for debugging
-            console.log("User ID:", userID);
-            console.log("Updated Tasks:", newTasks);
+            
 
             // Update the user document in Appwrite
             return await this.databases.updateDocument(
@@ -217,13 +215,12 @@ export class Service {
             // Check if users is defined, if not initialize it as an empty array
             // users = users ? JSON.parse(users) : [];
 
-            console.log(users)
 
             // Check if the taskId already exists in the users array to avoid duplicates
             const newUsers = users.includes(newUserData) ? users : [...users, JSON.stringify(newUserData)];
-            console.log(newUsers)
+           
             // Log updated tasks and user info for debugging
-            console.log("Updated Users:", newUsers);
+            
 
             // Update the company document in Appwrite with JSON.stringify
             return await this.databases.updateDocument(

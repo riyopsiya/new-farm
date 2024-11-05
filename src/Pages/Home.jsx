@@ -288,11 +288,11 @@ const Home = () => {
     return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
 
-  // if (loading) return (
-  //   <div className="flex items-center justify-center min-h-screen">
-  //     <div>Loading...</div>
-  //   </div>
-  // );
+  if (loading) return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div>Loading...</div>
+    </div>
+  );
 
 
 

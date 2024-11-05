@@ -54,7 +54,7 @@ const AdminDashboard = () => {
                 const imageFile = await service.uploadFile(image);
                 imageFileId = imageFile.$id;
             }
-            console.log(formData);
+           
             // Save task data to Appwrite database
             const response = await service.addData({
                 companyName: formData.companyName,
@@ -96,7 +96,6 @@ const AdminDashboard = () => {
                 image: imageFileId, // Store image file ID
             });
 
-            console.log('Task added successfully:', response);
 
             // Clear form after submission
             setFormData({
