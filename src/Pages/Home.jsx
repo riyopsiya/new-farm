@@ -309,7 +309,7 @@ const Home = () => {
 
 
   return (
-    <div className="flex flex-col items-center justify-between min-h-[65vh] text-white px-2 py-2 mt-4 overflow-hidden home-gradient">
+    <div className="flex flex-col items-center justify-between min-h-[65vh] text-white px-2 py-2 mt-4 overflow-hidden ">
 
     {userInfo.first_name || userInfo.username ? (
         <div className="w-full flex flex-col text-left px-2 gap-4">
