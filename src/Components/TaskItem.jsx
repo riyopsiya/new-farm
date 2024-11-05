@@ -512,7 +512,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
 
                     {data.postLink ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Like, Retweet and tag 3 friends on post</p>
+                            <p className='max-w-48'>Like, Retweet and tag 3 friends on the post</p>
                             {claimButtonsState.postLink.claim ? (
                                 <button onClick={() => handleClaimClick('postLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
                                     Claim 100 bounty
@@ -545,7 +545,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
 
                     {data.commentPostLink ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Like, Retweet and comment on post</p>
+                            <p className='max-w-48'>Like, Retweet and comment on the post</p>
                             {claimButtonsState.commentPostLink.claim ? (
                                 <button onClick={() => handleClaimClick('commentPostLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
                                     Claim 100 bounty
@@ -1238,11 +1238,11 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                                 value={walletAddress}
                                 onChange={(e) => setWalletAddress(e.target.value)} // Update walletAddress state on change
                                 placeholder={`Enter your ${data.addressType?data.addressType:'wallet'} address`}
-                                className="px-2 py-2 w-full text-white border border-white bg-gray-900 rounded-md max-w-48 text-xs focus:outline-none "
+                                className="px-2 py-2 w-full  text-white border border-white bg-gray-900 rounded-md max-w-48 text-xs focus:outline-none "
                             />
                             <button
                                 type="submit"
-                                className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 text-xs w-[12rem] font-bold rounded-lg hover:bg-purple-600"
+                                className="bg-gradient-to-r from-black to-[#7d5126] text-white px-6 py-2 text-xs w-[6rem] font-bold rounded-lg hover:bg-purple-600"
                             >
                                 Submit
                             </button>
