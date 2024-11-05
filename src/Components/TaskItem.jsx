@@ -8,10 +8,8 @@ import { FaShare } from 'react-icons/fa6';
 import service from '../appwrite/database';
 
 const TaskItem = ({ data, isOpen, onToggle }) => {
-    const { userInfo, userData } = useSelector((state) => state.user);   //userInfo is telegram details of the user and userData is the data of user from appwrite
+    const { userInfo } = useSelector((state) => state.user);   //userInfo is telegram details of the user and userData is the data of user from appwrite
     const [walletAddress, setWalletAddress] = useState("");
-    // console.log(data)
-    // const [isOpen, setIsOpen] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
     const [tasksCnt, setTasksCnt] = useState(0)
 
@@ -61,7 +59,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
     const fetchUserData = async () => {
         try {
             // Fetch user data from the service
-            // const userData = await service.getUser(userId);
+            const userData = await service.getUser(userId);
 
             const userTasks = userData.tasks;
             const taskId = data?.$id;
@@ -143,7 +141,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
 
     const handleClaimClick = (key) => {
-        console.log(key)
+        
         setClaimButtonsState((prevState) => ({
             ...prevState,
             [key]: { ...prevState[key], claim: false }  // Toggle the claim state
@@ -302,7 +300,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         const walletAddress = e.target.elements['walletAddress'].value;
 
         const allTasksCompleted = checkAllTasksCompleted(); // Check if all tasks are completed
-        console.log(allTasksCompleted)
+        
 
         if (allTasksCompleted && walletAddress) {
 
