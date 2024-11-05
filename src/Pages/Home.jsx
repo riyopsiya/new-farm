@@ -323,7 +323,7 @@ const Home = () => {
   );
 
   return (
-    <div className=" flex flex-col items-center justify-between h-[65vh]  text-white py-4 overflow-hidden home-gradient">
+    <div className=" flex flex-col items-center justify-between h-[65vh]  text-white p-4 overflow-hidden home-gradient">
 
       {/* <div className='absolute -z-10  bg-gradient-to-tr from-black via-[#7d5126] to-black top-4  blur-3xl opacity-100 rounded-full h-96  w-24 lg:w-96'></div> */}
 
@@ -344,7 +344,7 @@ const Home = () => {
         </div>
       ) : null}
 
-{/*       
+      
     <div className="w-full flex flex-col text-left px-4 gap-4">
           <h2 className="font-semibold text-md md:text-lg">
             Welcome, Hardik!
@@ -358,12 +358,12 @@ const Home = () => {
               {taps} Taps
             </div>
           </div>
-        </div> */}
+        </div>
 
 
      
         <div 
-    className="relative mt-4 w-full flex justify-center   py-16  " 
+    className="relative mt-4 w-full flex justify-center     " 
     onClick={handleImageTap}
 >  <img
           src={bountyimg}
