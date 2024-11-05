@@ -41,7 +41,7 @@ Earn guaranteed rewards and exclusive bonuses with BountyTap! Don’t miss out o
                     {/* Step 1 */}
                     <div className="absolute h-[11rem] w-px bg-orange-500 left-2 top-4"></div>
                     <div className="flex items-start">
-                        <div className="h-4 w-4 absolute left-[1px] mt-2 top-1 bg-black border-[5px] border-[#7d5126] rounded-full"></div>
+                        <div className="h-4 w-4 absolute left-[1px] mt-1 top-1 bg-black border-[5px] border-[#7d5126] rounded-full"></div>
                         <div className="ml-4">
                             <p className="text-white font-semibold">Share your referral link</p>
                             <p className="text-gray-400">Spread BountyTap among your friends</p>
@@ -50,7 +50,7 @@ Earn guaranteed rewards and exclusive bonuses with BountyTap! Don’t miss out o
 
                     {/* Step 2 */}
                     <div className="flex items-start">
-                        <div className="h-4 w-4 absolute left-[1px] mt-2  bg-black border-[5px] border-[#7d5126] rounded-full"></div>
+                        <div className="h-4 w-4 absolute left-[1px] mt-1  bg-black border-[5px] border-[#7d5126] rounded-full"></div>
                         <div className="ml-4">
                             <p className="text-white font-semibold">Your friends join BountyTap</p>
                             <p className="text-gray-400">And begin farming tokens</p>
@@ -59,7 +59,7 @@ Earn guaranteed rewards and exclusive bonuses with BountyTap! Don’t miss out o
 
                     {/* Step 3 */}
                     <div className=" flex items-start">
-                        <div className="h-4 w-4 absolute left-[1px] mt-2  bg-black border-[5px] border-[#7d5126] rounded-full"></div>
+                        <div className="h-4 w-4 absolute left-[1px] mt-1  bg-black border-[5px] border-[#7d5126] rounded-full"></div>
                         <div className="ml-4">
                             <p className="text-white font-semibold">Earn 1,000 Bounty tokens for each referral</p>
                             <p className="text-gray-400">Your friend earns 1,000 coins when they sign up with your link</p>

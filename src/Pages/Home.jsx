@@ -324,10 +324,10 @@ const Home = () => {
           </div>
         
           <div className="flex space-x-4 items-center justify-start w-full rounded-lg text-xs">
-            <div className="bg-gradient-to-r from-black to-[#7d5126] w-32 flex justify-center px-2 py-3 rounded-lg font-semibold">
+          <div className="bg-gradient-to-r from-black to-[#7d5126] w-32 flex justify-center px-2 py-3 rounded-lg font-semibold glass-effect">
               {formatTime(timeLeft)} Left
             </div>
-            <div className="px-3 py-3 rounded-md w-20 text-center border border-[#7d5126]">
+            <div className="px-3 py-3 rounded-md w-20 text-center border border-[#7d5126] glass-effect">
               {taps} Taps
             </div>
           </div>
@@ -357,7 +357,7 @@ const Home = () => {
         </div> */}
 
   {/* Center Section - Image and Bounty Amount */}
-  <div className="flex flex-col items-center justify-center w-full ">
+  <div className="flex flex-col items-center justify-center w-full home-gradient ">
     <div className="relative w-full flex justify-center" onClick={handleImageTap}>
       <img
         src={bountyimg}

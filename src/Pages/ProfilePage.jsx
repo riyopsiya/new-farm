@@ -1,6 +1,7 @@
 import React from "react";
+import { BiBell } from "react-icons/bi";
 import { FaInstagram, FaLinkedin, FaLinkedinIn, FaTelegram, FaTelegramPlane, FaTwitter } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaFacebook, FaXTwitter } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
@@ -59,10 +60,12 @@ const ProfilePage = () => {
 
         {/* Social Icons */}
         <div className="flex justify-center text-3xl space-x-6 mt-8">
-          <a href="https://x.com/CollablyNetwork" target="_blank" className="text-gray-400"><FaXTwitter className="text-white" /></a>
-          <a href=" https://www.instagram.com/collablynetwork/"  target="_blank" className="text-gray-400"><FaInstagram className="text-red-500" /></a>
-          <a href="https://t.me/CollablyNetwork" target="_blank" className="text-gray-400"><FaTelegramPlane className="text-blue-400" /></a>
-          <a href="https://www.linkedin.com/company/collably-network/ " target="_blank" className="text-gray-400"><FaLinkedinIn className="text-blue-400" /></a>
+          <a href="https://x.com/Bounty_Tap" target="_blank" className="text-gray-400"><FaXTwitter className="text-white" /></a>
+          <a href=" https://www.instagram.com/bounty_tap"  target="_blank" className="text-gray-400"><FaInstagram className="text-red-500" /></a>
+          <a href="https://t.me/BountyTapchat" target="_blank" className="text-gray-400"><FaTelegramPlane className="text-blue-400" /></a>
+          <a href="https://t.me/BountyTapannouncement" target="_blank" className="text-gray-400"><BiBell className="text-blue-400" /></a>
+          <a href="https://www.facebook.com/people/BountyTap/61568220061280/ " target="_blank" className="text-gray-400"><FaFacebook className="text-blue-400" /></a>
+          {/* <a href="https://www.linkedin.com/company/collably-network/ " target="_blank" className="text-gray-400"><FaLinkedinIn className="text-blue-400" /></a> */}
         </div>
 
         {/* Links */}
