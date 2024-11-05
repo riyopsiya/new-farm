@@ -402,9 +402,9 @@ const Home = () => {
         disabled={isFarming && timeLeft > 0}
       >
         {isFarming ? (
-    <span>
-      Farming... {totalCoinsGenerated.toFixed(4)}
-    </span>
+  <span className="min-w-[10rem] inline-block text-center">
+  Farming... {totalCoinsGenerated.toFixed(4)}
+</span>
   ) : (
     "Start Farming"
   )}
