@@ -4,6 +4,8 @@ import bountyimg from "../images/bountyimg.png";
 import { useSelector } from "react-redux";
 import { Client, Databases } from "appwrite";
 import service from "../appwrite/database";
+import { NavLink } from 'react-router-dom'
+import { IoMdPerson } from "react-icons/io";
 
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
@@ -322,17 +324,26 @@ const Home = () => {
     </div>
   );
 
+
+
+  
+   
+
   return (
-    <div className=" flex flex-col items-center justify-between h-[65vh]  text-white p-4 overflow-hidden home-gradient">
+    <div className="flex flex-col items-center justify-between min-h-[65vh] text-white px-2 py-2 mt-4 overflow-hidden home-gradient">
 
-      {/* <div className='absolute -z-10  bg-gradient-to-tr from-black via-[#7d5126] to-black top-4  blur-3xl opacity-100 rounded-full h-96  w-24 lg:w-96'></div> */}
+    {userInfo.first_name || userInfo.username ? (
+        <div className="w-full flex flex-col text-left px-2 gap-4">
 
-      {userInfo.first_name || userInfo.username ? (
-        <div className="w-full flex flex-col text-left px-4 gap-4">
+          <div className="flex w-full justify-between">
           <h2 className="font-semibold text-md md:text-lg">
             Welcome, {userInfo.first_name || userInfo.username}!
           </h2>
 
+          <div className='absolute right-6'> <NavLink to={'/profile'} >       <IoMdPerson className='text-2xl' /></NavLink></div>
+
+          </div>
+        
           <div className="flex space-x-4 items-center justify-start w-full rounded-lg text-xs">
             <div className="bg-gradient-to-r from-black to-[#7d5126] w-40 flex justify-center px-2 py-3 rounded-lg font-semibold">
               {formatTime(timeLeft)} Left
@@ -346,9 +357,15 @@ const Home = () => {
 
       
     {/* <div className="w-full flex flex-col text-left px-4 gap-4">
-          <h2 className="font-semibold text-md md:text-lg">
+    <div className="flex w-full justify-between">
+    <h2 className="font-semibold text-md md:text-lg">
             Welcome, Hardik!
           </h2>
+
+          <div className='absolute right-6'> <NavLink to={'/profile'} >       <IoMdPerson className='text-2xl' /></NavLink></div>
+
+          </div>
+        
 
           <div className="flex space-x-4 items-center justify-start w-full rounded-lg text-xs">
             <div className="bg-gradient-to-r from-black to-[#7d5126] w-40 flex justify-center px-2 py-3 rounded-lg font-semibold">
@@ -360,37 +377,38 @@ const Home = () => {
           </div>
         </div> */}
 
-
-     
-        <div 
-    className="relative mt-4 w-full flex justify-center     " 
-    onClick={handleImageTap}
->  <img
-          src={bountyimg}
-          alt="Bounty Token"
-          className="w-2/3 md:w-1/2 h-auto object-contain cursor-pointer"
-        />
-        {floatingPlusPosition && (
-          <div
-            className="floating-plus absolute text-lg text-green-500 transition-all duration-700"
-            style={{
-              left: `${floatingPlusPosition.x}%`,
-              top: `${floatingPlusPosition.y}%`,
-              transform: "translate(-50%, -50%)",
-              transition: "top 1s ease-out", // Smoothly move the text upwards
-            }}
-          >
-            +1
-          </div>
-        )}
-      </div>
-
+  {/* Center Section - Image and Bounty Amount */}
+  <div className="flex flex-col items-center justify-center w-full ">
+    <div className="relative w-full flex justify-center" onClick={handleImageTap}>
+      <img
+        src={bountyimg}
+        alt="Bounty Token"
+        className="w-2/3 md:w-1/2 h-auto object-contain cursor-pointer"
+      />
+      {floatingPlusPosition && (
+        <div
+          className="floating-plus absolute text-lg text-green-500 transition-all duration-700"
+          style={{
+            left: `${floatingPlusPosition.x}%`,
+            top: `${floatingPlusPosition.y}%`,
+            transform: "translate(-50%, -50%)",
+            transition: "top 1s ease-out",
+          }}
+        >
+          +1
+        </div>
+      )}
+    </div>
+    {bountyAmount && (
       <div className="text-center mt-4">
-        {bountyAmount && <h2 className="text-3xl font-bold">{bountyAmount.toFixed(4)} BNTY</h2>}
+        <h2 className="text-3xl font-bold">{bountyAmount.toFixed(4)} BNTY</h2>
         <p className="text-gray-400">Bounty Token</p>
       </div>
+    )}
+  </div>
 
-      <button
+  {/* Bottom Section - Farming Button */}
+  <button
         className="bg-gradient-to-r fixed bottom-24 from-black to-[#7d5126] px-8 py-3 rounded-lg w-full text-lg font-bold"
         onClick={handleStartFarming}
         disabled={isFarming && timeLeft > 0}
@@ -403,7 +421,8 @@ const Home = () => {
     "Start Farming"
   )}
       </button>
-    </div>
+</div>
+
   );
 };
 

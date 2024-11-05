@@ -157,7 +157,7 @@ function App() {
           pauseOnHover
           theme="dark"
         />
-        <Header />
+        {/* <Header /> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/tasks" element={<Tasks />} />
