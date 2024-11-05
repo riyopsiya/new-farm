@@ -345,7 +345,7 @@ const Home = () => {
       ) : null}
 
       
-    <div className="w-full flex flex-col text-left px-4 gap-4">
+    {/* <div className="w-full flex flex-col text-left px-4 gap-4">
           <h2 className="font-semibold text-md md:text-lg">
             Welcome, Hardik!
           </h2>
@@ -358,7 +358,7 @@ const Home = () => {
               {taps} Taps
             </div>
           </div>
-        </div>
+        </div> */}
 
 
      
