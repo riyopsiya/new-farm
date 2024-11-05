@@ -330,9 +330,9 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
     const handleShare = () => {
        
-        const message = `🎉 Bounty Tap & ${data.companyName} Campaign 🎉
+        const message = `🎉 BountyTap & ${data.companyName} Campaign 🎉
 
-Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards from ${data.companyName} in our collaborative airdrop campaign!
+Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards from ${data.companyName} in our collaborative airdrop campaign!
 
 ✅ Complete simple tasks, 🔗 share, and start earning today! Don’t miss out – claim your rewards now.
 
@@ -891,7 +891,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     {/* Follow on X (Twitter) */}
                     {data.twitter ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Follow On Bounty Tap on X </p>
+                            <p className='max-w-48'>Follow BountyTap on X </p>
                             {claimButtonsState.X.claim ? (
                                 <button onClick={() => handleClaimClick('X')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
                                     Claim 100 bounty
@@ -926,7 +926,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
 
                     {/* Telegram Chat */}
                     {data.telegramChatInvite && data.telegramChatID ? (<div className='flex w-full justify-between items-center'>
-                        <p className='max-w-48'>Follow Bounty Tap's Telegram Group</p>
+                        <p className='max-w-48'>Follow BountyTap's Telegram Group</p>
                         {claimButtonsState.telegramChat.claim ? (
                             <button onClick={() => handleClaimClick('telegramChat')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold w-32  ">
                                 Claim 100 bounty
@@ -959,7 +959,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     {/* Telegram Announcement */}
                     {data.telegramAnnInvite && data.telegramAnnID ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Follow Bounty Tap's Telegram Channel</p>
+                            <p className='max-w-48'>Follow BountyTap's Telegram Channel</p>
                             {claimButtonsState.telegramAnn.claim ? (
                                 <button onClick={() => handleClaimClick('telegramAnn')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold w-32  ">
                                     Claim 100 bounty
@@ -993,7 +993,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     {/* Instagram */}
                     {data.instagram ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Follow Bounty Tap on Instagram</p>
+                            <p className='max-w-48'>Follow BountyTap on Instagram</p>
                             {claimButtonsState.instagram.claim ? (
                                 <button onClick={() => handleClaimClick('instagram')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
                                     Claim 100 bounty
@@ -1027,7 +1027,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     {/* facebook */}
                     {data.facebook ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Follow Bounty Tap on Facebook</p>
+                            <p className='max-w-48'>Follow BountyTap on Facebook</p>
                             {claimButtonsState.facebook.claim ? (
                                 <button onClick={() => handleClaimClick('facebook')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
                                     Claim 100 bounty
@@ -1061,7 +1061,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     {/* YouTube */}
                     {data.youtube ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Subscribe Bounty Tap's YouTube</p>
+                            <p className='max-w-48'>Subscribe BountyTap's YouTube</p>
                             {claimButtonsState.youtube.claim ? (
                                 <button onClick={() => handleClaimClick('youtube')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
                                     Claim 100 bounty
@@ -1094,7 +1094,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     {/* Discord */}
                     {data.discord ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Follow Bounty Tap on Discord</p>
+                            <p className='max-w-48'>Follow BountyTap on Discord</p>
                             {claimButtonsState.discord.claim ? (
                                 <button onClick={() => handleClaimClick('discord')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
                                     Claim 100 bounty
@@ -1128,7 +1128,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     {/* medium */}
                     {data.medium ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Follow Bounty Tap on Medium</p>
+                            <p className='max-w-48'>Follow BountyTap on Medium</p>
                             {claimButtonsState.medium.claim ? (
                                 <button onClick={() => handleClaimClick('medium')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
                                     Claim 100 bounty
@@ -1161,7 +1161,7 @@ Join us on Bounty Tap and earn guaranteed upto 1000 Bounty Tokens and rewards fr
                     {/* Website */}
                     {data.website ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Visit Bounty Tap's Website</p>
+                            <p className='max-w-48'>Visit BountyTap's Website</p>
                             {claimButtonsState.website.claim ? (
                                 <button onClick={() => handleClaimClick('website')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
                                     Claim 100 bounty

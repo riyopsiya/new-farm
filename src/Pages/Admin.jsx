@@ -212,9 +212,9 @@ const AdminDashboard = () => {
 
 
 
-                {/* social media links for bounty tap */}
+                {/* social media links for BountyTap */}
                 <div className="mb-4 ">
-                    <label className="block text-sm font-bold mb-2">Social Media Links (Bounty Tap)</label>
+                    <label className="block text-sm font-bold mb-2">Social Media Links (BountyTap)</label>
                     <input
                         type="text"
                         placeholder='Telegram Chat ID'

@@ -80,9 +80,9 @@ const Social = () => {
     setOpenTaskId((prevOpenTaskId) => (prevOpenTaskId === taskId ? null : taskId));
   };
 
-  if (loading) {
-    return <div><LoadingSkeleton /></div>;
-  }
+  // if (loading) {
+  //   return <div><LoadingSkeleton /></div>;
+  // }
 
   if (socialTasks.length === 0) {
     return <div className='flex h-[60vh] items-center justify-center my-8 text-gray-400 font-semibold'>No tasks available</div>;

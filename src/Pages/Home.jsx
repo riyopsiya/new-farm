@@ -92,36 +92,6 @@ const Home = () => {
     return () => clearInterval(saveInterval);
   }, [isFarming]);
 
-  // useEffect(() => {
-  //   const endTime = parseInt(localStorage.getItem("endTime") || "0", 10);
-  //   const isFarmingActive = localStorage.getItem("isFarming") === "true";
-  //   const savedBountyAmount = parseFloat(localStorage.getItem("bountyAmount") || "0");
-  //   const lastVisitedTime = parseInt(localStorage.getItem("lastVisitedTime") || Date.now(), 10);
-
-  //   if (isFarmingActive && endTime > Date.now()) {
-  //     const offlineDuration = Math.floor((Date.now() - lastVisitedTime) / 1000);
-  //     console.log('offline duration', offlineDuration)
-  //     const offlineCoinsEarned = calculatePerSecondEarning(savedBountyAmount) * offlineDuration;
-  //     console.log('offline coins earned', offlineCoinsEarned)
-
-  //     // Update bounty amount immediately with offline coins earned
-  //     const updatedBountyAmount = savedBountyAmount + offlineCoinsEarned;
-  //     setBountyAmount(updatedBountyAmount);
-  //     bountyAmountRef.current = updatedBountyAmount; // Update the ref to keep it in sync
-  //     saveUserData(updatedBountyAmount);
-
-
-  //     setTimeLeft(Math.max(Math.floor((endTime - Date.now()) / 1000), 0));
-  //     setIsFarming(true);
-  //   } else {
-  //     resetFarming();
-  //   }
-
-  //   return () => {
-  //     localStorage.setItem("bountyAmount", bountyAmountRef.current.toString());
-  //     localStorage.setItem("lastVisitedTime", Date.now().toString());
-  //   }
-  // }, []);
 
 
   useEffect(() => {
@@ -318,11 +288,11 @@ const Home = () => {
     return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
 
-  if (loading) return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div>Loading...</div>
-    </div>
-  );
+  // if (loading) return (
+  //   <div className="flex items-center justify-center min-h-screen">
+  //     <div>Loading...</div>
+  //   </div>
+  // );
 
 
 

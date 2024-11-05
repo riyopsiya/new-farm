@@ -8,9 +8,9 @@ const ReferralPage = () => {
         const referralCode = userData?.referralCode;
         const appInviteLink = "http://t.me/notcoincollablybot/notcoinbot";
 
-        const message = `🚀 Join me on Bounty Tap and start earning rewards! 🚀
+        const message = `🚀 Join me on BountyTap and start earning rewards! 🚀
     
-Earn guaranteed rewards and exclusive bonuses with Bounty Tap! Don’t miss out on this opportunity to start your earning journey today.
+Earn guaranteed rewards and exclusive bonuses with BountyTap! Don’t miss out on this opportunity to start your earning journey today.
     
 🔗 App Link: ${appInviteLink}?startapp=${referralCode}
     
@@ -41,28 +41,28 @@ Earn guaranteed rewards and exclusive bonuses with Bounty Tap! Don’t miss out 
                     {/* Step 1 */}
                     <div className="absolute h-[11rem] w-px bg-orange-500 left-2 top-4"></div>
                     <div className="flex items-start">
-                        <div className="h-4 w-4 absolute left-[1px] top-1 bg-black border-[5px] border-[#7d5126] rounded-full"></div>
+                        <div className="h-4 w-4 absolute left-[1px] mt-2 top-1 bg-black border-[5px] border-[#7d5126] rounded-full"></div>
                         <div className="ml-4">
                             <p className="text-white font-semibold">Share your referral link</p>
-                            <p className="text-gray-400">Spread Bounty Tap among your friends.</p>
+                            <p className="text-gray-400">Spread BountyTap among your friends</p>
                         </div>
                     </div>
 
                     {/* Step 2 */}
                     <div className="flex items-start">
-                        <div className="h-4 w-4 absolute left-[1px] bg-black border-[5px] border-[#7d5126] rounded-full"></div>
+                        <div className="h-4 w-4 absolute left-[1px] mt-2  bg-black border-[5px] border-[#7d5126] rounded-full"></div>
                         <div className="ml-4">
-                            <p className="text-white font-semibold">Your friends join Bounty Tap</p>
-                            <p className="text-gray-400">And begin farming tokens.</p>
+                            <p className="text-white font-semibold">Your friends join BountyTap</p>
+                            <p className="text-gray-400">And begin farming tokens</p>
                         </div>
                     </div>
 
                     {/* Step 3 */}
-                    <div className="flex items-start">
-                        <div className="h-4 w-4 absolute left-[1px] bg-black border-[5px] border-[#7d5126] rounded-full"></div>
+                    <div className=" flex items-start">
+                        <div className="h-4 w-4 absolute left-[1px] mt-2  bg-black border-[5px] border-[#7d5126] rounded-full"></div>
                         <div className="ml-4">
-                            <p className="text-white font-semibold">Earn 1,000 Bounty tokens for each referral.</p>
-                            <p className="text-gray-400">Your friend earns 1,000 too when they sign up with your link.</p>
+                            <p className="text-white font-semibold">Earn 1,000 Bounty tokens for each referral</p>
+                            <p className="text-gray-400">Your friend earns 1,000 coins when they sign up with your link</p>
                         </div>
                     </div>
                 </div>
@@ -73,6 +73,8 @@ Earn guaranteed rewards and exclusive bonuses with Bounty Tap! Don’t miss out 
                 Invite Your Friends
             </button>
         </div>
+
+        
     );
 };
 
