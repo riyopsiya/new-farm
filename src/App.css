@@ -1,17 +1,20 @@
 body {
-  background-color:#111211 ;
-  /* background-color:#1f221f ; */
+  /* background-color:#111211 ; */
+  background-color:#181c19 ;
   color: white;
   
  
 }
 
 .home-gradient {
-  background-image: radial-gradient(circle at center, rgba(125, 81, 38, 0.571), rgba(31, 34, 31, 0.8), #111211);
+  background-image: radial-gradient(circle at center, rgba(125, 81, 38, 0.571), #181c19, #181c19);
 }
 .gradient2 {
-  background-image: radial-gradient(circle at center, rgba(84, 56, 27, 0.263), rgba(31, 34, 31, 0.8), #111211);
+  background-image: radial-gradient(circle at center, rgba(84, 56, 27, 0.263), #181c19, #181c19);
 }
+
+
+
 .floating-plus {
   position: absolute;
   font-size: 2rem;
