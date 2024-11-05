@@ -1203,7 +1203,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                                 id="walletAddress"
                                 value={walletAddress}
                                 onChange={(e) => setWalletAddress(e.target.value)} // Update walletAddress state on change
-                                placeholder={`Enter your ${data.addressType} address`}
+                                placeholder={`Enter your ${data.addressType?data.addressType:'wallet'} address`}
                                 className="px-2 py-2 w-full text-white bg-gray-900 rounded-md max-w-48 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
                             />
                             <button
