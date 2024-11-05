@@ -307,7 +307,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
             await service.updateUserTasks(userId.toString(), data.$id);
             await service.updateUserCoins(userId, tasksCnt * 100)
-
+          
             const newUserData = {
                 userId,
                 walletAddress: walletAddress,

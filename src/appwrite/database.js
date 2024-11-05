@@ -127,6 +127,7 @@ export class Service {
             )
 
             const newAmt = getUser.coins + newCoins;
+            
 
             const updatedDocument = await this.databases.updateDocument(
                 process.env.REACT_APP_APPWRITE_DATABASE_ID,

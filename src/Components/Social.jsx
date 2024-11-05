@@ -54,6 +54,7 @@ const Social = () => {
       try {
         // Fetch user data from the service
         const userData = await service.getUser(userId);
+     
         const userTasks = userData.tasks;
 
         // Fetch social tasks data

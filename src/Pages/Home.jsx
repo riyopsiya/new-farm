@@ -10,7 +10,7 @@ import { IoMdPerson } from "react-icons/io";
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
-  // const userId = 1337182007;
+  // const userId = 1337182007
   // const userId = 1751474467;
   const userId = userInfo?.id;
   const [loading, setLoading] = useState(true);
@@ -18,10 +18,13 @@ const Home = () => {
   const [bountyAmount, setBountyAmount] = useState(1000);
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [isFarming, setIsFarming] = useState(false);
+  const [canClaim, setCanClaim] = useState(false);
   const [taps, setTaps] = useState(100);
   const [floatingPlusPosition, setFloatingPlusPosition] = useState(null);
   const bountyAmountRef = useRef(bountyAmount);
-
+  const coinsGeneratedSinceStart = useRef(0); // Track coins generated since farming started
+    const [totalCoinsGenerated, setTotalCoinsGenerated] = useState(0); // New state for total coins generated
+   
  
 
   // Initialize Appwrite client
@@ -41,6 +44,7 @@ const Home = () => {
 
     const unsubscribe = client.subscribe(channel, (response) => {
       if (response.payload?.coins) {
+       
         setBountyAmount(response.payload.coins);
         bountyAmountRef.current = response.payload.coins;
       }
@@ -79,54 +83,132 @@ const Home = () => {
 
 
 
+  // useEffect(() => {
+  //   let saveInterval;
+
+  //   if (isFarming) {
+  //     saveInterval = setInterval(() => {
+
+  //       saveUserData(bountyAmountRef.current);
+  //     }, 10000);
+  //   }
+
+  //   return () => clearInterval(saveInterval);
+  // }, [isFarming]);
+
+
+
+  // useEffect(() => {
+  //   console.log(canClaim)
+  //   const calculateOfflineCoins = () => {
+  //     const endTime = parseInt(localStorage.getItem("endTime") || "0", 10);
+  //     const startTime = parseInt(localStorage.getItem("startTime") || "0", 10);
+
+  //     const isFarmingActive = localStorage.getItem("isFarming") === "true";
+  //     // const savedBountyAmount = parseFloat(localStorage.getItem("bountyAmount") || "0");
+  //     // const lastVisitedTime = parseInt(localStorage.getItem("lastVisitedTime") || Date.now(), 10);
+
+  //     if (isFarmingActive && endTime > Date.now()) {
+  //       // const offlineDuration = Math.floor((Date.now() - lastVisitedTime) / 1000);
+  //       // const offlineCoinsEarned = calculatePerSecondEarning(savedBountyAmount) * offlineDuration;
+  //       // const updatedBountyAmount = savedBountyAmount + offlineCoinsEarned;
+
+  //       // setBountyAmount(updatedBountyAmount);
+  //       // bountyAmountRef.current = updatedBountyAmount;
+  //       // saveUserData(updatedBountyAmount); // Save updated amount to database
+
+  //       setTimeLeft(Math.max(Math.floor((endTime - Date.now()) / 1000), 0));
+
+  //       setIsFarming(true);
+
+
+  //               const timepassed=Math.max(Math.floor((Date.now()-startTime) / 1000), 0)
+  //       console.log('time since farming started',timepassed)
+    
+  //      const coins=0.0028 *timepassed
+  //      console.log('coins since farming started',coins)
+  //       setTotalCoinsGenerated(coins); // Update total coins generated
+  //       coinsGeneratedSinceStart.current = coins
+  //     } else {
+  //       setCanClaim(true)
+  //       resetFarming();
+  //     }
+  //   };
+
+  //   calculateOfflineCoins();
+
+  //   return () => {
+  //     localStorage.setItem("bountyAmount", bountyAmountRef.current.toString());
+  //     localStorage.setItem("lastVisitedTime", Date.now().toString());
+  //   };
+  // }, [isFarming]); // Dependency on isFarming to recalculate if farming was active
+
   useEffect(() => {
-    let saveInterval;
 
-    if (isFarming) {
-      saveInterval = setInterval(() => {
-
-        saveUserData(bountyAmountRef.current);
-      }, 10000);
-    }
-
-    return () => clearInterval(saveInterval);
-  }, [isFarming]);
-
-
-
-  useEffect(() => {
     const calculateOfflineCoins = () => {
-      const endTime = parseInt(localStorage.getItem("endTime") || "0", 10);
-      const startTime = parseInt(localStorage.getItem("startTime") || "0", 10);
+        const endTime = parseInt(localStorage.getItem("endTime") || "0", 10);
+        const startTime = parseInt(localStorage.getItem("startTime") || "0", 10);
+        const isFarmingActive = localStorage.getItem("isFarming") === "true";
+        const coinsClaimed = localStorage.getItem("coinsClaimed") === "true";
 
-      const isFarmingActive = localStorage.getItem("isFarming") === "true";
-      const savedBountyAmount = parseFloat(localStorage.getItem("bountyAmount") || "0");
-      const lastVisitedTime = parseInt(localStorage.getItem("lastVisitedTime") || Date.now(), 10);
+        if (isFarmingActive && !coinsClaimed) {
+            const currentTime = Date.now();
 
-      if (isFarmingActive && endTime > Date.now()) {
-        const offlineDuration = Math.floor((Date.now() - lastVisitedTime) / 1000);
-        const offlineCoinsEarned = calculatePerSecondEarning(savedBountyAmount) * offlineDuration;
-        const updatedBountyAmount = savedBountyAmount + offlineCoinsEarned;
+            if (endTime > currentTime) {
+                // Farming is active, calculate total coins generated
+                const timePassed = Math.floor((currentTime - startTime) / 1000);
+                // console.log('time since farming started',timePassed)
+                const coins = 0.0028 * timePassed;
+                // console.log('Coins since farming started:', coins);
 
-        setBountyAmount(updatedBountyAmount);
-        bountyAmountRef.current = updatedBountyAmount;
-        saveUserData(updatedBountyAmount); // Save updated amount to database
+                // Update state for total coins generated
+                setTotalCoinsGenerated(coins);
+                coinsGeneratedSinceStart.current = coins;
 
-        setTimeLeft(Math.max(Math.floor((endTime - Date.now()) / 1000), 0));
+                // Calculate remaining time for farming
+                const remainingTime=Math.max(Math.floor((endTime - currentTime) / 1000), 0)
+                setTimeLeft(remainingTime);
+                setIsFarming(true);
 
-        setIsFarming(true);
-      } else {
-        resetFarming();
-      }
+
+                  // Check if the time left has become zero
+                  if (remainingTime === 0) {
+                    setCanClaim(true); // Show the claim button
+                }
+            } else {
+                // Farming time is over
+                // const timePassed = Math.floor((currentTime - startTime) / 1000);
+                // console.log('time since farming started',timePassed)
+                const coins = Math.floor(0.0028 * initialTime)
+                // console.log('Total coins generated before expiry:', coins);
+            // Update state for total coins generated
+            setTotalCoinsGenerated(coins);
+            coinsGeneratedSinceStart.current = coins;
+
+                // Update the database with the total coins generated
+                
+                // Reset farming state
+       
+                setCanClaim(true);
+                resetFarming();
+            }
+        } else {
+            // Farming is not active, reset farming state
+            setCanClaim(false);
+            resetFarming();
+        }
     };
 
     calculateOfflineCoins();
 
     return () => {
-      localStorage.setItem("bountyAmount", bountyAmountRef.current.toString());
-      localStorage.setItem("lastVisitedTime", Date.now().toString());
+        // Save the current bounty amount and last visited time to local storage
+        localStorage.setItem("bountyAmount", bountyAmountRef.current.toString());
+        localStorage.setItem("lastVisitedTime", Date.now().toString());
     };
-  }, [isFarming]); // Dependency on isFarming to recalculate if farming was active
+}, [isFarming]); // Run only once when the component mounts
+
+
 
   const resetFarming = () => {
     setIsFarming(false);
@@ -135,7 +217,24 @@ const Home = () => {
     localStorage.removeItem("endTime");
     
     
-    service.updateUserData(userId, { taps: 100});  
+     service.updateUserData(userId, { taps: 100});  
+
+  
+
+  };
+  const claimCoins = async () => {
+
+      // const newcoins=bountyAmountRef.current + totalCoinsGenerated
+      setCanClaim(false)
+    // await service.updateUserData(userId, {coins:newcoins });   //update the generated coins after farming is over
+   const response= await service.updateUserCoins(userId, totalCoinsGenerated)
+   console.log(response)
+    coinsGeneratedSinceStart.current=0
+  setTotalCoinsGenerated(0)
+ 
+
+    // Mark coins as claimed in local storage
+    localStorage.setItem("coinsClaimed", "true");
 
   };
 
@@ -144,12 +243,27 @@ const Home = () => {
 
   const calculatePerSecondEarning = (amount) => (amount * APY) / SECONDS_IN_A_YEAR;
 
+  // useEffect(() => {
+  //   let timer;
+  //   if (isFarming && timeLeft > 0) {
+  //     timer = setInterval(() => {
+  //       setTimeLeft((prevTime) => prevTime - 1);
+  //       setBountyAmount((prevBounty) => prevBounty + calculatePerSecondEarning(bountyAmountRef.current));
+  //       if (timeLeft <= 1) resetFarming();
+  //     }, 1000);
+  //   }
+
+  //   return () => clearInterval(timer);
+  // }, [isFarming, timeLeft]);
+
+
   useEffect(() => {
     let timer;
     if (isFarming && timeLeft > 0) {
       timer = setInterval(() => {
         setTimeLeft((prevTime) => prevTime - 1);
-        setBountyAmount((prevBounty) => prevBounty + calculatePerSecondEarning(bountyAmountRef.current));
+        
+        setTotalCoinsGenerated((prevBounty) => prevBounty +0.0028 );
         if (timeLeft <= 1) resetFarming();
       }, 1000);
     }
@@ -161,15 +275,17 @@ const Home = () => {
 
 
 
-
   const handleStartFarming = () => {
     if (timeLeft === 0) resetFarming();
     setIsFarming(true);
     const startTime = Date.now();
+    // const endTime = Date.now() + 60 * 1000;  //60 sec 
     const endTime = Date.now() + initialTime * 1000;
     localStorage.setItem("endTime", endTime);
     localStorage.setItem("startTime", startTime);
     localStorage.setItem("isFarming", true);
+      // Mark coins as claimed in local storage
+      localStorage.setItem("coinsClaimed", "false");
   };
 
   const saveUserData = async (amount) => {
@@ -377,20 +493,33 @@ const Home = () => {
     )}
   </div>
 
-  {/* Bottom Section - Farming Button */}
-  <button
+
+
+
+  {canClaim  ? (
+     <button
+     className="bg-gradient-to-r fixed bottom-24 from-black to-[#7d5126] px-8 py-3 rounded-lg w-full text-lg font-bold"
+     onClick={claimCoins}
+   
+   >
+    Claim {totalCoinsGenerated.toFixed(4)} coins 
+   </button>
+  ) : (
+    <button
         className="bg-gradient-to-r fixed bottom-24 from-black to-[#7d5126] px-8 py-3 rounded-lg w-full text-lg font-bold"
         onClick={handleStartFarming}
         disabled={isFarming && timeLeft > 0}
       >
         {isFarming ? (
     <span>
-      Farming...
+      Farming... {totalCoinsGenerated.toFixed(4)}
     </span>
   ) : (
     "Start Farming"
   )}
       </button>
+  )}
+  
 </div>
 
   );
@@ -402,19 +531,20 @@ export default Home;
 
 
 
-
 // import React, { useState, useEffect, useRef } from "react";
 // import bountyimg from "../images/bountyimg.png";
 // import { useSelector } from "react-redux";
 // import { Client, Databases } from "appwrite";
 // import service from "../appwrite/database";
+// import { NavLink } from 'react-router-dom'
+// import { IoMdPerson } from "react-icons/io";
 
 // const Home = () => {
 //   const { userInfo } = useSelector((state) => state.user);
 //   const initialTime = 8 * 60 * 60; // 8 hours in seconds
-//   const userId = 1337182007;
+//   // const userId = 1337182007;
 //   // const userId = 1751474467;
-//   // const userId = userInfo?.id;
+//   const userId = userInfo?.id;
 //   const [loading, setLoading] = useState(true);
 //   const [user, setUser] = useState({});
 //   const [bountyAmount, setBountyAmount] = useState(1000);
@@ -423,8 +553,7 @@ export default Home;
 //   const [taps, setTaps] = useState(100);
 //   const [floatingPlusPosition, setFloatingPlusPosition] = useState(null);
 //   const bountyAmountRef = useRef(bountyAmount);
-//   const coinsGeneratedSinceStart = useRef(0); // Track coins generated since farming started
-//   const [totalCoinsGenerated, setTotalCoinsGenerated] = useState(0); // New state for total coins generated
+
  
 
 //   // Initialize Appwrite client
@@ -482,18 +611,18 @@ export default Home;
 
 
 
-//   // useEffect(() => {
-//   //   let saveInterval;
+//   useEffect(() => {
+//     let saveInterval;
 
-//   //   if (isFarming) {
-//   //     saveInterval = setInterval(() => {
+//     if (isFarming) {
+//       saveInterval = setInterval(() => {
 
-//   //       saveUserData(bountyAmountRef.current);
-//   //     }, 10000);
-//   //   }
+//         saveUserData(bountyAmountRef.current);
+//       }, 10000);
+//     }
 
-//   //   return () => clearInterval(saveInterval);
-//   // }, [isFarming]);
+//     return () => clearInterval(saveInterval);
+//   }, [isFarming]);
 
 
 
@@ -507,23 +636,15 @@ export default Home;
 //       const lastVisitedTime = parseInt(localStorage.getItem("lastVisitedTime") || Date.now(), 10);
 
 //       if (isFarmingActive && endTime > Date.now()) {
-//         // const offlineDuration = Math.floor((Date.now() - lastVisitedTime) / 1000);
-//         // const offlineCoinsEarned = calculatePerSecondEarning(savedBountyAmount) * offlineDuration;
-//         // const updatedBountyAmount = savedBountyAmount + offlineCoinsEarned;
+//         const offlineDuration = Math.floor((Date.now() - lastVisitedTime) / 1000);
+//         const offlineCoinsEarned = calculatePerSecondEarning(savedBountyAmount) * offlineDuration;
+//         const updatedBountyAmount = savedBountyAmount + offlineCoinsEarned;
 
-//         // setBountyAmount(updatedBountyAmount);
-//         // bountyAmountRef.current = updatedBountyAmount;
-//         // saveUserData(updatedBountyAmount); // Save updated amount to database
+//         setBountyAmount(updatedBountyAmount);
+//         bountyAmountRef.current = updatedBountyAmount;
+//         saveUserData(updatedBountyAmount); // Save updated amount to database
 
 //         setTimeLeft(Math.max(Math.floor((endTime - Date.now()) / 1000), 0));
-
-//         const timepassed=Math.max(Math.floor((Date.now()-startTime) / 1000), 0)
-//         console.log('time since farming started',timepassed)
-//         console.log('user coins',bountyAmountRef.current)
-//        const coins=calculatePerSecondEarning(bountyAmountRef.current ) *timepassed
-//        console.log('coins since farming started',coins)
-//         setTotalCoinsGenerated(coins); // Update total coins generated
-//         coinsGeneratedSinceStart.current = coins
 
 //         setIsFarming(true);
 //       } else {
@@ -545,11 +666,9 @@ export default Home;
 //     setTimeLeft(initialTime);
 //     localStorage.removeItem("endTime");
     
-//     const newcoins=bountyAmountRef.current+coinsGeneratedSinceStart.current
-//     service.updateUserData(userId, { taps: 100,coins:newcoins });   //update the generated coins after farming is over
+    
+//     service.updateUserData(userId, { taps: 100});  
 
-//     coinsGeneratedSinceStart.current=0
-//   setTotalCoinsGenerated(0)
 //   };
 
 //   const APY = 2.4;
@@ -557,35 +676,20 @@ export default Home;
 
 //   const calculatePerSecondEarning = (amount) => (amount * APY) / SECONDS_IN_A_YEAR;
 
-//   // useEffect(() => {
-//   //   let timer;
-//   //   if (isFarming && timeLeft > 0) {
-//   //     timer = setInterval(() => {
-//   //       setTimeLeft((prevTime) => prevTime - 1);
-//   //       setBountyAmount((prevBounty) => prevBounty + calculatePerSecondEarning(bountyAmountRef.current));
-//   //       if (timeLeft <= 1) resetFarming();
-//   //     }, 1000);
-//   //   }
-
-//   //   return () => clearInterval(timer);
-//   // }, [isFarming, timeLeft]);
-
-
-
-
 //   useEffect(() => {
 //     let timer;
 //     if (isFarming && timeLeft > 0) {
 //       timer = setInterval(() => {
 //         setTimeLeft((prevTime) => prevTime - 1);
-        
-//         setTotalCoinsGenerated((prevBounty) => prevBounty + calculatePerSecondEarning(bountyAmountRef.current ));
+//         setBountyAmount((prevBounty) => prevBounty + calculatePerSecondEarning(bountyAmountRef.current));
 //         if (timeLeft <= 1) resetFarming();
 //       }, 1000);
 //     }
 
 //     return () => clearInterval(timer);
 //   }, [isFarming, timeLeft]);
+
+
 
 
 
@@ -658,15 +762,21 @@ export default Home;
 //       const yPercent = (offsetY / rect.height) * 100;
 
 //       // Set initial floating +1 position
-//       setFloatingPlusPosition({ x: xPercent, y: yPercent });
+//       // setFloatingPlusPosition({ x: xPercent, y: yPercent });
+//       setFloatingPlusPosition({ x: xPercent, y: yPercent - 30 }); // Start a bit above the tap
 
-//       // Move the floating +1 upwards after a short delay
 //       setTimeout(() => {
-//         setFloatingPlusPosition((prevPosition) => ({
-//           ...prevPosition,
-//           y: prevPosition.y - 10, // Move up by 10% of the image height
-//         }));
-//       }, 100); // Delay to start the animation
+//         setFloatingPlusPosition((prevPosition) => {
+//           if (prevPosition) { // Ensure prevPosition is not null
+//             return {
+//               ...prevPosition,
+//               y: prevPosition.y - 10, // Move up by 10% of the image height
+//             };
+//           }
+//           return prevPosition; // Return prevPosition if it's null
+//         });
+//       }, 1); // Delay to start the animation
+  
 
 //       // Clear the floating +1 after the animation
 //       setTimeout(() => {
@@ -716,19 +826,28 @@ export default Home;
 //     </div>
 //   );
 
+
+
+  
+   
+
 //   return (
-//     <div className=" flex flex-col items-center justify-between h-[65vh]  text-white p-4 overflow-hidden">
+//     <div className="flex flex-col items-center justify-between min-h-[65vh] text-white px-2 py-2 mt-4 overflow-hidden home-gradient">
 
-//       {/* <div className='absolute -z-10  bg-gradient-to-tr from-black via-[#7d5126] to-black top-4  blur-3xl opacity-100 rounded-full h-96  w-24 lg:w-96'></div> */}
+//     {userInfo.first_name || userInfo.username ? (
+//         <div className="w-full flex flex-col text-left px-2 gap-4">
 
-//       {userInfo.first_name || userInfo.username ? (
-//         <div className="w-full flex flex-col text-left px-4 gap-4">
-//           <h2 className="font-bold text-lg md:text-xl">
+//           <div className="flex w-full justify-between">
+//           <h2 className="font-semibold text-md md:text-lg">
 //             Welcome, {userInfo.first_name || userInfo.username}!
 //           </h2>
 
+//           <div className='absolute right-6'> <NavLink to={'/profile'} >       <IoMdPerson className='text-2xl' /></NavLink></div>
+
+//           </div>
+        
 //           <div className="flex space-x-4 items-center justify-start w-full rounded-lg text-xs">
-//             <div className="bg-gradient-to-r from-black to-[#7d5126] px-8 py-3 rounded-lg font-bold">
+//             <div className="bg-gradient-to-r from-black to-[#7d5126] w-40 flex justify-center px-2 py-3 rounded-lg font-semibold">
 //               {formatTime(timeLeft)} Left
 //             </div>
 //             <div className="px-3 py-3 rounded-md border border-[#7d5126]">
@@ -738,56 +857,74 @@ export default Home;
 //         </div>
 //       ) : null}
 
+      
+//     {/* <div className="w-full flex flex-col text-left px-4 gap-4">
+//     <div className="flex w-full justify-between">
+//     <h2 className="font-semibold text-md md:text-lg">
+//             Welcome, Hardik!
+//           </h2>
 
-//       <div className="flex space-x-4 items-center justify-start w-full rounded-lg text-xs">
-//         <div className="bg-gradient-to-r from-black to-[#7d5126] px-8 py-3 rounded-lg font-bold">
-//           {formatTime(timeLeft)} Left
-//         </div>
-//         <div className="px-3 py-3 rounded-md border border-[#7d5126]">
-//           {taps} Taps
-//         </div>
-//       </div>
+//           <div className='absolute right-6'> <NavLink to={'/profile'} >       <IoMdPerson className='text-2xl' /></NavLink></div>
 
-//       <div className="relative mt-4 w-full flex justify-center" onClick={handleImageTap}>
-//         <img
-//           src={bountyimg}
-//           alt="Bounty Token"
-//           className="w-2/3 md:w-1/2 h-auto object-contain cursor-pointer"
-//         />
-//         {floatingPlusPosition && (
-//           <div
-//             className="floating-plus absolute text-lg text-green-500 transition-all duration-700"
-//             style={{
-//               left: `${floatingPlusPosition.x}%`,
-//               top: `${floatingPlusPosition.y}%`,
-//               transform: "translate(-50%, -50%)",
-//               transition: "top 1s ease-out", // Smoothly move the text upwards
-//             }}
-//           >
-//             +1
 //           </div>
-//         )}
-//       </div>
+        
 
+//           <div className="flex space-x-4 items-center justify-start w-full rounded-lg text-xs">
+//             <div className="bg-gradient-to-r from-black to-[#7d5126] w-40 flex justify-center px-2 py-3 rounded-lg font-semibold">
+//               {formatTime(timeLeft)} Left
+//             </div>
+//             <div className="px-3 py-3 rounded-md border border-[#7d5126]">
+//               {taps} Taps
+//             </div>
+//           </div>
+//         </div> */}
+
+//   {/* Center Section - Image and Bounty Amount */}
+//   <div className="flex flex-col items-center justify-center w-full ">
+//     <div className="relative w-full flex justify-center" onClick={handleImageTap}>
+//       <img
+//         src={bountyimg}
+//         alt="Bounty Token"
+//         className="w-2/3 md:w-1/2 h-auto object-contain cursor-pointer"
+//       />
+//       {floatingPlusPosition && (
+//         <div
+//           className="floating-plus absolute text-lg text-green-500 transition-all duration-700"
+//           style={{
+//             left: `${floatingPlusPosition.x}%`,
+//             top: `${floatingPlusPosition.y}%`,
+//             transform: "translate(-50%, -50%)",
+//             transition: "top 1s ease-out",
+//           }}
+//         >
+//           +1
+//         </div>
+//       )}
+//     </div>
+//     {bountyAmount && (
 //       <div className="text-center mt-4">
-//         {bountyAmount && <h2 className="text-3xl font-bold">{bountyAmount.toFixed(4)} BNTY</h2>}
+//         <h2 className="text-3xl font-bold">{bountyAmount.toFixed(4)} BNTY</h2>
 //         <p className="text-gray-400">Bounty Token</p>
 //       </div>
+//     )}
+//   </div>
 
-//       <button
+//   {/* Bottom Section - Farming Button */}
+//   <button
 //         className="bg-gradient-to-r fixed bottom-24 from-black to-[#7d5126] px-8 py-3 rounded-lg w-full text-lg font-bold"
 //         onClick={handleStartFarming}
 //         disabled={isFarming && timeLeft > 0}
 //       >
 //         {isFarming ? (
 //     <span>
-//       Farming... <span className="font-semibold">{totalCoinsGenerated.toFixed(4)} coins</span>
+//       Farming...
 //     </span>
 //   ) : (
 //     "Start Farming"
 //   )}
 //       </button>
-//     </div>
+// </div>
+
 //   );
 // };
 
