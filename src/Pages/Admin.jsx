@@ -27,6 +27,7 @@ const AdminDashboard = () => {
         companytelegramChatInvite: '', // Reset Telegram chat invite link
         companyTelegramAnnInvite: '', // Reset Telegram announcement invite link
         postLink: '', // post link
+        commentPostLink: '', // post link
         appLink: '', // app link
         taskLink: '', // task link
         campaignLink: '', // campaign link
@@ -79,6 +80,7 @@ const AdminDashboard = () => {
                 companyTelegramChatInvite: formData.companytelegramChatInvite, // Store Telegram chat invite link
                 companyTelegramAnnInvite: formData.companyTelegramAnnInvite, // Store Telegram announcement invite link
                 postLink: formData.postLink, // Store Telegram announcement invite link
+                commentPostLink: formData.commentPostLink, // Store Telegram announcement invite link
                 appLink: formData.appLink, // Store Telegram announcement invite link
                 taskLink: formData.taskLink, // Store Telegram announcement invite link
                 campaignLink: formData.campaignLink, // Store Telegram announcement invite link
@@ -123,6 +125,7 @@ const AdminDashboard = () => {
                 companytelegramChatInvite: '', // Reset Telegram chat invite link
                 companyTelegramAnnInvite: '', // Reset Telegram announcement invite link
                 postLink: '', // Reset Telegram announcement invite link
+                commentPostLink: '', // Reset Telegram announcement invite link
                 appLink: '', // app link
                 taskLink: '', // task link
                 campaignLink: '', // campaign link
@@ -357,9 +360,17 @@ const AdminDashboard = () => {
 
                     <input
                         type="text"
-                        placeholder="Client Post Link"
+                        placeholder="Client Post Link for tagging 3 friends"
                         name="postLink"
                         value={formData.postLink}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black mb-2"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Client Post Link for commenting"
+                        name="commentPostLink"
+                        value={formData.commentPostLink}
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded bg-black mb-2"
                     />

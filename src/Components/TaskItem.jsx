@@ -34,6 +34,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
         companyTwitter: { claim: true, claimed: false, goClicked: false, link: data.companyTwitter },
         postLink: { claim: true, claimed: false, goClicked: false, link: data.postLink },
+        commentPostLink: { claim: true, claimed: false, goClicked: false, link: data.commentPostLink },
         appLink: { claim: true, claimed: false, goClicked: false, link: data.appLink },
         taskLink: { claim: true, claimed: false, goClicked: false, link: data.taskLink },
         campaignLink: { claim: true, claimed: false, goClicked: false, link: data.campaignLink },
@@ -103,9 +104,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
     const imageUrl = `${process.env.REACT_APP_APPWRITE_URL}/storage/buckets/${process.env.REACT_APP_APPWRITE_BUCKET_ID}/files/${data.image}/preview?project=${process.env.REACT_APP_APPWRITE_PROJECT_ID}`;
 
-    // const toggleOpen = () => {
-    //     setIsOpen(!isOpen);
-    // };
+
 
     useEffect(() => {
         const createdAt = new Date(data.$createdAt).getTime();
@@ -189,7 +188,9 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
         } else if (key === 'postLink') {
             window.open(data.postLink, '_blank');
-        } else if (key === 'appLink') {
+        } else if (key === 'commentPostLink') {
+            window.open(data.commentPostLink, '_blank');
+        }else if (key === 'appLink') {
             window.open(data.appLink, '_blank');
         } else if (key === 'taskLink') {
             window.open(data.taskLink, '_blank');
@@ -215,7 +216,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
             if (!claimButtonsState[key].goClicked) {
                 if (key === 'website') toast.error('Please visit the website')
-                else toast.error(`Please complete the given task.`)
+                else toast.error(`Please complete the given task`)
             }
             else {
 
@@ -532,6 +533,39 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                                         <button
                                             className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
                                             onClick={() => handleCheckClick('postLink')}
+                                        >
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+
+                    ) : (null)}
+
+                    {data.commentPostLink ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Like, Retweet and comment on post</p>
+                            {claimButtonsState.commentPostLink.claim ? (
+                                <button onClick={() => handleClaimClick('commentPostLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
+                                    Claim 100 bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.commentPostLink.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            onClick={() => handleGoClick('commentPostLink')}
+                                        >
+                                            Go
+                                        </button>
+                                        <button
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            onClick={() => handleCheckClick('commentPostLink')}
                                         >
                                             Check
                                         </button>
