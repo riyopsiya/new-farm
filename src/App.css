@@ -19,7 +19,7 @@ body {
 .glass-effect {
   background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white background */
   backdrop-filter: blur(10px); /* Blur effect for frosted glass */
-  border: 1px solid rgba(255, 255, 255, 0.3); /* Light border to outline the glass */
+  /* border: 1px solid rgba(255, 255, 255, 0.3); Light border to outline the glass */
   /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); Shadow for a slight 3D effect */
 }
 
