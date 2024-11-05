@@ -334,8 +334,8 @@ const Home = () => {
         </div>
       ) : null}
 
-{/*       
-    <div className="w-full flex flex-col text-left px-4 gap-4">
+      
+    {/* <div className="w-full flex flex-col text-left px-4 gap-4">
     <div className="flex w-full justify-between">
     <h2 className="font-semibold text-md md:text-lg">
             Welcome, Hardik!
