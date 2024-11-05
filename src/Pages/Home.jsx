@@ -363,7 +363,7 @@ const Home = () => {
 
      
         <div 
-    className="relative mt-4 w-full flex justify-center  shadow-xl py-16  shadow-blue-gradient" 
+    className="relative mt-4 w-full flex justify-center   py-16  " 
     onClick={handleImageTap}
 >  <img
           src={bountyimg}
