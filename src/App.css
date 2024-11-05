@@ -1,16 +1,17 @@
 body {
   /* background-color:#111211 ; */
-  background-color:#181c19 ;
+  background-color:#0f100f ;
   color: white;
   
  
 }
 
 .home-gradient {
-  background-image: radial-gradient(circle at center, rgba(125, 81, 38, 0.571), #181c19, #181c19);
+  /* background-image: radial-gradient(circle at center, rgba(125, 81, 38, 0.571), #181c19, #181c19); */
+  background-image: radial-gradient(circle at center, rgba(125, 81, 38, 0.571), #0f100f ,#0f100f);
 }
 .gradient2 {
-  background-image: radial-gradient(circle at center, rgba(84, 56, 27, 0.263), #181c19, #181c19);
+  background-image: radial-gradient(circle at center, rgba(84, 56, 27, 0.263), #0f100f, #0f100f);
 }
 
 
