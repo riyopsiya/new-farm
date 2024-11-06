@@ -306,8 +306,8 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         if (allTasksCompleted && walletAddress) {
 
             setAllTasksCompleted(allTasksCompleted); // Update the state if necessary
-            toast.success("All tasks completed");
-            
+           
+
             await service.updateUserTasks(userId.toString(), data.$id);
             await service.updateUserCoins(userId, tasksCnt * 100)
           
@@ -317,7 +317,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
                 walletType: data?.addressType
             }
             await service.updateCompanyUsers(data.$id, newUserData)
-
+            toast.success("All tasks completed");
            
         } else {
 
