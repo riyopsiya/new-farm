@@ -129,17 +129,12 @@ const Home = () => {
         } else {
             // Farming is not active, reset farming state
             setCanClaim(false);
-            resetFarming();
+            // resetFarming();
         }
     };
 
     calculateOfflineCoins();
 
-    // return () => {
-    //     // Save the current bounty amount and last visited time to local storage
-    //     localStorage.setItem("bountyAmount", bountyAmountRef.current.toString());
-    //     localStorage.setItem("lastVisitedTime", Date.now().toString());
-    // };
 }, [isFarming]); // Run only once when the component mounts
 
 
