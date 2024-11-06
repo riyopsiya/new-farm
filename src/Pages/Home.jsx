@@ -10,6 +10,7 @@ import { IoMdPerson } from "react-icons/io";
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
+  // const userId = 1337182007;
   const userId = userInfo?.id;
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
@@ -287,8 +288,27 @@ const Home = () => {
           </div>
         </div>
       ) : null}
+{/* 
+<div className="w-full flex flex-col text-left px-2 gap-4">
 
+          <div className="flex w-full justify-between">
+          <h2 className="font-semibold text-md md:text-lg">
+            Welcome, {userInfo.first_name || userInfo.username}!
+          </h2>
 
+          <div className='absolute right-6'> <NavLink to={'/profile'} >       <IoMdPerson className='text-2xl' /></NavLink></div>
+
+          </div>
+        
+          <div className="flex space-x-4 items-center justify-start w-full rounded-lg text-xs">
+          <div className="bg-gradient-to-r from-black to-[#7d5126] w-32 flex justify-center px-2 py-3 rounded-lg font-semibold glass-effect">
+              {formatTime(timeLeft)} Left
+            </div>
+            <div className="px-3 py-3 rounded-md w-20 text-center border border-[#7d5126] glass-effect">
+              {taps} Taps
+            </div>
+          </div>
+        </div> */}
   {/* Center Section - Image and Bounty Amount */}
   <div className="flex flex-col items-center justify-center w-full  ">
     <div className="relative w-full flex justify-center" onClick={handleImageTap}>
