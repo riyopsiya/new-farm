@@ -10,7 +10,6 @@ import { IoMdPerson } from "react-icons/io";
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
-  // const userId = 1337182007;
   const userId = userInfo?.id;
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
@@ -22,9 +21,9 @@ const Home = () => {
   const [floatingPlusPosition, setFloatingPlusPosition] = useState(null);
   const bountyAmountRef = useRef(bountyAmount);
   const coinsGeneratedSinceStart = useRef(0); // Track coins generated since farming started
-    const [totalCoinsGenerated, setTotalCoinsGenerated] = useState(0); // New state for total coins generated
-   
- 
+  const [totalCoinsGenerated, setTotalCoinsGenerated] = useState(0); // New state for total coins generated
+
+
 
   // Initialize Appwrite client
   const client = new Client();
@@ -43,7 +42,7 @@ const Home = () => {
 
     const unsubscribe = client.subscribe(channel, (response) => {
       if (response.payload?.coins) {
-       
+
         setBountyAmount(response.payload.coins);
         bountyAmountRef.current = response.payload.coins;
       }
@@ -83,82 +82,78 @@ const Home = () => {
 
 
 
+
   useEffect(() => {
-
     const calculateOfflineCoins = () => {
-        const endTime = parseInt(localStorage.getItem("endTime") || "0", 10);
-        const startTime = parseInt(localStorage.getItem("startTime") || "0", 10);
-        const isFarmingActive = localStorage.getItem("isFarming") === "true";
-        const coinsClaimed = localStorage.getItem("coinsClaimed") === "true";
+      const endTime = parseInt(localStorage.getItem("endTime") || "0", 10);
+      const startTime = parseInt(localStorage.getItem("startTime") || "0", 10);
+      const isFarmingActive = localStorage.getItem("isFarming") === "true";
+      const coinsClaimed = localStorage.getItem("coinsClaimed") === "true";
 
-        if (isFarmingActive && !coinsClaimed) {
-            const currentTime = Date.now();
+      if (isFarmingActive && !coinsClaimed) {
+        const currentTime = Date.now();
 
-            if (endTime > currentTime) {
-                // Farming is active, calculate total coins generated
-                const timePassed = Math.floor((currentTime - startTime) / 1000);
-                // console.log('time since farming started',timePassed)
-                const coins = 0.0028 * timePassed;
-                // console.log('Coins since farming started:', coins);
+        if (endTime > currentTime) {
+          // Farming is active, calculate total coins generated
+          const timePassed = Math.floor((currentTime - startTime) / 1000);
+          const coins = 0.0028 * timePassed;
 
-                // Update state for total coins generated
-                setTotalCoinsGenerated(coins);
-                coinsGeneratedSinceStart.current = coins;
+          // Update state for total coins generated
+          setTotalCoinsGenerated(coins);
+          coinsGeneratedSinceStart.current = coins;
 
-                // Calculate remaining time for farming
-                const remainingTime=Math.max(Math.floor((endTime - currentTime) / 1000), 0)
-                setTimeLeft(remainingTime);
-                setIsFarming(true);
+          // Calculate remaining time for farming
+          const remainingTime = Math.max(Math.floor((endTime - currentTime) / 1000), 0);
+          setTimeLeft(remainingTime);
+          setIsFarming(true);
 
-
-                  // Check if the time left has become zero
-                  if (remainingTime === 0) {
-                    setCanClaim(true); // Show the claim button
-                }
-            } else {
-                // Farming time is over
-                const coins = Math.floor(0.0028 * initialTime)
-            
-            setTotalCoinsGenerated(coins);
-            coinsGeneratedSinceStart.current = coins;
-
-                // Reset farming state
-       
-                setCanClaim(true);
-                resetFarming();
-            }
+          // Check if the time left has become zero
+          if (remainingTime === 0) {
+            setCanClaim(true); // Show the claim button
+            setIsFarming(false);
+            setTimeLeft(initialTime);
+            localStorage.removeItem("endTime");
+          }
         } else {
-            // Farming is not active, reset farming state
-            setCanClaim(false);
-            // resetFarming();
+          // Farming time is over
+          const coins = Math.floor(0.0028 * initialTime);
+          setTotalCoinsGenerated(coins);
+          coinsGeneratedSinceStart.current = coins;
+
+          // Allow claiming since farming time is up
+          setCanClaim(true);
+          setIsFarming(false);
+          setTimeLeft(initialTime);
+          localStorage.removeItem("endTime");
         }
+      } else {
+        // Farming is not active, reset farming state if not already reset
+        setCanClaim(false);
+      }
     };
 
     calculateOfflineCoins();
-
-}, [isFarming]); // Run only once when the component mounts
-
+  }, [isFarming]);
 
 
-  const resetFarming =async () => {
+  const resetFarming = async () => {
     setIsFarming(false);
     setTaps(100);
     setTimeLeft(initialTime);
     localStorage.removeItem("endTime");
-    
-    
-    await service.updateUserData(userId, { taps: 100});  
+
+    await service.updateUserData(userId, { taps: 100 });
 
   };
   const claimCoins = async () => {
 
-      setCanClaim(false)
-  const response= await service.updateUserCoins(userId, totalCoinsGenerated)
-  
-    coinsGeneratedSinceStart.current=0
-  setTotalCoinsGenerated(0)
- 
-  // Mark coins as claimed in local storage
+    setCanClaim(false)
+    const response = await service.updateUserCoins(userId, totalCoinsGenerated)
+
+    coinsGeneratedSinceStart.current = 0
+    setTotalCoinsGenerated(0)
+    resetFarming();
+    // Mark coins as claimed in local storage
     localStorage.setItem("coinsClaimed", "true");
 
   };
@@ -175,9 +170,13 @@ const Home = () => {
     if (isFarming && timeLeft > 0) {
       timer = setInterval(() => {
         setTimeLeft((prevTime) => prevTime - 1);
-        
-        setTotalCoinsGenerated((prevBounty) => prevBounty + 0.0028 );
-        if (timeLeft <= 1) resetFarming();
+
+        setTotalCoinsGenerated((prevBounty) => prevBounty + 0.0028);
+        if (timeLeft <= 1) {
+          setIsFarming(false);
+          setTimeLeft(initialTime);
+          localStorage.removeItem("endTime");
+        };
       }, 1000);
     }
 
@@ -197,11 +196,11 @@ const Home = () => {
     localStorage.setItem("endTime", endTime);
     localStorage.setItem("startTime", startTime);
     localStorage.setItem("isFarming", true);
-      // Mark coins as claimed in local storage
-      localStorage.setItem("coinsClaimed", "false");
+    // Mark coins as claimed in local storage
+    localStorage.setItem("coinsClaimed", "false");
   };
 
- 
+
   const handleImageTap = async (e) => {
     if (taps > 0) {
       const newAmount = bountyAmount + 1;
@@ -236,8 +235,8 @@ const Home = () => {
           }
           return prevPosition; // Return prevPosition if it's null
         });
-      }, 1); // Delay to start the animation
-  
+      }, 10); // Delay to start the animation
+
 
       // Clear the floating +1 after the animation
       setTimeout(() => {
@@ -266,105 +265,109 @@ const Home = () => {
   return (
     <div className="flex flex-col items-center justify-between min-h-[65vh] text-white px-2 py-2 mt-4 overflow-hidden home-gradient ">
 
-    {userInfo.first_name || userInfo.username ? (
+      {userInfo.first_name || userInfo.username ? (
         <div className="w-full flex flex-col text-left px-2 gap-4">
 
           <div className="flex w-full justify-between">
-          <h2 className="font-semibold text-md md:text-lg">
-            Welcome, {userInfo.first_name || userInfo.username}!
-          </h2>
+            <h2 className="font-semibold text-md md:text-lg">
+              Welcome, {userInfo.first_name || userInfo.username}!
+            </h2>
 
-          <div className='absolute right-6'> <NavLink to={'/profile'} >       <IoMdPerson className='text-2xl' /></NavLink></div>
+            <div className='absolute right-6'> <NavLink to={'/profile'} >       <IoMdPerson className='text-2xl' /></NavLink></div>
 
           </div>
-        
+
           <div className="flex space-x-4 items-center justify-start w-full rounded-lg text-xs">
-          <div className="bg-gradient-to-r from-black to-[#7d5126] w-32 flex justify-center px-2 py-3 rounded-lg font-semibold glass-effect">
+            <div className="bg-gradient-to-r from-black to-[#7d5126] w-32 flex justify-center px-2 py-3 rounded-lg font-semibold glass-effect font-mono">
               {formatTime(timeLeft)} Left
             </div>
-            <div className="px-3 py-3 rounded-md w-20 text-center border border-[#7d5126] glass-effect">
+            <div className="px-3 py-3 rounded-md w-20 text-center border border-[#7d5126] glass-effect font-mono">
               {taps} Taps
             </div>
           </div>
         </div>
       ) : null}
-{/* 
-<div className="w-full flex flex-col text-left px-2 gap-4">
 
-          <div className="flex w-full justify-between">
+      {/* <div className="w-full flex flex-col text-left px-2 gap-4">
+
+        <div className="flex w-full justify-between">
           <h2 className="font-semibold text-md md:text-lg">
             Welcome, {userInfo.first_name || userInfo.username}!
           </h2>
 
           <div className='absolute right-6'> <NavLink to={'/profile'} >       <IoMdPerson className='text-2xl' /></NavLink></div>
 
-          </div>
-        
-          <div className="flex space-x-4 items-center justify-start w-full rounded-lg text-xs">
-          <div className="bg-gradient-to-r from-black to-[#7d5126] w-32 flex justify-center px-2 py-3 rounded-lg font-semibold glass-effect">
-              {formatTime(timeLeft)} Left
-            </div>
-            <div className="px-3 py-3 rounded-md w-20 text-center border border-[#7d5126] glass-effect">
-              {taps} Taps
-            </div>
-          </div>
-        </div> */}
-  {/* Center Section - Image and Bounty Amount */}
-  <div className="flex flex-col items-center justify-center w-full  ">
-    <div className="relative w-full flex justify-center" onClick={handleImageTap}>
-      <img
-        src={bountyimg}
-        alt="Bounty Token"
-        className="w-2/3 md:w-1/2 h-auto object-contain cursor-pointer"
-      />
-      {floatingPlusPosition && (
-        <div
-          className="floating-plus absolute text-lg text-green-500 transition-all duration-700"
-          style={{
-            left: `${floatingPlusPosition.x}%`,
-            top: `${floatingPlusPosition.y}%`,
-            transform: "translate(-50%, -50%)",
-            transition: "top 1s ease-out",
-          }}
-        >
-          +1
         </div>
-      )}
-    </div>
-    {bountyAmount && (
-      <div className="text-center mt-4">
-        <h2 className="text-3xl font-bold">{bountyAmount.toFixed(4)} BNTY</h2>
-        <p className="text-gray-400">Bounty Token</p>
+
+        <div className="flex space-x-4 items-center justify-start w-full rounded-lg text-xs">
+          <div className="bg-gradient-to-r from-black to-[#7d5126] w-32 flex justify-center px-2 py-3 rounded-lg font-semibold font-mono glass-effect">
+            {formatTime(timeLeft)} Left
+          </div>
+          <div className="px-3 py-3 rounded-md w-20 text-center font-mono border border-[#7d5126] glass-effect">
+            {taps} Taps
+          </div>
+        </div>
+      </div> */}
+
+      
+      {/* Center Section - Image and Bounty Amount */}
+      <div className="flex flex-col items-center justify-center w-full  ">
+        <div className="relative w-full flex justify-center" onClick={handleImageTap}>
+          <img
+            src={bountyimg}
+            alt="Bounty Token"
+            className="w-2/3 md:w-1/2 h-auto object-contain cursor-pointer"
+          />
+          {floatingPlusPosition && (
+            <div
+              className="floating-plus absolute text-lg text-green-500 transition-all duration-700"
+              style={{
+                left: `${floatingPlusPosition.x}%`,
+                top: `${floatingPlusPosition.y}%`,
+                transform: "translate(-50%, -50%)",
+                transition: "top 1s ease-out",
+              }}
+            >
+              +1
+            </div>
+          )}
+        </div>
+        {bountyAmount && (
+          <div className="text-center mt-4">
+            <h2 className="text-3xl font-bold font-mono">{bountyAmount.toFixed(4)} BNTY</h2>
+            <p className="text-gray-400">Bounty Token</p>
+          </div>
+        )}
       </div>
-    )}
-  </div>
 
 
-  {canClaim  ? (
-     <button
-     className="bg-gradient-to-r fixed bottom-24 from-black to-[#7d5126] px-8 py-3 rounded-lg w-full text-lg font-bold"
-     onClick={claimCoins}
-   
-   >
-    Claim {totalCoinsGenerated.toFixed(4)} coins 
-   </button>
-  ) : (
-    <button
-        className="bg-gradient-to-r fixed bottom-24 from-black to-[#7d5126] px-8 py-3 rounded-lg w-full text-lg font-bold"
-        onClick={handleStartFarming}
-        disabled={isFarming && timeLeft > 0}
-      >
-        {isFarming ? (
-  <span className="min-w-[10rem] inline-block text-center">
-  Farming... {totalCoinsGenerated.toFixed(4)}
-</span>
-  ) : (
-    "Start Farming"
-  )}
-      </button>
-  )}
-  
-</div>
+      {canClaim ? (
+        <button
+          className="bg-gradient-to-r fixed bottom-24 from-black  to-[#7d5126] px-8 py-3 rounded-lg w-full text-lg font-bold"
+          onClick={claimCoins}
+
+        >
+          Claim <span className="font-mono">{totalCoinsGenerated.toFixed(4)}</span>  coins
+        </button>
+      ) : (
+        <button
+          className="bg-gradient-to-r fixed bottom-24 from-black to-[#7d5126] px-4 py-3 rounded-lg w-full text-lg font-bold"
+          onClick={handleStartFarming}
+          disabled={isFarming && timeLeft > 0}
+        >
+          {isFarming ? (
+          <div className="inline-block text-center " >
+          <span>Farming...</span>
+          <span className="font-mono"> {totalCoinsGenerated.toFixed(4)}</span>
+         
+        </div>
+          ) : (
+            "Start Farming"
+          )}
+        </button>
+      )}
+
+    </div>
 
   );
 };
