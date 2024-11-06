@@ -17,8 +17,7 @@ const ProfilePage = () => {
         
         <h1 className="text-lg font-bold">Profile</h1>
         
-        <NavLink to={'/admin'} className='p-6 py-2 text-sm bg-gradient-to-r from-black to-[#b1783e] font-semibold  rounded-lg'>Admin</NavLink>
-        {parseInt(process.env.REACT_APP_ADMIN_ID) ===  userInfo.id ? ( <NavLink to={'/admin'} className='p-6 py-2 text-sm bg-gradient-to-r from-black to-[#b1783e] font-semibold  rounded-lg'>Admin</NavLink>
+       {parseInt(process.env.REACT_APP_ADMIN_ID) ===  userInfo.id ? ( <NavLink to={'/admin'} className='p-6 py-2 text-sm bg-gradient-to-r from-black to-[#b1783e] font-semibold  rounded-lg'>Admin</NavLink>
         ):(null) }
       </div>
 
@@ -65,15 +64,7 @@ const ProfilePage = () => {
           <a href="https://t.me/BountyTapchat" target="_blank" className="text-gray-400"><FaTelegramPlane className="text-blue-400" /></a>
           <a href="https://t.me/BountyTapannouncement" target="_blank" className="text-gray-400"><BiBell className="text-blue-400" /></a>
           <a href="https://www.facebook.com/people/BountyTap/61568220061280/ " target="_blank" className="text-gray-400"><FaFacebook className="text-blue-400" /></a>
-          {/* <a href="https://www.linkedin.com/company/collably-network/ " target="_blank" className="text-gray-400"><FaLinkedinIn className="text-blue-400" /></a> */}
         </div>
-
-        {/* Links */}
-        {/* <div className="flex justify-center space-x-6 text-gray-400 text-sm">
-          <a href="#">Roadmap</a>
-          <a href="#">Privacy policy</a>
-          <a href="#">FAQ</a>
-        </div> */}
       </div>
     </div>
   );

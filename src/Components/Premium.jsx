@@ -12,8 +12,6 @@ const Premium = () => {
   const [openTaskId, setOpenTaskId] = useState(null);
   const { userInfo } = useSelector((state) => state.user);
 
-  // const userId = 1337182007;
-  // const userId = 1751474467;
   const userId = userInfo?.id;
 
   // Function to determine if a task is expired
@@ -57,7 +55,7 @@ const Premium = () => {
 
         // Fetch premium tasks data
         const premiumTasksData = await service.getAllData('premium');
-        // console.log('Fetched premium tasks:', premiumTasksData.documents);
+        
 
         // Separate the tasks
         const { completed, notCompleted } = separateTasks(userTasks, premiumTasksData.documents);

@@ -10,8 +10,6 @@ import { IoMdPerson } from "react-icons/io";
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
-  // const userId = 1337182007
-  // const userId = 1751474467;
   const userId = userInfo?.id;
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
@@ -118,11 +116,8 @@ const Home = () => {
                 }
             } else {
                 // Farming time is over
-                // const timePassed = Math.floor((currentTime - startTime) / 1000);
-                // console.log('time since farming started',timePassed)
                 const coins = Math.floor(0.0028 * initialTime)
-                // console.log('Total coins generated before expiry:', coins);
-            // Update state for total coins generated
+            
             setTotalCoinsGenerated(coins);
             coinsGeneratedSinceStart.current = coins;
 
@@ -140,11 +135,11 @@ const Home = () => {
 
     calculateOfflineCoins();
 
-    return () => {
-        // Save the current bounty amount and last visited time to local storage
-        localStorage.setItem("bountyAmount", bountyAmountRef.current.toString());
-        localStorage.setItem("lastVisitedTime", Date.now().toString());
-    };
+    // return () => {
+    //     // Save the current bounty amount and last visited time to local storage
+    //     localStorage.setItem("bountyAmount", bountyAmountRef.current.toString());
+    //     localStorage.setItem("lastVisitedTime", Date.now().toString());
+    // };
 }, [isFarming]); // Run only once when the component mounts
 
 
@@ -161,7 +156,6 @@ const Home = () => {
   };
   const claimCoins = async () => {
 
-      // const newcoins=bountyAmountRef.current + totalCoinsGenerated
       setCanClaim(false)
   const response= await service.updateUserCoins(userId, totalCoinsGenerated)
   
@@ -211,41 +205,6 @@ const Home = () => {
       localStorage.setItem("coinsClaimed", "false");
   };
 
-  // const saveUserData = async (amount) => {
-  //   try {
-  //     await service.updateUserData(userId, { coins: amount });
-  //   } catch (error) {
-  //     console.error("Error saving data:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const saveOnVisibilityChange = () => {
-  //     if (document.visibilityState === "hidden") {
-  //       localStorage.setItem("bountyAmount", bountyAmountRef.current.toString());
-  //       saveUserData(bountyAmountRef.current);
-  //     }
-  //   };
-
-  //   const saveOnBeforeUnload = (event) => {
-  //     localStorage.setItem("bountyAmount", bountyAmountRef.current.toString());
-  //     saveUserData(bountyAmountRef.current);
-  //     event.returnValue = '';
-  //   };
-
-  //   document.addEventListener("visibilitychange", saveOnVisibilityChange);
-  //   window.addEventListener("beforeunload", saveOnBeforeUnload);
-
-  //   return () => {
-  //     document.removeEventListener("visibilitychange", saveOnVisibilityChange);
-  //     window.removeEventListener("beforeunload", saveOnBeforeUnload);
-  //   };
-  // }, [userId]);
-
-
-
-  // Define the function for image tap
- 
  
   const handleImageTap = async (e) => {
     if (taps > 0) {
