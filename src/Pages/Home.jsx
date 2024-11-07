@@ -281,7 +281,7 @@ const Home = () => {
             <div className="bg-gradient-to-r from-black to-[#7d5126] w-32  flex justify-center px-2 py-3 rounded-lg font-bold glass-effect font-mono">
               {formatTime(timeLeft)} Left
             </div>
-            <div className="px-3 py-3 rounded-md w-20 text-center font-bold  border  border-[#7d5126] glass-effect font-mono">
+            <div className="px-3 py-3 rounded-md  text-center font-bold  border  border-[#7d5126] glass-effect font-mono">
               {taps} Taps
             </div>
           </div>
@@ -303,7 +303,7 @@ const Home = () => {
           <div className="bg-gradient-to-r from-black to-[#7d5126] w-32 flex justify-center px-2 py-3 rounded-lg font-semibold font-mono glass-effect">
             {formatTime(timeLeft)} Left
           </div>
-          <div className="px-3 py-3 rounded-md w-20 text-center font-mono border border-[#7d5126] glass-effect">
+          <div className="px-3 py-3 rounded-md text-center font-mono border border-[#7d5126] glass-effect">
             {taps} Taps
           </div>
         </div>
@@ -356,11 +356,11 @@ const Home = () => {
           disabled={isFarming && timeLeft > 0}
         >
           {isFarming ? (
-          <div className="inline-block text-center " >
-          <span>Farming...</span>
-          <span className="font-mono"> {totalCoinsGenerated.toFixed(4)}</span>
-         
-        </div>
+            <div className="inline-block text-center " >
+              <span>Farming...</span>
+              <span className="font-mono"> {totalCoinsGenerated.toFixed(4)}</span>
+
+            </div>
           ) : (
             "Start Farming"
           )}
