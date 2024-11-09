@@ -8,7 +8,7 @@ import { FaShare } from 'react-icons/fa6';
 import service from '../appwrite/database';
 
 const TaskItem = ({ data, isOpen, onToggle }) => {
-    const { userInfo } = useSelector((state) => state.user);   //userInfo is telegram details of the user and userData is the data of user from appwrite
+    const { userInfo,userData } = useSelector((state) => state.user);   //userInfo is telegram details of the user and userData is the data of user from appwrite
     const [walletAddress, setWalletAddress] = useState("");
     const [timeLeft, setTimeLeft] = useState(0);
     const [tasksCnt, setTasksCnt] = useState(0)
@@ -60,9 +60,9 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
     const fetchUserData = async () => {
         try {
             // Fetch user data from the service
-            const userData = await service.getUser(userId);
+            const user = await service.getUser(userId);
 
-            const userTasks = userData.tasks;
+            const userTasks = user.tasks;
             const taskId = data?.$id;
 
             // Find if the task exists in the user's tasks
@@ -331,14 +331,16 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
 
     const handleShare = () => {
-       
+        const referralCode = userData?.referralCode;
+        const appInviteLink = "http://t.me/notcoincollablybot/notcoinbot";  
+        const referralLink = data.referralLink ? `${data.referralLink}` : ` ${appInviteLink}?startapp=${referralCode}` ;
         const message = `🎉 BountyTap & ${data.companyName} Campaign 🎉
 
 Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards from ${data.companyName} in our collaborative airdrop campaign!
 
 ✅ Complete simple tasks, 🔗 share, and start earning today! Don’t miss out – claim your rewards now.
 
-🔗 Referral Link: ${data.referralLink}
+🔗 Referral Link: ${referralLink}
 
 📑 Disclaimer: Airdrop is 100% free. Do not send anything to receive airdrop tokens. Just join the airdrop for free!`;
         const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(message)} `;
@@ -375,25 +377,25 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Follow {data.companyName} on X </p>
                             {claimButtonsState.companyTwitter.claim ? (
-                                <button onClick={() => handleClaimClick('companyTwitter')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('companyTwitter')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
 
                                 claimButtonsState.companyTwitter.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('companyTwitter')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
 
                                             onClick={() => handleCheckClick('companyTwitter')}
                                         >
@@ -410,24 +412,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     {data.companyTelegramChatInvite ? (<div className='flex w-full justify-between items-center'>
                         <p className='max-w-48'>Follow {data.companyName}'s Telegram Group </p>
                         {claimButtonsState.companyTelegramChatInvite.claim ? (
-                            <button onClick={() => handleClaimClick('companyTelegramChatInvite')} className="bg-gradient-to-r from-black to-[#7d5126]  px-2 py-2 rounded-lg text-xs font-bold  ">
-                                Claim 100 bounty
+                            <button onClick={() => handleClaimClick('companyTelegramChatInvite')} className="bg-gradient-to-r from-black to-[#7d5126]  px-2 py-2 rounded-lg text-xs font-semibold  ">
+                                Claim 100 Bounty
                             </button>
                         ) : (
                             claimButtonsState.companyTelegramChatInvite.claimed ? (
-                                <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                     Claimed
                                 </button>
                             ) : (
                                 <div className='flex gap-2'>
                                     <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                        className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                         onClick={() => handleGoClick('companyTelegramChatInvite')}
                                     >
                                         Go
                                     </button>
                                     <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                        className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                         onClick={() => handleCheckClick('companyTelegramChatInvite')}
                                     >
                                         Check
@@ -443,25 +445,25 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Follow {data.companyName}'s Telegram Channel</p>
                             {claimButtonsState.companyTelegramAnnInvite.claim ? (
-                                <button onClick={() => handleClaimClick('companyTelegramAnnInvite')} className="bg-gradient-to-r from-black to-[#7d5126]   px-2 py-2 rounded-lg text-xs font-bold ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('companyTelegramAnnInvite')} className="bg-gradient-to-r from-black to-[#7d5126]   px-2 py-2 rounded-lg text-xs font-semibold ">
+                                    Claim 100 Bounty
                                 </button>
 
                             ) : (
                                 claimButtonsState.companyTelegramAnnInvite.claimed ? (
-                                    <button className="bg-gradient-to-r from-black  to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold">
+                                    <button className="bg-gradient-to-r from-black  to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('companyTelegramAnnInvite')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('companyTelegramAnnInvite')}
                                         >
                                             Check
@@ -480,24 +482,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Download {data.companyName}'s app</p>
                             {claimButtonsState.appLink.claim ? (
-                                <button onClick={() => handleClaimClick('appLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('appLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.appLink.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('appLink')}
                                         >
                                             Download
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('appLink')}
                                         >
                                             Check
@@ -515,24 +517,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Like, Retweet and tag 3 friends on the post</p>
                             {claimButtonsState.postLink.claim ? (
-                                <button onClick={() => handleClaimClick('postLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('postLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.postLink.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('postLink')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('postLink')}
                                         >
                                             Check
@@ -548,24 +550,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Like, Retweet and comment on the post</p>
                             {claimButtonsState.commentPostLink.claim ? (
-                                <button onClick={() => handleClaimClick('commentPostLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('commentPostLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.commentPostLink.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('commentPostLink')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('commentPostLink')}
                                         >
                                             Check
@@ -584,24 +586,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Complete the task</p>
                             {claimButtonsState.taskLink.claim ? (
-                                <button onClick={() => handleClaimClick('taskLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('taskLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.taskLink.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('taskLink')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('taskLink')}
                                         >
                                             Check
@@ -620,24 +622,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Participate in campaign</p>
                             {claimButtonsState.campaignLink.claim ? (
-                                <button onClick={() => handleClaimClick('campaignLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('campaignLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.campaignLink.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('campaignLink')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('campaignLink')}
                                         >
                                             Check
@@ -656,24 +658,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Complete the Registration</p>
                             {claimButtonsState.registerLink.claim ? (
-                                <button onClick={() => handleClaimClick('registerLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('registerLink')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.registerLink.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('registerLink')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('registerLink')}
                                         >
                                             Check
@@ -691,24 +693,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Follow {data.companyName} on Instagram</p>
                             {claimButtonsState.companyInstagram.claim ? (
-                                <button onClick={() => handleClaimClick('companyInstagram')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('companyInstagram')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.companyInstagram.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('companyInstagram')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('companyInstagram')}
                                         >
                                             Check
@@ -725,24 +727,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Follow {data.companyName} on LinkedIn</p>
                             {claimButtonsState.companyLinkedin.claim ? (
-                                <button onClick={() => handleClaimClick('companyLinkedin')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('companyLinkedin')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.companyLinkedin.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('companyLinkedin')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('companyLinkedin')}
                                         >
                                             Check
@@ -759,24 +761,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Follow {data.companyName} on Facebook</p>
                             {claimButtonsState.companyFacebook.claim ? (
-                                <button onClick={() => handleClaimClick('companyFacebook')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('companyFacebook')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.companyFacebook.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('companyFacebook')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('companyFacebook')}
                                         >
                                             Check
@@ -793,24 +795,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Subscribe {data.companyName} on YouTube</p>
                             {claimButtonsState.companyYoutube.claim ? (
-                                <button onClick={() => handleClaimClick('companyYoutube')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('companyYoutube')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.companyYoutube.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('companyYoutube')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('companyYoutube')}
                                         >
                                             Check
@@ -826,24 +828,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Follow {data.companyName} on Discord</p>
                             {claimButtonsState.companyDiscord.claim ? (
-                                <button onClick={() => handleClaimClick('companyDiscord')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('companyDiscord')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.companyDiscord.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('companyDiscord')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
 
                                             onClick={() => handleCheckClick('companyDiscord')}
                                         >
@@ -860,24 +862,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Follow {data.companyName} on Medium</p>
                             {claimButtonsState.companyMedium.claim ? (
-                                <button onClick={() => handleClaimClick('companyMedium')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('companyMedium')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.companyMedium.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('companyMedium')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('companyMedium')}
                                         >
                                             Check
@@ -893,24 +895,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Visit {data.companyName}'s Website</p>
                             {claimButtonsState.companyWebsite.claim ? (
-                                <button onClick={() => handleClaimClick('companyWebsite')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('companyWebsite')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.companyWebsite.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('companyWebsite')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('companyWebsite')}
                                         >
                                             Check
@@ -928,25 +930,25 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Follow BountyTap on X </p>
                             {claimButtonsState.X.claim ? (
-                                <button onClick={() => handleClaimClick('X')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('X')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
 
                                 claimButtonsState.X.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('X')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
 
                                             onClick={() => handleCheckClick('X')}
                                         >
@@ -963,24 +965,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     {data.telegramChatInvite && data.telegramChatID ? (<div className='flex w-full justify-between items-center'>
                         <p className='max-w-48'>Follow BountyTap's Telegram Group</p>
                         {claimButtonsState.telegramChat.claim ? (
-                            <button onClick={() => handleClaimClick('telegramChat')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold w-32  ">
-                                Claim 100 bounty
+                            <button onClick={() => handleClaimClick('telegramChat')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold w-32  ">
+                                Claim 100 Bounty
                             </button>
                         ) : (
                             hasJoinedChat ? (
-                                <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                     Claimed
                                 </button>
                             ) : (
                                 <div className='flex gap-2'>
                                     <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                        className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                         onClick={() => window.open(data.telegramChatInvite, '_blank')}
                                     >
                                         Go
                                     </button>
                                     <button
-                                        className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                        className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                         onClick={() => handleTelegramCheckClick('telegramChat')}
                                     >
                                         Check
@@ -996,24 +998,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Follow BountyTap's Telegram Channel</p>
                             {claimButtonsState.telegramAnn.claim ? (
-                                <button onClick={() => handleClaimClick('telegramAnn')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold w-32  ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('telegramAnn')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold w-32  ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 hasJoinedAnn ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => window.open(data.telegramAnnInvite, '_blank')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleTelegramCheckClick('telegramAnn')}
                                         >
                                             Check
@@ -1030,24 +1032,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Follow BountyTap on Instagram</p>
                             {claimButtonsState.instagram.claim ? (
-                                <button onClick={() => handleClaimClick('instagram')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('instagram')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.instagram.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('instagram')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('instagram')}
                                         >
                                             Check
@@ -1064,24 +1066,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Follow BountyTap on Facebook</p>
                             {claimButtonsState.facebook.claim ? (
-                                <button onClick={() => handleClaimClick('facebook')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('facebook')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.facebook.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('facebook')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('facebook')}
                                         >
                                             Check
@@ -1098,24 +1100,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Subscribe BountyTap on YouTube</p>
                             {claimButtonsState.youtube.claim ? (
-                                <button onClick={() => handleClaimClick('youtube')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('youtube')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.youtube.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('youtube')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('youtube')}
                                         >
                                             Check
@@ -1131,24 +1133,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Follow BountyTap on Discord</p>
                             {claimButtonsState.discord.claim ? (
-                                <button onClick={() => handleClaimClick('discord')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('discord')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.discord.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('discord')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
 
                                             onClick={() => handleCheckClick('discord')}
                                         >
@@ -1165,24 +1167,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Follow BountyTap on Medium</p>
                             {claimButtonsState.medium.claim ? (
-                                <button onClick={() => handleClaimClick('medium')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('medium')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.medium.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('medium')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('medium')}
                                         >
                                             Check
@@ -1198,24 +1200,24 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Visit BountyTap's Website</p>
                             {claimButtonsState.website.claim ? (
-                                <button onClick={() => handleClaimClick('website')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
-                                    Claim 100 bounty
+                                <button onClick={() => handleClaimClick('website')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
+                                    Claim 100 Bounty
                                 </button>
                             ) : (
                                 claimButtonsState.website.claimed ? (
-                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  ">
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
                                 ) : (
                                     <div className='flex gap-2'>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleGoClick('website')}
                                         >
                                             Go
                                         </button>
                                         <button
-                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-bold  "
+                                            className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                             onClick={() => handleCheckClick('website')}
                                         >
                                             Check
@@ -1259,8 +1261,8 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     )}
                   
 
-                    {data.referralLink ? (<button onClick={handleShare} className='flex justify-center items-center  gap-6 border border-[1px]-white rounded-lg py-2'>Share and get referral bonus <FaShare /></button>
-                    ) : (null)}
+                    <button onClick={handleShare} className='flex justify-center items-center  gap-6 border border-[1px]-white rounded-lg py-2'>Share and get referral bonus <FaShare /></button>
+                   
                 </div>
             </div>
 

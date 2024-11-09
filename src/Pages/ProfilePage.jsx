@@ -62,7 +62,7 @@ const ProfilePage = () => {
           <a href="https://x.com/Bounty_Tap" target="_blank" className="text-gray-400"><FaXTwitter className="text-white" /></a>
           <a href=" https://www.instagram.com/bounty_tap"  target="_blank" className="text-gray-400"><FaInstagram className="text-red-500" /></a>
           <a href="https://t.me/BountyTapchat" target="_blank" className="text-gray-400"><FaTelegramPlane className="text-blue-400" /></a>
-          <a href="https://t.me/BountyTapannouncement" target="_blank" className="text-gray-400"><BiBell className="text-blue-400" /></a>
+          <a href="https://t.me/BountyTapannouncement" target="_blank" className="text-gray-400"><FaTelegram className="text-blue-400" /></a>
           <a href="https://www.facebook.com/people/BountyTap/61568220061280/ " target="_blank" className="text-gray-400"><FaFacebook className="text-blue-400" /></a>
         </div>
       </div>
