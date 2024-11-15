@@ -14,10 +14,10 @@ const AdminDashboard = () => {
 
     // Check admin access
     useEffect(() => {
-        const adminId1 = parseInt(process.env.REACT_APP_ADMIN_ID_1, 10);
-        const adminId2 = parseInt(process.env.REACT_APP_ADMIN_ID_2, 10);
+        const adminId1 = parseInt(process.env.REACT_APP_ADMIN_ID_1);
+        const adminId2 = parseInt(process.env.REACT_APP_ADMIN_ID_2);
 
-        if (!userInfo || userInfo.id !== adminId1 || userInfo.id !== adminId2 ) {
+        if (!userInfo || (userInfo?.id !== adminId1 && userInfo?.id !== adminId2))  {
             // Redirect to home page or unauthorized page
             navigate('/'); // Ensure you have an unauthorized route
         }
