@@ -5,35 +5,11 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 
 const TaskImport = ({ data }) => {
-    const { userInfo, userData } = useSelector((state) => state.user);  
+    const { userInfo } = useSelector((state) => state.user);  
     // console.log(data)
     const parsedData = data?.users.map((userString) => JSON.parse(userString));
     
     const fileName = `${data.companyName}.xlsx`
-    // const handleExport = () => {
-    //     // Step 1: Convert JSON data to worksheet
-    //     const worksheet = XLSX.utils.json_to_sheet(parsedData);
-
-    //     // Step 2: Create a new workbook and append the worksheet
-    //     const workbook = XLSX.utils.book_new();
-    //     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-
-    //     // Step 3: Generate a buffer and save it
-    //     const excelBuffer = XLSX.write(workbook, {
-    //         bookType: "xlsx",
-    //         type: "array",
-    //     });
-
-    //     // Step 4: Create a Blob from the buffer
-    //     // const fileBlob = new Blob([excelBuffer], { type: "application/octet-stream" });
-    //     const fileBlob = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-    
-    //     saveAs(fileBlob, fileName);
-    // };
-
-
-
-
 
 
     // const handleExport = () => {
@@ -77,7 +53,7 @@ const TaskImport = ({ data }) => {
     const sendFileToTelegram = async (fileBlob, fileName) => {
         const botToken = "7709563232:AAENf7IcSWaamfB4anvUVbBkdgVXLMz1kNc" ;
         const chatId =  userInfo?.id; // Retrieve this from the mini app's user context
-        // const chatId = 1337182007; // Retrieve this from the mini app's user context
+     
         
         const formData = new FormData();
         formData.append("chat_id", chatId);

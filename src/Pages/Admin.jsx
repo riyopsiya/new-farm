@@ -1,15 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import service from '../appwrite/database';
 
 import TaskImport from '../Components/TaskImport';
+import { useSelector } from 'react-redux';
 
 const AdminDashboard = () => {
+    const { userInfo } = useSelector((state) => state.user);  
     const [loading, setLoading] = useState(true);
     const [socialTasks, setSocialTasks] = useState([]);
     const [premiumTasks, setPremiumTasks] = useState([]);
+    const navigate = useNavigate();
 
-    
+    // Check admin access
+    useEffect(() => {
+        const adminId1 = parseInt(process.env.REACT_APP_ADMIN_ID_1, 10);
+        const adminId2 = parseInt(process.env.REACT_APP_ADMIN_ID_2, 10);
+
+        if (!userInfo || userInfo.id !== adminId1 || userInfo.id !== adminId2 ) {
+            // Redirect to home page or unauthorized page
+            navigate('/'); // Ensure you have an unauthorized route
+        }
+    }, [userInfo, navigate]);
+
+
     useEffect(() => {
    
 
