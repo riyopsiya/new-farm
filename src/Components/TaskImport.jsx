@@ -8,25 +8,56 @@ const TaskImport = ({ data }) => {
     const parsedData = data?.users.map((userString) => JSON.parse(userString));
     
     const fileName = `${data.companyName}.xlsx`
+    // const handleExport = () => {
+    //     // Step 1: Convert JSON data to worksheet
+    //     const worksheet = XLSX.utils.json_to_sheet(parsedData);
+
+    //     // Step 2: Create a new workbook and append the worksheet
+    //     const workbook = XLSX.utils.book_new();
+    //     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    //     // Step 3: Generate a buffer and save it
+    //     const excelBuffer = XLSX.write(workbook, {
+    //         bookType: "xlsx",
+    //         type: "array",
+    //     });
+
+    //     // Step 4: Create a Blob from the buffer
+    //     // const fileBlob = new Blob([excelBuffer], { type: "application/octet-stream" });
+    //     const fileBlob = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    
+    //     saveAs(fileBlob, fileName);
+    // };
+
     const handleExport = () => {
-        // Step 1: Convert JSON data to worksheet
-        const worksheet = XLSX.utils.json_to_sheet(parsedData);
-
-        // Step 2: Create a new workbook and append the worksheet
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-
-        // Step 3: Generate a buffer and save it
-        const excelBuffer = XLSX.write(workbook, {
-            bookType: "xlsx",
-            type: "array",
-        });
-
-        // Step 4: Create a Blob from the buffer
-        const fileBlob = new Blob([excelBuffer], { type: "application/octet-stream" });
-        saveAs(fileBlob, fileName);
+        try {
+            const worksheet = XLSX.utils.json_to_sheet(parsedData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    
+            const excelBuffer = XLSX.write(workbook, {
+                bookType: "xlsx",
+                type: "array",
+            });
+    
+            const fileBlob = new Blob([excelBuffer], {
+                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            });
+    
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(fileBlob);
+            link.download = fileName;
+    
+            // Append the link to the body and trigger the download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error("Download failed:", error);
+            alert("Download failed. Please try again.");
+        }
     };
-
+    
 
     return (
         <li
