@@ -58,7 +58,7 @@ const Social = () => {
         // Fetch social tasks data
         const socialTasksData = await service.getAllData('social');
         // console.log('Fetched social tasks:', socialTasksData.documents);
-
+       
         // Separate the tasks
         const { completed, notCompleted } = separateTasks(userTasks, socialTasksData.documents);
 

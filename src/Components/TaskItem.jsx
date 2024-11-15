@@ -7,15 +7,16 @@ import { toast } from 'react-toastify';
 import { FaShare } from 'react-icons/fa6';
 import service from '../appwrite/database';
 
+
+
 const TaskItem = ({ data, isOpen, onToggle }) => {
-    const { userInfo,userData } = useSelector((state) => state.user);   //userInfo is telegram details of the user and userData is the data of user from appwrite
+    const { userInfo, userData } = useSelector((state) => state.user);   //userInfo is telegram details of the user and userData is the data of user from appwrite
     const [walletAddress, setWalletAddress] = useState("");
     const [timeLeft, setTimeLeft] = useState(0);
     const [tasksCnt, setTasksCnt] = useState(0)
 
     const botToken = process.env.REACT_APP_BOT_TOKEN;
-    // const userId = 1337182007
-    // const userId = 1751474467;
+    
     const userId = userInfo?.id;
 
     const chatIdGroup = data.telegramChatID;
@@ -140,7 +141,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
 
     const handleClaimClick = (key) => {
-        
+
         setClaimButtonsState((prevState) => ({
             ...prevState,
             [key]: { ...prevState[key], claim: false }  // Toggle the claim state
@@ -190,7 +191,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
             window.open(data.postLink, '_blank');
         } else if (key === 'commentPostLink') {
             window.open(data.commentPostLink, '_blank');
-        }else if (key === 'appLink') {
+        } else if (key === 'appLink') {
             window.open(data.appLink, '_blank');
         } else if (key === 'taskLink') {
             window.open(data.taskLink, '_blank');
@@ -281,13 +282,13 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         const allCompleted = Object.entries(claimButtonsState)
             .filter(([key, value]) => {
                 // Check if link exists
-            
+
                 const linkExists = value.link !== undefined && value.link !== null && value.link !== '';
 
                 return linkExists; // Only keep tasks with existing links
             })
             .every(([key, value]) => {
-                
+
                 // Check if the task is claimed
                 return value.claimed;
             });
@@ -301,24 +302,30 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         const walletAddress = e.target.elements['walletAddress'].value;
 
         const allTasksCompleted = checkAllTasksCompleted(); // Check if all tasks are completed
-        
+
 
         if (allTasksCompleted && walletAddress) {
 
             setAllTasksCompleted(allTasksCompleted); // Update the state if necessary
-           
+
 
             await service.updateUserTasks(userId.toString(), data.$id);
             await service.updateUserCoins(userId, tasksCnt * 100)
-          
+
+            // const newUserData = {
+            //     userId,
+            //     walletAddress: walletAddress,
+            //     walletType: data?.addressType
+            // }
+
             const newUserData = {
                 userId,
-                walletAddress: walletAddress,
+                [data?.addressType === "TG username/TON" ? "TG_username_TON" : "walletAddress"]: walletAddress,
                 walletType: data?.addressType
-            }
+            };
             await service.updateCompanyUsers(data.$id, newUserData)
             toast.success("All tasks completed");
-           
+
         } else {
 
             toast.error("Please complete all tasks!");
@@ -332,8 +339,8 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
     const handleShare = () => {
         const referralCode = userData?.referralCode;
-        const appInviteLink = "http://t.me/notcoincollablybot/notcoinbot";  
-        const referralLink = data.referralLink ? `${data.referralLink}` : ` ${appInviteLink}?startapp=${referralCode}` ;
+        const appInviteLink = "http://t.me/notcoincollablybot/notcoinbot";
+        const referralLink = data.referralLink ? `${data.referralLink}` : ` ${appInviteLink}?startapp=${referralCode}`;
         const message = `🎉 BountyTap & ${data.companyName} Campaign 🎉
 
 Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards from ${data.companyName} in our collaborative airdrop campaign!
@@ -357,11 +364,14 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
             />
 
             <div className="flex items-center space-x-4 ">
-                <img onClick={onToggle} src={imageUrl} alt={data.companyName} className="h-24 object-cover w-full" />
+
+                <img onClick={onToggle} src={imageUrl} alt={data.companyName} className="h-[25%] object-cover w-full" />
             </div>
 
             <div className="flex items-center text-xs w-full px-4 py-2 justify-between">
                 <h2 className="text-sm font-semibold">{data.companyName}</h2>
+              
+
                 <p className='flex items-center'>
                     <IoMdTime className="mr-1" />
                     {formatTime(timeLeft)}
@@ -1229,7 +1239,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     ) : (null)}
 
 
-                  
+
                     {!allTasksCompleted ? (
                         <form
                             className="flex items-center gap-4 rounded-lg shadow-lg justify-between w-full"
@@ -1240,7 +1250,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                                 id="walletAddress"
                                 value={walletAddress}
                                 onChange={(e) => setWalletAddress(e.target.value)} // Update walletAddress state on change
-                                placeholder={`Enter your ${data.addressType?data.addressType:'wallet'} address`}
+                                placeholder={`Enter your ${data.addressType ? data.addressType : 'wallet'} address`}
                                 className="px-2 py-2 w-full  text-white border border-white bg-gray-900 rounded-md max-w-64 text-xs focus:outline-none "
                             />
                             <button
@@ -1259,10 +1269,10 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                             </button>
                         </div>
                     )}
-                  
+
 
                     <button onClick={handleShare} className='flex justify-center items-center  gap-6 border border-[1px]-white rounded-lg py-2'>Share and get referral bonus <FaShare /></button>
-                   
+
                 </div>
             </div>
 

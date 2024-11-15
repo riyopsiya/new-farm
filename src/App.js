@@ -15,6 +15,7 @@ import service from './appwrite/database';
 import { setPremiumTasks, setSocialTasks } from './store/dataSlice';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import TaskForm from './Components/TaskForm';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -165,6 +166,7 @@ function App() {
           <Route path="/referral" element={<ReferralPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/taskform" element={<TaskForm />} />
         </Routes>
         <BottomNav />
       </Router>
