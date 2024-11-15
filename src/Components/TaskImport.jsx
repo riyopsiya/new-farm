@@ -1,6 +1,7 @@
 import React from 'react'
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import { toast } from 'react-toastify';
 
 const TaskImport = ({ data }) => {
 
@@ -28,8 +29,15 @@ const TaskImport = ({ data }) => {
     
     //     saveAs(fileBlob, fileName);
     // };
+
+
+
+
+
+
     const handleExport = () => {
         try {
+            toast.success(1)
             const worksheet = XLSX.utils.json_to_sheet(parsedData);
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
@@ -42,11 +50,14 @@ const TaskImport = ({ data }) => {
             const fileBlob = new Blob([excelBuffer], {
                 type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             });
-    
+            toast.success(2)
             // Check if the environment supports msSaveBlob (for old versions of IE/Edge)
             if (navigator.msSaveBlob) {
+                toast.success(3)
                 navigator.msSaveBlob(fileBlob, fileName);
+                toast.success(4)
             } else {
+                toast.success(5)
                 const link = document.createElement("a");
                 link.href = URL.createObjectURL(fileBlob);
                 link.download = fileName;
@@ -54,12 +65,16 @@ const TaskImport = ({ data }) => {
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
+                toast.success(6)
             }
         } catch (error) {
             console.error("Download failed:", error);
             alert("Download failed. Please try again.");
         }
     };
+    
+
+
     
     
 
