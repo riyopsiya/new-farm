@@ -137,8 +137,8 @@ function App() {
   if (loading) {
     return (
       <div className="w-screen h-screen flex justify-center items-center">
-        {/* loading... */}
-        <iframe src="https://lottie.host/embed/330e3274-d251-4bce-a100-07f5cdf0e24c/KqrYQMghNl.json" className='h-48 '></iframe>
+        loading...
+        {/* <iframe src="https://lottie.host/embed/330e3274-d251-4bce-a100-07f5cdf0e24c/KqrYQMghNl.json" className='h-48 '   sandbox="allow-scripts allow-same-origin allow-forms allow-downloads"></iframe> */}
       </div>
     );
   }
