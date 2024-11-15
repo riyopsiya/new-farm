@@ -28,7 +28,6 @@ const TaskImport = ({ data }) => {
     
     //     saveAs(fileBlob, fileName);
     // };
-
     const handleExport = () => {
         try {
             const worksheet = XLSX.utils.json_to_sheet(parsedData);
@@ -44,19 +43,24 @@ const TaskImport = ({ data }) => {
                 type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             });
     
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(fileBlob);
-            link.download = fileName;
-    
-            // Append the link to the body and trigger the download
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            // Check if the environment supports msSaveBlob (for old versions of IE/Edge)
+            if (navigator.msSaveBlob) {
+                navigator.msSaveBlob(fileBlob, fileName);
+            } else {
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(fileBlob);
+                link.download = fileName;
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
         } catch (error) {
             console.error("Download failed:", error);
             alert("Download failed. Please try again.");
         }
     };
+    
     
 
     return (
