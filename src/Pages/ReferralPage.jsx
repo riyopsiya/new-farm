@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { FaCopy } from "react-icons/fa6";
+import { FaRegCopy } from "react-icons/fa";
+import { FaCopy } from "react-icons/fa";
+
 import { toast } from 'react-toastify';
 
 const ReferralPage = () => {
     const { userData } = useSelector((state) => state.user);
+    const [copied, setCopied] = useState(false);
     const referralCode = userData?.referralCode;
     const appInviteLink = "http://t.me/bountytapbot/BountyTap";
 
@@ -30,6 +33,7 @@ Earn guaranteed rewards and exclusive bonuses with BountyTap! Don’t miss out o
     };
     const handlecopy = () => {
         navigator.clipboard.writeText(message)
+        setCopied(!copied)
         toast.success(" Referral link copied ")
     };
 
@@ -85,7 +89,7 @@ Earn guaranteed rewards and exclusive bonuses with BountyTap! Don’t miss out o
                     onClick={handlecopy}
                     className='text-2xl'
                 >
-                    <FaCopy />
+                     {copied ? (<FaCopy />):(<FaRegCopy />) }  
                 </button>
             </div>
         </div>

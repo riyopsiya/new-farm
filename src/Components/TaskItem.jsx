@@ -6,13 +6,15 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { FaShare } from 'react-icons/fa6';
 import service from '../appwrite/database';
-import { FaCopy } from "react-icons/fa6";
+import { FaRegCopy } from "react-icons/fa";
+import { FaCopy } from "react-icons/fa";
 
 
 
 const TaskItem = ({ data, isOpen, onToggle }) => {
     const { userInfo, userData } = useSelector((state) => state.user);   //userInfo is telegram details of the user and userData is the data of user from appwrite
     const [walletAddress, setWalletAddress] = useState("");
+    const [copied, setCopied] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
     const [tasksCnt, setTasksCnt] = useState(0)
 
@@ -362,6 +364,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
 
     const handlecopy = () => {
         navigator.clipboard.writeText(message)
+        setCopied(!copied)
         toast.success(" Referral link copied ")
     };
     return (
@@ -1278,13 +1281,13 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         </div>
                     )}
 
-                    <div className='flex justify-between w-full gap-2'>
-                        <button onClick={handleShare} className='flex justify-center items-center  gap-6 border border-[1px]-white rounded-lg py-2 px-4'>Share and get referral bonus <FaShare /></button>
+                    <div className='flex justify-between w-full '>
+                        <button onClick={handleShare} className='flex justify-center items-center  gap-4 border border-[1px]-white rounded-lg py-2 px-4'>Share and get referral bonus <FaShare /></button>
                         <button
                             onClick={handlecopy}
                             className='text-2xl'
                         >
-                            <FaCopy />
+                           {copied ? (<FaCopy />):(<FaRegCopy />) }  
                         </button>
                     </div>
 
