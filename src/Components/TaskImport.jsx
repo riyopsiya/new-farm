@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 const TaskImport = ({ data }) => {
     const { userInfo } = useSelector((state) => state.user);  
-    // console.log(data)
+    
     const parsedData = data?.users.map((userString) => JSON.parse(userString));
     
     const fileName = `${data.companyName}.xlsx`
@@ -51,7 +51,7 @@ const TaskImport = ({ data }) => {
     // };
     
     const sendFileToTelegram = async (fileBlob, fileName) => {
-        const botToken = "7709563232:AAENf7IcSWaamfB4anvUVbBkdgVXLMz1kNc" ;
+        const botToken = process.env.REACT_APP_BOT_TOKEN ;
         const chatId =  userInfo?.id; // Retrieve this from the mini app's user context
      
         
@@ -95,9 +95,6 @@ const TaskImport = ({ data }) => {
             console.error("Export failed:", error);
         }
     };
-    
-
-    
     
 
     return (

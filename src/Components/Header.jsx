@@ -1,5 +1,4 @@
 import React from 'react'
-import { FaPersonRifle } from 'react-icons/fa6'
 import { NavLink } from 'react-router-dom'
 import { IoMdPerson } from "react-icons/io";
 

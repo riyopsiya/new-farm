@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Client, Databases, Storage } from 'appwrite';
 import service from '../appwrite/database';
 import { toast } from 'react-toastify';
 

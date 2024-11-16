@@ -1,21 +1,23 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { FaCopy } from "react-icons/fa6";
+import { toast } from 'react-toastify';
 
 const ReferralPage = () => {
     const { userData } = useSelector((state) => state.user);
+    const referralCode = userData?.referralCode;
+    const appInviteLink = "http://t.me/bountytapbot/BountyTap";
 
-    const handleInviteClick = () => {
-        const referralCode = userData?.referralCode;
-        const appInviteLink = "http://t.me/notcoincollablybot/notcoinbot";
+    const message = `🚀 Join me on BountyTap and start earning rewards! 🚀
 
-        const message = `🚀 Join me on BountyTap and start earning rewards! 🚀
-    
 Earn guaranteed rewards and exclusive bonuses with BountyTap! Don’t miss out on this opportunity to start your earning journey today.
-    
+
 🔗 App Link: ${appInviteLink}?startapp=${referralCode}
-    
+
 💰 Use my referral code to get a bonus of 2000 coins: ${referralCode}`;
 
+    const handleInviteClick = () => {
+   
         const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(message)}`;
 
         if (window.Telegram?.WebApp) {
@@ -26,7 +28,10 @@ Earn guaranteed rewards and exclusive bonuses with BountyTap! Don’t miss out o
             window.open(telegramUrl, '_blank');
         }
     };
-
+    const handlecopy = () => {
+        navigator.clipboard.writeText(message)
+        toast.success(" Referral link copied ")
+    };
 
 
     return (
@@ -69,12 +74,23 @@ Earn guaranteed rewards and exclusive bonuses with BountyTap! Don’t miss out o
             </div>
 
             {/* Invite button */}
-            <button onClick={handleInviteClick} className="bg-gradient-to-r from-black to-[#7d5126] text-white font-semibold py-2 px-4 rounded-md w-full">
-                Invite Your Friends
-            </button>
+
+            <div className='flex justify-between w-full gap-4'>
+
+                <button onClick={handleInviteClick} className="bg-gradient-to-r from-black to-[#7d5126] text-white font-semibold py-2 px-4 rounded-md w-full">
+                    Invite Your Friends
+                </button>
+
+                <button
+                    onClick={handlecopy}
+                    className='text-2xl'
+                >
+                    <FaCopy />
+                </button>
+            </div>
         </div>
 
-        
+
     );
 };
 

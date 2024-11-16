@@ -14,6 +14,7 @@ const Social = () => {
 
   const userId = userInfo?.id;
 
+
   // Function to determine if a task is expired
   const isTaskExpired = (task) => {
     const currentTime = Date.now();
@@ -57,7 +58,7 @@ const Social = () => {
 
         // Fetch social tasks data
         const socialTasksData = await service.getAllData('social');
-        // console.log('Fetched social tasks:', socialTasksData.documents);
+        console.log('Fetched social tasks:', socialTasksData.documents);
        
         // Separate the tasks
         const { completed, notCompleted } = separateTasks(userTasks, socialTasksData.documents);

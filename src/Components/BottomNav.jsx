@@ -1,7 +1,6 @@
 import React from 'react'
 import { RiHome4Fill } from "react-icons/ri";
 import { IoMdCheckboxOutline } from "react-icons/io";
-import { IoIosRocket } from "react-icons/io";
 import { IoMdPerson } from "react-icons/io";
 import { NavLink } from 'react-router-dom';
 import { BiWallet } from 'react-icons/bi';

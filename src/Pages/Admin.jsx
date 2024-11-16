@@ -54,7 +54,7 @@ const AdminDashboard = () => {
         <div className='py-6 px-4'>
             {/* header  */}
             <header className='flex justify-between items-center  mb-6 border-b-2 border-[#272626] pb-6 '>
-                <p>Hii,Admin </p>
+                <p>Hello,Admin </p>
                 <NavLink to={'/taskform'} className='bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 text-sm  rounded-lg  '>Add Task</NavLink>
             </header>
 

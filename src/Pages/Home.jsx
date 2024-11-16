@@ -6,6 +6,7 @@ import { Client, Databases } from "appwrite";
 import service from "../appwrite/database";
 import { NavLink } from 'react-router-dom'
 import { IoMdPerson } from "react-icons/io";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
@@ -65,6 +66,8 @@ const Home = () => {
       bountyAmountRef.current = userData.coins;
       setTaps(userData.taps);
     } catch (error) {
+      
+      toast.error("Error fetching user data");
       console.error("Error fetching user data:", error);
     } finally {
       setLoading(false);

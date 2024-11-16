@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { FaShare } from 'react-icons/fa6';
 import service from '../appwrite/database';
+import { FaCopy } from "react-icons/fa6";
 
 
 
@@ -16,7 +17,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
     const [tasksCnt, setTasksCnt] = useState(0)
 
     const botToken = process.env.REACT_APP_BOT_TOKEN;
-    
+
     const userId = userInfo?.id;
 
     const chatIdGroup = data.telegramChatID;
@@ -337,11 +338,10 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
 
 
-    const handleShare = () => {
-        const referralCode = userData?.referralCode;
-        const appInviteLink = "http://t.me/notcoincollablybot/notcoinbot";
-        const referralLink = data.referralLink ? `${data.referralLink}` : ` ${appInviteLink}?startapp=${referralCode}`;
-        const message = `🎉 BountyTap & ${data.companyName} Campaign 🎉
+    const referralCode = userData?.referralCode;
+    const appInviteLink = "http://t.me/bountytapbot/BountyTap";
+    const referralLink = data.referralLink ? `${data.referralLink}` : ` ${appInviteLink}?startapp=${referralCode}`;
+    const message = `🎉 BountyTap & ${data.companyName} Campaign 🎉
 
 Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards from ${data.companyName} in our collaborative airdrop campaign!
 
@@ -350,12 +350,20 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
 🔗 Referral Link: ${referralLink}
 
 📑 Disclaimer: Airdrop is 100% free. Do not send anything to receive airdrop tokens. Just join the airdrop for free!`;
+
+    const handleShare = () => {
+
         const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(message)} `;
 
         // Open Telegram app or web version
         window.open(telegramUrl, '_blank');
     };
 
+
+    const handlecopy = () => {
+        navigator.clipboard.writeText(message)
+        toast.success(" Referral link copied ")
+    };
     return (
         <div className="border border-gray-400 rounded-md relative overflow-hidden bg-[#151515] ">
             <FiChevronDown
@@ -365,12 +373,12 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
 
             <div className="flex items-center space-x-4 ">
 
-                <img onClick={onToggle} src={imageUrl} alt={data.companyName} className="h-[25%] object-cover w-full" />
+                <img onClick={onToggle} src={imageUrl} alt={data.companyName} className="h-32 object-cover w-full" />
             </div>
 
             <div className="flex items-center text-xs w-full px-4 py-2 justify-between">
                 <h2 className="text-sm font-semibold">{data.companyName}</h2>
-              
+
 
                 <p className='flex items-center'>
                     <IoMdTime className="mr-1" />
@@ -1270,8 +1278,15 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         </div>
                     )}
 
-
-                    <button onClick={handleShare} className='flex justify-center items-center  gap-6 border border-[1px]-white rounded-lg py-2'>Share and get referral bonus <FaShare /></button>
+                    <div className='flex justify-between w-full gap-2'>
+                        <button onClick={handleShare} className='flex justify-center items-center  gap-6 border border-[1px]-white rounded-lg py-2 px-4'>Share and get referral bonus <FaShare /></button>
+                        <button
+                            onClick={handlecopy}
+                            className='text-2xl'
+                        >
+                            <FaCopy />
+                        </button>
+                    </div>
 
                 </div>
             </div>
