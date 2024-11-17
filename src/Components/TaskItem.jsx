@@ -21,6 +21,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
     const botToken = process.env.REACT_APP_BOT_TOKEN;
 
     const userId = userInfo?.id;
+   
 
     const chatIdGroup = data.telegramChatID;
     const chatIdAnn = data.telegramAnnID;
@@ -323,6 +324,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
             const newUserData = {
                 userId,
+                username: userInfo?.username,
                 [data?.addressType === "TG username/TON" ? "TG_username_TON" : "walletAddress"]: walletAddress,
                 walletType: data?.addressType
             };
