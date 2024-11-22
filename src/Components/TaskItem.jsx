@@ -20,8 +20,9 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
     const botToken = process.env.REACT_APP_BOT_TOKEN;
 
+
     const userId = userInfo?.id;
-   
+
 
     const chatIdGroup = data.telegramChatID;
     const chatIdAnn = data.telegramAnnID;
@@ -216,6 +217,35 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         }));
     };
 
+
+    const checkTelegramMembership = async (chatId) => {
+
+        try {
+            const url = `https://api.telegram.org/bot${botToken}/getChatMember?chat_id=-100${chatId}&user_id=${userId}`;
+            const response = await axios.get(url);
+            console.log(response)
+            return response.data.result.status === 'member' ||
+                response.data.result.status === 'administrator' ||
+                response.data.result.status === 'creator';
+        } catch (error) {
+            console.log(error)
+            toast.error('An error occurred while checking your membership status.');
+        }
+    };
+
+
+    useEffect(() => {
+
+        const checkMemberShip = async () => {
+
+            const hasJoinedChat = await checkTelegramMembership(chatIdGroup);
+            const hasJoinedChannel = await checkTelegramMembership(chatIdAnn);
+if(hasJoinedChat) toast.success('yu have joined chat')
+if(hasJoinedChannel) toast.success('yu have joined channel')
+        }
+        checkMemberShip()
+    }, [])
+
     const handleCheckClick = async (key) => {
         try {
 
@@ -241,17 +271,18 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
     const handleTelegramCheckClick = async (key) => {
 
 
-        const checkTelegramMembership = async (chatId) => {
-            const url = `https://api.telegram.org/bot${botToken}/getChatMember?chat_id=-100${chatId}&user_id=${userId}`;
-            const response = await axios.get(url);
-            return response.data.result.status === 'member' ||
-                response.data.result.status === 'administrator' ||
-                response.data.result.status === 'creator';
-        };
+        // const checkTelegramMembership = async (chatId) => {
+        //     const url = `https://api.telegram.org/bot${botToken}/getChatMember?chat_id=-100${chatId}&user_id=${userId}`;
+        //     const response = await axios.get(url);
+        //     return response.data.result.status === 'member' ||
+        //         response.data.result.status === 'administrator' ||
+        //         response.data.result.status === 'creator';
+        // };
 
         try {
             if (key === 'telegramChat') {
                 const hasJoined = await checkTelegramMembership(chatIdGroup);
+                console.log(hasJoined)
                 if (hasJoined) {
                     setHasJoinedChat(true);
                     setTasksCnt(tasksCnt + 1)
@@ -1289,7 +1320,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                             onClick={handlecopy}
                             className='text-2xl'
                         >
-                           {copied ? (<FaCopy />):(<FaRegCopy />) }  
+                            {copied ? (<FaCopy />) : (<FaRegCopy />)}
                         </button>
                     </div>
 
