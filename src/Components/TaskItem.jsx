@@ -249,7 +249,8 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
                 setHasAllreadyJoinedChat(true)
                 setClaimButtonsState((prevState) => ({
                     ...prevState,
-                    ['telegramChat']: { ...prevState['telegramChat'], claimed: true }
+                    ['telegramChat']: { ...prevState['telegramChat'], claimed: true, claim: false, goClicked: true   },
+
                 }));
             }
             if (hasJoinedTelegramChannel) {
@@ -257,7 +258,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
                 setTasksCnt(tasksCnt + 1)
                 setClaimButtonsState((prevState) => ({
                     ...prevState,
-                    ['telegramAnn']: { ...prevState['telegramAnn'], claimed: true }
+                    ['telegramAnn']: { ...prevState['telegramAnn'], claimed: true , claim: false, goClicked: true  }
                 }));
             }
         }
@@ -1034,14 +1035,15 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     ) : (null)}
 
                     {/* Telegram Chat */}
-                    {data.telegramChatInvite && data.telegramChatID && !hasAllreadyJoinedChat ? (<div className='flex w-full justify-between items-center'>
+                    {data.telegramChatInvite && data.telegramChatID ? (<div className='flex w-full justify-between items-center'>
                         <p className='max-w-48'>Follow BountyTap's Telegram Group</p>
                         {claimButtonsState.telegramChat.claim ? (
                             <button onClick={() => handleClaimClick('telegramChat')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold w-32  ">
                                 Claim 100 Bounty
                             </button>
                         ) : (
-                            hasJoinedChat ? (
+                            claimButtonsState.telegramChat.claimed ? (
+                            // hasJoinedChat ? (
                                 <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                     Claimed
                                 </button>
@@ -1066,7 +1068,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     ) : (null)}
 
                     {/* Telegram Announcement */}
-                    {data.telegramAnnInvite && data.telegramAnnID && !hasAllreadyJoinedAnn ? (
+                    {data.telegramAnnInvite && data.telegramAnnID ? (
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Follow BountyTap's Telegram Channel</p>
                             {claimButtonsState.telegramAnn.claim ? (
@@ -1074,7 +1076,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                                     Claim 100 Bounty
                                 </button>
                             ) : (
-                                hasJoinedAnn ? (
+                                claimButtonsState.telegramAnn.claimed ? (
                                     <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                         Claimed
                                     </button>
