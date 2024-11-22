@@ -17,11 +17,16 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
     const [copied, setCopied] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
     const [tasksCnt, setTasksCnt] = useState(0)
+    const [hasJoinedChat, setHasJoinedChat] = useState(false);
+    const [hasJoinedAnn, setHasJoinedAnn] = useState(false);
+    const [allTasksCompleted, setAllTasksCompleted] = useState(false);
 
     const botToken = process.env.REACT_APP_BOT_TOKEN;
 
 
     const userId = userInfo?.id;
+    // const userId = 1337182007
+
 
 
     const chatIdGroup = data.telegramChatID;
@@ -58,9 +63,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
     });
 
 
-    const [hasJoinedChat, setHasJoinedChat] = useState(false);
-    const [hasJoinedAnn, setHasJoinedAnn] = useState(false);
-    const [allTasksCompleted, setAllTasksCompleted] = useState(false);
+
 
 
     const fetchUserData = async () => {
@@ -238,10 +241,23 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
         const checkMemberShip = async () => {
 
-            const hasJoinedChat = await checkTelegramMembership(chatIdGroup);
-            const hasJoinedChannel = await checkTelegramMembership(chatIdAnn);
-if(hasJoinedChat) toast.success('yu have joined chat')
-if(hasJoinedChannel) toast.success('yu have joined channel')
+            const hasJoinedTelegramGroup = await checkTelegramMembership(chatIdGroup);
+            const hasJoinedTelegramChannel = await checkTelegramMembership(chatIdAnn);
+            if (hasJoinedTelegramGroup) {
+                setHasJoinedChat(true)
+                setClaimButtonsState((prevState) => ({
+                    ...prevState,
+                    ['telegramChat']: { ...prevState['telegramChat'], claimed: true }
+                }));
+            }
+            if (hasJoinedTelegramChannel) {
+                setHasJoinedAnn(true);
+                setTasksCnt(tasksCnt + 1)
+                setClaimButtonsState((prevState) => ({
+                    ...prevState,
+                    ['telegramAnn']: { ...prevState['telegramAnn'], claimed: true }
+                }));
+            }
         }
         checkMemberShip()
     }, [])
@@ -1016,7 +1032,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     ) : (null)}
 
                     {/* Telegram Chat */}
-                    {data.telegramChatInvite && data.telegramChatID ? (<div className='flex w-full justify-between items-center'>
+                    {data.telegramChatInvite && data.telegramChatID && !hasJoinedChat ? (<div className='flex w-full justify-between items-center'>
                         <p className='max-w-48'>Follow BountyTap's Telegram Group</p>
                         {claimButtonsState.telegramChat.claim ? (
                             <button onClick={() => handleClaimClick('telegramChat')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold w-32  ">
@@ -1048,7 +1064,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     ) : (null)}
 
                     {/* Telegram Announcement */}
-                    {data.telegramAnnInvite && data.telegramAnnID ? (
+                    {data.telegramAnnInvite && data.telegramAnnID && !hasJoinedAnn ? (
                         <div className='flex w-full justify-between items-center'>
                             <p className='max-w-48'>Follow BountyTap's Telegram Channel</p>
                             {claimButtonsState.telegramAnn.claim ? (
