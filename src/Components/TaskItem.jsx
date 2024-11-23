@@ -1038,7 +1038,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
 
                     {/* Telegram Chat */}
 
-                    {!hasAllreadyJoinedAnn ? (
+                    {!hasAllreadyJoinedChat ? (
                         <div>
                             {data.telegramChatInvite && data.telegramChatID ? (<div className='flex w-full justify-between items-center'>
                         <p className='max-w-48'>Follow BountyTap's Telegram Group</p>
