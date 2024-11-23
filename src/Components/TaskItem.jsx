@@ -1037,7 +1037,10 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     ) : (null)}
 
                     {/* Telegram Chat */}
-                    {data.telegramChatInvite && data.telegramChatID ? (<div className='flex w-full justify-between items-center'>
+
+                    {!hasAllreadyJoinedAnn ? (
+                        <div>
+                            {data.telegramChatInvite && data.telegramChatID ? (<div className='flex w-full justify-between items-center'>
                         <p className='max-w-48'>Follow BountyTap's Telegram Group</p>
                         {claimButtonsState.telegramChat.claim ? (
                             <button onClick={() => handleClaimClick('telegramChat')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold w-32  ">
@@ -1069,6 +1072,9 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     </div>
                     ) : (null)}
 
+                        </div>
+                    ):(null)}
+                    
                     {/* Telegram Announcement */}
                     {data.telegramAnnInvite && data.telegramAnnID ? (
                         <div className='flex w-full justify-between items-center'>
