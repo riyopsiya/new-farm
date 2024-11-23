@@ -27,7 +27,6 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
 
     const userId = userInfo?.id;
-    // const userId = 1337182007
 
 
 
@@ -42,6 +41,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         telegramChat: { claim: true, claimed: false, goClicked: false, link: data.telegramChatInvite },
         telegramAnn: { claim: true, claimed: false, goClicked: false, link: data.telegramAnnInvite },
         instagram: { claim: true, claimed: false, goClicked: false, link: data.instagram },
+        linkedin: { claim: true, claimed: false, goClicked: false, link: data.linkedin },
         facebook: { claim: true, claimed: false, goClicked: false, link: data.facebook },
         youtube: { claim: true, claimed: false, goClicked: false, link: data.youtube },
         discord: { claim: true, claimed: false, goClicked: false, link: data.discord },
@@ -169,7 +169,9 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
             window.open(data.twitter, '_blank');
         } else if (key === 'instagram') {
             window.open(data.instagram, '_blank');
-        } else if (key === 'youtube') {
+        } else if (key === 'linkedin') {
+            window.open(data.linkedin, '_blank');
+        }else if (key === 'youtube') {
             window.open(data.youtube, '_blank');
         } else if (key === 'discord') {
             window.open(data.discord, '_blank');
@@ -257,6 +259,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
                         'telegramChat',
                         'telegramAnn',
                         'instagram',
+                        'linkedin',
                         'facebook',
                         'youtube',
                         'discord',
@@ -298,6 +301,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
                         'telegramChat',
                         'telegramAnn',
                         'instagram',
+                        'linkedin',
                         'facebook',
                         'youtube',
                         'discord',
@@ -1202,6 +1206,41 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                                                 <button
                                                     className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
                                                     onClick={() => handleCheckClick('instagram')}
+                                                >
+                                                    Check
+                                                </button>
+                                            </div>
+                                        )
+                                    )}
+                                </div>
+
+                            ) : (null)}
+
+
+                            {/* linkedin */}
+                            {data.linkedin ? (
+                                <div className='flex w-full justify-between items-center'>
+                                    <p className='max-w-48'>Follow BountyTap on LinkedIn</p>
+                                    {claimButtonsState.linkedin.claim ? (
+                                        <button onClick={() => handleClaimClick('linkedin')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
+                                            Claim 100 Bounty
+                                        </button>
+                                    ) : (
+                                        claimButtonsState.linkedin.claimed ? (
+                                            <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
+                                                Claimed
+                                            </button>
+                                        ) : (
+                                            <div className='flex gap-2'>
+                                                <button
+                                                    className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
+                                                    onClick={() => handleGoClick('linkedin')}
+                                                >
+                                                    Go
+                                                </button>
+                                                <button
+                                                    className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  "
+                                                    onClick={() => handleCheckClick('linkedin')}
                                                 >
                                                     Check
                                                 </button>
