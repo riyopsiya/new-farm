@@ -27,7 +27,8 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
 
     const userId = userInfo?.id;
-    
+    // const userId = 1337182007
+
 
 
 
@@ -248,19 +249,78 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
             const hasJoinedTelegramGroup = await checkTelegramMembership(chatIdGroup);
             const hasJoinedTelegramChannel = await checkTelegramMembership(chatIdAnn);
             if (hasJoinedTelegramGroup) {
-                setHasAllreadyJoinedChat(true)
-                setClaimButtonsState((prevState) => ({
-                    ...prevState,
-                    ['telegramChat']: { ...prevState['telegramChat'], claimed: true, claim: false, goClicked: true },
 
-                }));
+                setHasAllreadyJoinedChat(true)
+                setClaimButtonsState((prevState) => {
+                    const keysToUpdate = [
+                        'X',
+                        'telegramChat',
+                        'telegramAnn',
+                        'instagram',
+                        'facebook',
+                        'youtube',
+                        'discord',
+                        'medium',
+                        'website',
+                    ];
+
+                    const updatedState = { ...prevState };
+
+                    keysToUpdate.forEach((key) => {
+                        if (updatedState[key]) {
+                            updatedState[key] = {
+                                ...updatedState[key],
+                                claimed: true,
+                                claim: false,
+                                goClicked: true,
+                            };
+                        }
+                    });
+
+                    return updatedState;
+                });
+
+                // setClaimButtonsState((prevState) => ({
+                //     ...prevState,
+                //     ['telegramChat']: { ...prevState['telegramChat'], claimed: true, claim: false, goClicked: true },
+
+                // }));
             }
             if (hasJoinedTelegramChannel) {
                 setHasAllreadyJoinedAnn(true);
-                setClaimButtonsState((prevState) => ({
-                    ...prevState,
-                    ['telegramAnn']: { ...prevState['telegramAnn'], claimed: true, claim: false, goClicked: true }
-                }));
+                // setClaimButtonsState((prevState) => ({
+                //     ...prevState,
+                //     ['telegramAnn']: { ...prevState['telegramAnn'], claimed: true, claim: false, goClicked: true }
+                // }));
+                setClaimButtonsState((prevState) => {
+                    const keysToUpdate = [
+                        'X',
+                        'telegramChat',
+                        'telegramAnn',
+                        'instagram',
+                        'facebook',
+                        'youtube',
+                        'discord',
+                        'medium',
+                        'website',
+                    ];
+
+                    const updatedState = { ...prevState };
+
+                    keysToUpdate.forEach((key) => {
+                        if (updatedState[key]) {
+                            updatedState[key] = {
+                                ...updatedState[key],
+                                claimed: true,
+                                claim: false,
+                                goClicked: true,
+                            };
+                        }
+                    });
+
+                    return updatedState;
+                });
+
             }
         }
         checkMemberShip()
@@ -1002,8 +1062,8 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
 
                     {/* Telegram Chat */}
 
-                    {hasAllreadyJoinedChat || hasAllreadyJoinedAnn ? (null): (
-                        <div  className=" flex flex-col gap-4  text-sm">
+                    {hasAllreadyJoinedChat || hasAllreadyJoinedAnn ? (null) : (
+                        <div className=" flex flex-col gap-4  text-sm">
 
                             {/* Follow on X (Twitter) */}
                             {data.twitter ? (
@@ -1320,7 +1380,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                             ) : (null)}
 
                         </div>
-                    ) }
+                    )}
 
 
 
