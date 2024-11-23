@@ -29,10 +29,6 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
     const userId = userInfo?.id;
 
 
-
-
-
-
     const chatIdGroup = data.telegramChatID;
     const chatIdAnn = data.telegramAnnID;
 
@@ -65,9 +61,25 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         companyMedium: { claim: true, claimed: false, goClicked: false, link: data.companyMedium },
         companyWebsite: { claim: true, claimed: false, goClicked: false, link: data.companyWebsite },
 
+
+        company2telegramChatInvite: { claim: true, claimed: false, goClicked: false, link: data.company2telegramChatInvite },
+        company2TelegramAnnInvite: { claim: true, claimed: false, goClicked: false, link: data.company2TelegramAnnInvite },
+        post2Link: { claim: true, claimed: false, goClicked: false, link: data.post2Link },
+        commentPost2Link: { claim: true, claimed: false, goClicked: false, link: data.commentPost2Link },
+        appLink2: { claim: true, claimed: false, goClicked: false, link: data.appLink2 },
+        taskLink2: { claim: true, claimed: false, goClicked: false, link: data.taskLink2 },
+        campaignLink2: { claim: true, claimed: false, goClicked: false, link: data.campaignLink2 },
+        registerLink2: { claim: true, claimed: false, goClicked: false, link: data.registerLink2 },
+        company2Twitter: { claim: true, claimed: false, goClicked: false, link: data.company2Twitter },
+        company2Facebook: { claim: true, claimed: false, goClicked: false, link: data.company2Facebook },
+        company2Instagram: { claim: true, claimed: false, goClicked: false, link: data.company2Instagram },
+        company2Linkedin: { claim: true, claimed: false, goClicked: false, link: data.company2Linkedin },
+        company2Youtube: { claim: true, claimed: false, goClicked: false, link: data.company2Youtube },
+        company2Discord: { claim: true, claimed: false, goClicked: false, link: data.company2Discord },
+        company2Website: { claim: true, claimed: false, goClicked: false, link: data.company2Website },
+        company2Medium: { claim: true, claimed: false, goClicked: false, link: data.company2Medium },
+
     });
-
-
 
 
 
@@ -164,14 +176,13 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
     const handleGoClick = (key) => {
 
-
         if (key === 'X') {
             window.open(data.twitter, '_blank');
         } else if (key === 'instagram') {
             window.open(data.instagram, '_blank');
         } else if (key === 'linkedin') {
             window.open(data.linkedin, '_blank');
-        }else if (key === 'youtube') {
+        } else if (key === 'youtube') {
             window.open(data.youtube, '_blank');
         } else if (key === 'discord') {
             window.open(data.discord, '_blank');
@@ -214,6 +225,38 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
             window.open(data.campaignLink, '_blank');
         } else if (key === 'registerLink') {
             window.open(data.registerLink, '_blank');
+        } else if (key === 'company2telegramChatInvite') {
+            window.open(data.company2telegramChatInvite, '_blank');
+        } else if (key === 'company2TelegramAnnInvite') {
+            window.open(data.company2TelegramAnnInvite, '_blank');
+        } else if (key === 'post2Link') {
+            window.open(data.post2Link, '_blank');
+        } else if (key === 'commentPost2Link') {
+            window.open(data.commentPost2Link, '_blank');
+        } else if (key === 'appLink2') {
+            window.open(data.appLink2, '_blank');
+        } else if (key === 'taskLink2') {
+            window.open(data.taskLink2, '_blank');
+        } else if (key === 'campaignLink2') {
+            window.open(data.campaignLink2, '_blank');
+        } else if (key === 'registerLink2') {
+            window.open(data.registerLink2, '_blank');
+        } else if (key === 'company2Twitter') {
+            window.open(data.company2Twitter, '_blank');
+        } else if (key === 'company2Facebook') {
+            window.open(data.company2Facebook, '_blank');
+        } else if (key === 'company2Instagram') {
+            window.open(data.company2Instagram, '_blank');
+        } else if (key === 'company2Linkedin') {
+            window.open(data.company2Linkedin, '_blank');
+        } else if (key === 'company2Youtube') {
+            window.open(data.company2Youtube, '_blank');
+        } else if (key === 'company2Discord') {
+            window.open(data.company2Discord, '_blank');
+        } else if (key === 'company2Medium') {
+            window.open(data.company2Medium, '_blank');
+        } else if (key === 'company2Website') {
+            window.open(data.company2Website, '_blank');
         }
 
 
@@ -1061,6 +1104,464 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                         </div>
                     ) : (null)}
 
+
+
+
+                    {/* Follow on X (Company2 Twitter) */}
+                    {data.company2Twitter ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Follow {data.company2Name} on X</p>
+                            {claimButtonsState.company2Twitter.claim ? (
+                                <button onClick={() => handleClaimClick('company2Twitter')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                    Claim 100 Bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.company2Twitter.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleGoClick('company2Twitter')}>
+                                            Go
+                                        </button>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleCheckClick('company2Twitter')}>
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : null}
+
+                    {/* Join Telegram Chat (Company2) */}
+                    {data.company2telegramChatInvite ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Join {data.company2Name} Telegram Chat </p>
+                            {claimButtonsState.company2telegramChatInvite.claim ? (
+                                <button onClick={() => handleClaimClick('company2telegramChatInvite')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                    Claim 100 Bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.company2telegramChatInvite.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleGoClick('company2telegramChatInvite')}>
+                                            Go
+                                        </button>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleCheckClick('company2telegramChatInvite')}>
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : null}
+
+                    {/* Join Telegram Announcement (Company2) */}
+                    {data.company2TelegramAnnInvite ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Join {data.company2Name} Telegram Announcement </p>
+                            {claimButtonsState.company2TelegramAnnInvite.claim ? (
+                                <button onClick={() => handleClaimClick('company2TelegramAnnInvite')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                    Claim 100 Bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.company2TelegramAnnInvite.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleGoClick('company2TelegramAnnInvite')}>
+                                            Go
+                                        </button>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleCheckClick('company2TelegramAnnInvite')}>
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : null}
+
+                    {/* Visit Post Link */}
+                    {data.post2Link ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Visit {data.company2Name}'s Post</p>
+                            {claimButtonsState.post2Link.claim ? (
+                                <button onClick={() => handleClaimClick('post2Link')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                    Claim 100 Bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.post2Link.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleGoClick('post2Link')}>
+                                            Go
+                                        </button>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleCheckClick('post2Link')}>
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : null}
+
+                    {/* Comment on Post */}
+                    {data.commentPost2Link ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Comment on {data.company2Name}'s Post </p>
+                            {claimButtonsState.commentPost2Link.claim ? (
+                                <button onClick={() => handleClaimClick('commentPost2Link')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                    Claim 100 Bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.commentPost2Link.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleGoClick('commentPost2Link')}>
+                                            Go
+                                        </button>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleCheckClick('commentPost2Link')}>
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : null}
+
+                    {/* Visit Application Link */}
+                    {data.appLink2 ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Visit {data.company2Name} Application</p>
+                            {claimButtonsState.appLink2.claim ? (
+                                <button onClick={() => handleClaimClick('appLink2')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                    Claim 100 Bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.appLink2.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleGoClick('appLink2')}>
+                                            Go
+                                        </button>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleCheckClick('appLink2')}>
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : null}
+
+
+
+                    {/* Task Link (Company2) */}
+                    {data.taskLink2 ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Complete Task for {data.company2Name}</p>
+                            {claimButtonsState.taskLink2.claim ? (
+                                <button onClick={() => handleClaimClick('taskLink2')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                    Claim 100 Bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.taskLink2.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleGoClick('taskLink2')}>
+                                            Go
+                                        </button>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleCheckClick('taskLink2')}>
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : null}
+
+
+
+
+                    {/* Campaign Link (Company2) */}
+                    {data.campaignLink2 ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Join {data.company2Name} Campaign </p>
+                            {claimButtonsState.campaignLink2.claim ? (
+                                <button onClick={() => handleClaimClick('campaignLink2')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                    Claim 100 Bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.campaignLink2.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleGoClick('campaignLink2')}>
+                                            Go
+                                        </button>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleCheckClick('campaignLink2')}>
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : null}
+
+
+
+                    {/* Register Link (Company2) */}
+                    {data.registerLink2 ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Register for {data.company2Name} </p>
+                            {claimButtonsState.registerLink2.claim ? (
+                                <button onClick={() => handleClaimClick('registerLink2')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                    Claim 100 Bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.registerLink2.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleGoClick('registerLink2')}>
+                                            Go
+                                        </button>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleCheckClick('registerLink2')}>
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : null}
+
+
+
+
+                    {/* Facebook (Company2) */}
+                    {data.company2Facebook ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Follow {data.company2Name} on Facebook </p>
+                            {claimButtonsState.company2Facebook.claim ? (
+                                <button onClick={() => handleClaimClick('company2Facebook')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                    Claim 100 Bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.company2Facebook.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleGoClick('company2Facebook')}>
+                                            Go
+                                        </button>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleCheckClick('company2Facebook')}>
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : null}
+
+
+
+
+                    {/* Instagram (Company2) */}
+                    {data.company2Instagram ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Follow {data.company2Name} on Instagram </p>
+                            {claimButtonsState.company2Instagram.claim ? (
+                                <button onClick={() => handleClaimClick('company2Instagram')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                    Claim 100 Bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.company2Instagram.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleGoClick('company2Instagram')}>
+                                            Go
+                                        </button>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleCheckClick('company2Instagram')}>
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : null}
+
+
+
+
+                    {/* LinkedIn (Company2) */}
+                    {data.company2Linkedin ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Connect with {data.company2Name} on LinkedIn </p>
+                            {claimButtonsState.company2Linkedin.claim ? (
+                                <button onClick={() => handleClaimClick('company2Linkedin')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                    Claim 100 Bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.company2Linkedin.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleGoClick('company2Linkedin')}>
+                                            Go
+                                        </button>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleCheckClick('company2Linkedin')}>
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : null}
+
+
+                    {/* YouTube (Company2) */}
+                    {data.company2Youtube ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Subscribe to {data.company2Name} on YouTube </p>
+                            {claimButtonsState.company2Youtube.claim ? (
+                                <button onClick={() => handleClaimClick('company2Youtube')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                    Claim 100 Bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.company2Youtube.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleGoClick('company2Youtube')}>
+                                            Go
+                                        </button>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleCheckClick('company2Youtube')}>
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : null}
+
+
+
+                    {/* Discord (Company2) */}
+                    {data.company2Discord ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Join {data.company2Name} on Discord </p>
+                            {claimButtonsState.company2Discord.claim ? (
+                                <button onClick={() => handleClaimClick('company2Discord')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                    Claim 100 Bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.company2Discord.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleGoClick('company2Discord')}>
+                                            Go
+                                        </button>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleCheckClick('company2Discord')}>
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : null}
+
+
+
+                    {/* Medium (Company2) */}
+                    {data.company2Medium ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Follow {data.company2Name} on Medium </p>
+                            {claimButtonsState.company2Medium.claim ? (
+                                <button onClick={() => handleClaimClick('company2Medium')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                    Claim 100 Bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.company2Medium.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleGoClick('company2Medium')}>
+                                            Go
+                                        </button>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleCheckClick('company2Medium')}>
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : null}
+
+
+
+
+                    {/* Website (Company2) */}
+                    {data.company2Website ? (
+                        <div className='flex w-full justify-between items-center'>
+                            <p className='max-w-48'>Visit {data.company2Name} Website</p>
+                            {claimButtonsState.company2Website.claim ? (
+                                <button onClick={() => handleClaimClick('company2Website')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                    Claim 100 Bounty
+                                </button>
+                            ) : (
+                                claimButtonsState.company2Website.claimed ? (
+                                    <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
+                                        Claimed
+                                    </button>
+                                ) : (
+                                    <div className='flex gap-2'>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleGoClick('company2Website')}>
+                                            Go
+                                        </button>
+                                        <button className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold" onClick={() => handleCheckClick('company2Website')}>
+                                            Check
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    ) : null}
 
 
 
