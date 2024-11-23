@@ -27,6 +27,8 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
 
     const userId = userInfo?.id;
+    // const userId = 1337182007
+
   
 
 
@@ -234,7 +236,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
                 response.data.result.status === 'creator';
         } catch (error) {
             console.log(error)
-            toast.error('An error occurred while checking your membership status.');
+            // toast.error('An error occurred while checking your membership status.');
         }
     };
 
@@ -246,6 +248,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
             const hasJoinedTelegramGroup = await checkTelegramMembership(chatIdGroup);
             const hasJoinedTelegramChannel = await checkTelegramMembership(chatIdAnn);
             if (hasJoinedTelegramGroup) {
+                toast.success('you have joined')
                 setHasAllreadyJoinedChat(true)
                 setClaimButtonsState((prevState) => ({
                     ...prevState,
@@ -255,7 +258,6 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
             }
             if (hasJoinedTelegramChannel) {
                 setHasAllreadyJoinedAnn(true);
-                setTasksCnt(tasksCnt + 1)
                 setClaimButtonsState((prevState) => ({
                     ...prevState,
                     ['telegramAnn']: { ...prevState['telegramAnn'], claimed: true , claim: false, goClicked: true  }
