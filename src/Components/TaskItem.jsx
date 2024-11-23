@@ -27,7 +27,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
 
     const userId = userInfo?.id;
-    // const userId = 1337182007
+    
 
 
 
@@ -248,7 +248,6 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
             const hasJoinedTelegramGroup = await checkTelegramMembership(chatIdGroup);
             const hasJoinedTelegramChannel = await checkTelegramMembership(chatIdAnn);
             if (hasJoinedTelegramGroup) {
-                toast.success('you have joined')
                 setHasAllreadyJoinedChat(true)
                 setClaimButtonsState((prevState) => ({
                     ...prevState,
