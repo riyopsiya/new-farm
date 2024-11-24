@@ -24,8 +24,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
     const [allTasksCompleted, setAllTasksCompleted] = useState(false);
 
     const botToken = process.env.REACT_APP_BOT_TOKEN;
-
-
+ 
     const userId = userInfo?.id;
 
 
@@ -536,11 +535,11 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
 
             <div className="flex items-center space-x-4 ">
 
-                <img onClick={onToggle} src={imageUrl} alt={data.companyName} className="h-32 object-cover w-full" />
+                <img onClick={onToggle} src={imageUrl} alt={data.campaignName} className="h-32 object-cover w-full" />
             </div>
 
             <div className="flex items-center text-xs w-full px-4 py-2 justify-between">
-                <h2 className="text-sm font-semibold">{data.companyName}</h2>
+                <h2 className="text-sm font-semibold">{data.campaignName}</h2>
 
 
                 <p className='flex items-center'>
@@ -591,7 +590,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
 
                     {/* Telegram Chat */}
                     {data.companyTelegramChatInvite ? (<div className='flex w-full justify-between items-center'>
-                        <p className='max-w-48'>Follow {data.companyName}'s Telegram Group </p>
+                        <p className='max-w-48'>Follow Telegram Group of {data.companyName}</p>
                         {claimButtonsState.companyTelegramChatInvite.claim ? (
                             <button onClick={() => handleClaimClick('companyTelegramChatInvite')} className="bg-gradient-to-r from-black to-[#7d5126]  px-2 py-2 rounded-lg text-xs font-semibold  ">
                                 Claim 100 Bounty
@@ -624,7 +623,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     {/* Telegram Announcement */}
                     {data.companyTelegramAnnInvite ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Follow {data.companyName}'s Telegram Channel</p>
+                            <p className='max-w-48'>Follow Telegram Channel of {data.companyName}</p>
                             {claimButtonsState.companyTelegramAnnInvite.claim ? (
                                 <button onClick={() => handleClaimClick('companyTelegramAnnInvite')} className="bg-gradient-to-r from-black to-[#7d5126]   px-2 py-2 rounded-lg text-xs font-semibold ">
                                     Claim 100 Bounty
@@ -1137,7 +1136,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     {/* Join Telegram Chat (Company2) */}
                     {data.company2telegramChatInvite ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Join {data.company2Name} Telegram Chat </p>
+                            <p className='max-w-48'>Join {data.company2Name} Telegram Group </p>
                             {claimButtonsState.company2telegramChatInvite.claim ? (
                                 <button onClick={() => handleClaimClick('company2telegramChatInvite')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
                                     Claim 100 Bounty
@@ -1164,7 +1163,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     {/* Join Telegram Announcement (Company2) */}
                     {data.company2TelegramAnnInvite ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Join {data.company2Name} Telegram Announcement </p>
+                            <p className='max-w-48'>Join {data.company2Name} Telegram Channel </p>
                             {claimButtonsState.company2TelegramAnnInvite.claim ? (
                                 <button onClick={() => handleClaimClick('company2TelegramAnnInvite')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
                                     Claim 100 Bounty
@@ -1191,7 +1190,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     {/* Visit Post Link */}
                     {data.post2Link ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Visit {data.company2Name}'s Post</p>
+                            <p className='max-w-48'>Like, Retweet and tag 3 friends on the post</p>
                             {claimButtonsState.post2Link.claim ? (
                                 <button onClick={() => handleClaimClick('post2Link')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
                                     Claim 100 Bounty
@@ -1218,7 +1217,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                     {/* Comment on Post */}
                     {data.commentPost2Link ? (
                         <div className='flex w-full justify-between items-center'>
-                            <p className='max-w-48'>Comment on {data.company2Name}'s Post </p>
+                            <p className='max-w-48'>Like, Retweet and comment on the post </p>
                             {claimButtonsState.commentPost2Link.claim ? (
                                 <button onClick={() => handleClaimClick('commentPost2Link')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold">
                                     Claim 100 Bounty

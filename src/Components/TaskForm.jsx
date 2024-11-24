@@ -5,10 +5,12 @@ import { toast } from 'react-toastify';
 const TaskForm = () => {
     // State for form fields and image
     const [formData, setFormData] = useState({
-        companyName: '',
+        campaignName: '',
         taskDuration: '',
         category: '',
         addressType: '',
+
+        // for bountytap 
         telegramChatID: '',
         telegramChatInvite: '', // New state for Telegram chat invite link
         telegramAnnID: '', // Separate state for Telegram link
@@ -24,8 +26,9 @@ const TaskForm = () => {
 
 
       
+        // for client 1
 
-
+        companyName: '',
         companytelegramChatInvite: '', // Reset Telegram chat invite link
         companyTelegramAnnInvite: '', // Reset Telegram announcement invite link
         postLink: '', // post link
@@ -82,7 +85,8 @@ const TaskForm = () => {
 
             // Save task data to Appwrite database
             const response = await service.addData({
-                companyName: formData.companyName,
+                campaignName: formData.campaignName,
+             
                 taskDuration: formData.taskDuration,
                 category: formData.category,
                 addressType: formData.addressType,
@@ -101,7 +105,7 @@ const TaskForm = () => {
 
 
                 // client 1
-
+                companyName: formData.companyName,
                 companyTelegramChatInvite: formData.companytelegramChatInvite, // Store Telegram chat invite link
                 companyTelegramAnnInvite: formData.companyTelegramAnnInvite, // Store Telegram announcement invite link
                 postLink: formData.postLink, // Store Telegram announcement invite link
@@ -150,7 +154,8 @@ const TaskForm = () => {
             // Clear form after submission
             setFormData({
 
-                companyName: '',
+                campaignName: '',
+               
                 taskDuration: '',
                 category: '',
                 addressType: '',
@@ -169,7 +174,7 @@ const TaskForm = () => {
                 referralLink: '',
 
 
-
+                companyName: '',
                 companytelegramChatInvite: '', // Reset Telegram chat invite link
                 companyTelegramAnnInvite: '', // Reset Telegram announcement invite link
                 postLink: '', // Reset Telegram announcement invite link
@@ -233,12 +238,12 @@ const TaskForm = () => {
             <h2 className="text-2xl font-bold mb-4">Add Task</h2>
             <form onSubmit={handleSubmit} className='mb-10'>
                 <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Client Name</label>
+                    <label className="block text-sm font-bold mb-2">Campaign Name</label>
                     <input
                         type="text"
-                        name="companyName"
-                        placeholder="Name of Client"
-                        value={formData.companyName}
+                        name="campaignName"
+                        placeholder="Name of Campaign"
+                        value={formData.campaignName}
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded bg-black"
                         required
@@ -246,7 +251,7 @@ const TaskForm = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Task Duration <span className='text-gray-400'>( in hours )</span></label>
+                    <label className="block text-sm font-bold mb-2">Campaign Duration <span className='text-gray-400'>( in hours )</span></label>
                     <input
                         type="text"
                         name="taskDuration"
@@ -409,6 +414,18 @@ const TaskForm = () => {
 
 
                 {/* social media links for client 1 */}
+                <div className="mb-4">
+                    <label className="block text-sm font-bold mb-2">Client 1 Name</label>
+                    <input
+                        type="text"
+                        name="companyName"
+                        placeholder="Name of Client 1"
+                        value={formData.companyName}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded bg-black"
+                        required
+                    />
+                </div>
 
                 <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Social Media Links (Client 1)</label>
