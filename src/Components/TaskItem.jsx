@@ -14,6 +14,7 @@ import { FaCopy } from "react-icons/fa";
 const TaskItem = ({ data, isOpen, onToggle }) => {
     const { userInfo, userData } = useSelector((state) => state.user);   //userInfo is telegram details of the user and userData is the data of user from appwrite
     const [walletAddress, setWalletAddress] = useState("");
+    const [email, setEmail] = useState("");
     const [copied, setCopied] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
     const [tasksCnt, setTasksCnt] = useState(0)
@@ -24,7 +25,7 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
     const [allTasksCompleted, setAllTasksCompleted] = useState(false);
 
     const botToken = process.env.REACT_APP_BOT_TOKEN;
- 
+
     const userId = userInfo?.id;
 
 
@@ -465,6 +466,12 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
         const allTasksCompleted = checkAllTasksCompleted(); // Check if all tasks are completed
 
 
+
+        if (data.emailRequired === 'Required' && !email) {
+            toast.error("Email is required!");
+            return; // Exit early if the email condition isn't satisfied
+        }
+
         if (allTasksCompleted && walletAddress) {
 
             setAllTasksCompleted(allTasksCompleted); // Update the state if necessary
@@ -473,18 +480,16 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
             await service.updateUserTasks(userId.toString(), data.$id);
             await service.updateUserCoins(userId, tasksCnt * 100)
 
-            // const newUserData = {
-            //     userId,
-            //     walletAddress: walletAddress,
-            //     walletType: data?.addressType
-            // }
-
+     
             const newUserData = {
                 userId,
                 username: userInfo?.username,
                 [data?.addressType === "TG username/TON" ? "TG_username_TON" : "walletAddress"]: walletAddress,
-                walletType: data?.addressType
+                walletType: data?.addressType,
+                ...(data.emailRequired === 'Required' && { email }) // Add email only if required
+
             };
+            setEmail('')
             await service.updateCompanyUsers(data.$id, newUserData)
             toast.success("All tasks completed");
 
@@ -1923,7 +1928,19 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
 
 
 
-
+                    {data.emailRequired === 'Required' ? (
+                      
+                            <input
+                                type="text"
+                                id="emailRequired"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)} // Update walletAddress state on change
+                                placeholder='Enter your email address'
+                                className="px-2 py-2 w-full  text-white border border-white bg-gray-900 rounded-md max-w-64 text-xs focus:outline-none "
+                            />
+                            
+              
+                    ) : (null)}
 
 
                     {!allTasksCompleted ? (

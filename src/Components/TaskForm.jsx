@@ -8,6 +8,7 @@ const TaskForm = () => {
         campaignName: '',
         taskDuration: '',
         category: '',
+        emailRequired: '',
         addressType: '',
 
         // for bountytap 
@@ -25,7 +26,7 @@ const TaskForm = () => {
         referralLink: '',
 
 
-      
+
         // for client 1
 
         companyName: '',
@@ -86,9 +87,10 @@ const TaskForm = () => {
             // Save task data to Appwrite database
             const response = await service.addData({
                 campaignName: formData.campaignName,
-             
+
                 taskDuration: formData.taskDuration,
                 category: formData.category,
+                emailRequired: formData.emailRequired,
                 addressType: formData.addressType,
                 telegramChatID: formData.telegramChatID,
                 telegramChatInvite: formData.telegramChatInvite, // Store Telegram chat invite link
@@ -123,8 +125,8 @@ const TaskForm = () => {
                 companyWebsite: formData.companyWebsite, // Store website link
                 // companyReferralLink: formData.companyReferralLink,
                 companyMedium: formData.companyMedium,
-                
-                
+
+
                 // client2 
                 company2Name: formData.company2Name,
                 company2telegramChatInvite: formData.company2telegramChatInvite, // Store Telegram chat invite link
@@ -155,9 +157,10 @@ const TaskForm = () => {
             setFormData({
 
                 campaignName: '',
-               
+
                 taskDuration: '',
                 category: '',
+                emailRequired: '',
                 addressType: '',
                 telegramChatID: '',
                 telegramChatInvite: '', // Reset Telegram chat invite link
@@ -196,7 +199,7 @@ const TaskForm = () => {
 
                 // client 2
 
-                company2Name: '', 
+                company2Name: '',
                 company2telegramChatInvite: '', // Reset Telegram chat invite link
                 company2TelegramAnnInvite: '', // Reset Telegram announcement invite link
                 post2Link: '', // post link
@@ -272,6 +275,16 @@ const TaskForm = () => {
                     </select>
                 </div>
 
+
+                <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2 w-40" htmlFor="category">Email</label>
+                    <select id="emailRequired" name="emailRequired" className="w-full px-1 py-2 bg-black text-white border border-transparent rounded-lg" value={formData.emailRequired} onChange={handleInputChange} >
+                        <option value="" className="bg-black text-black" disabled>Select an option</option>
+                        <option value="Required">Required</option>
+                        <option value="notRequired">Not Required</option>
+                    </select>
+                </div>
+
                 <div className="mb-4">
                     <label className="block text-sm font-medium mb-2 w-40" htmlFor="addressType">Wallet Address<span className="text-red-500 ml-2">*</span></label>
                     <select id="addressType" name="addressType" className="w-full px-1 py-2 bg-black text-white border border-transparent rounded-lg" value={formData.addressType} onChange={handleInputChange} required>
@@ -281,6 +294,7 @@ const TaskForm = () => {
                         <option value="ETH">ETH</option>
                         <option value="TRC-20">TRC-20</option>
                         <option value="TG username/TON">TG username/TON</option>
+                        <option value="Binance Pay ID">Binance Pay ID</option>
                         <option value="BRC-20">BRC-20</option>
                         <option value="Base">Base</option>
                         <option value="Avalanche">Avalanche</option>
@@ -415,7 +429,7 @@ const TaskForm = () => {
 
                 {/* social media links for client 1 */}
                 <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Client 1 Name</label>
+                    <label className="block text-sm font-bold mb-2">Name of Client 1</label>
                     <input
                         type="text"
                         name="companyName"
@@ -580,16 +594,20 @@ const TaskForm = () => {
                 {/* Social Media Links for Client 2 */}
 
                 <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Social Media Links (Client 2)</label>
 
+                    <label className="block text-sm font-bold mb-2">Name of Client 2</label>
                     <input
                         type="text"
-                        placeholder="Client 2 Name"
+                        placeholder="Name of Client 2"
                         name="company2Name"
                         value={formData.company2Name}
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded bg-black mb-2"
                     />
+
+                    <label className="block text-sm font-bold mb-2">Social Media Links (Client 2)</label>
+
+
                     <input
                         type="text"
                         placeholder="Client 2 Twitter Link"
