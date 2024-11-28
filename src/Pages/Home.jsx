@@ -11,8 +11,7 @@ import { toast } from "react-toastify";
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
-  // const userId = 1337182007;
-  const userId = userInfo?.id;
+  const userId = userInfo?.id; 
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
   const [bountyAmount, setBountyAmount] = useState(1000);
@@ -271,7 +270,7 @@ const Home = () => {
       setFloatingPlusPosition((prev) => prev ? { ...prev, y: prev.y - 10 } : prev);
     }, 1);
   
-    setTimeout(() => setFloatingPlusPosition(null), 500);
+    setTimeout(() => setFloatingPlusPosition(null), 1000);
   
     // Update the server, and rollback if it fails
     try {
@@ -286,80 +285,6 @@ const Home = () => {
   };
   
 
-  // const handleImageTap = (e) => {
-  //   if (taps > 0) {
-  //     // Update UI immediately
-  //     const newAmount = bountyAmount + 1;
-  //     const newTaps = taps - 1;
-  
-  //     setBountyAmount(newAmount);
-  //     setTaps(newTaps);
-  
-  //     // Queue the update to the backend
-  //     queueBackendUpdate(newAmount, newTaps);
-  
-  //     // Calculate tap position
-  //     const rect = e.target.getBoundingClientRect();
-  //     const offsetX = e.clientX - rect.left;
-  //     const offsetY = e.clientY - rect.top;
-  
-  //     const xPercent = (offsetX / rect.width) * 100;
-  //     const yPercent = (offsetY / rect.height) * 100;
-  //     setFloatingPlusPosition({ x: xPercent, y: yPercent - 30 });
-  
-  //     // Animate the floating +1
-  //     setTimeout(() => {
-  //       setFloatingPlusPosition((prevPosition) =>
-  //         prevPosition
-  //           ? { ...prevPosition, y: prevPosition.y - 10 }
-  //           : prevPosition
-  //       );
-  //     }, 10);
-  
-  //     // Clear the floating +1
-  //     setTimeout(() => {
-  //       setFloatingPlusPosition(null);
-  //     }, 1000);
-  //   }
-  // };
-  
-  // Utility function to queue backend updates
-  // const queueBackendUpdate = (() => {
-  //   let queue = [];
-  //   let isSyncing = false;
-  
-  //   const syncQueue = async () => {
-  //     if (queue.length === 0 || isSyncing) return;
-  //     isSyncing = true;
-  
-  //     const updates = [...queue];
-  //     queue = [];
-  
-  //     try {
-  //       // Send all updates to the backend
-  //       await service.updateUserData(userId, {
-  //         coins: updates[updates.length - 1].coins,
-  //         taps: updates[updates.length - 1].taps,
-  //       });
-  //     } catch (error) {
-  //       console.error("Error syncing data with backend:", error);
-  
-  //       // Requeue updates in case of failure
-  //       queue = [...updates, ...queue];
-  //     } finally {
-  //       isSyncing = false;
-  
-  //       // Try syncing again if new updates came in during the sync
-  //       if (queue.length > 0) syncQueue();
-  //     }
-  //   };
-  
-  //   return (newAmount, newTaps) => {
-  //     queue.push({ coins: newAmount, taps: newTaps });
-  //     syncQueue();
-  //   };
-  // })();
-  
 
   const formatTime = (seconds) => {
     const h = Math.floor(seconds / 3600);
@@ -403,7 +328,7 @@ const Home = () => {
         </div>
       ) : null}
 
-      <div className="w-full flex flex-col text-left px-2 gap-4">
+      {/* <div className="w-full flex flex-col text-left px-2 gap-4">
 
         <div className="flex w-full justify-between">
           <h2 className="font-semibold text-md md:text-lg">
@@ -422,7 +347,7 @@ const Home = () => {
             {taps} Taps
           </div>
         </div>
-      </div>
+      </div> */}
 
 
       {/* Center Section - Image and Bounty Amount */}
