@@ -56,7 +56,6 @@ const Home = () => {
   const fetchUserData = async () => {
     try {
       const userData = await service.getUser(userId)
-      console.log(userData,'data')
 
       setUser(userData);
       setBountyAmount(userData.coins);
