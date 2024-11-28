@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
-  // const userId = 1337182007;
   const userId = userInfo?.id;
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
@@ -27,9 +26,9 @@ const Home = () => {
 
 
 
-  // Initialize Appwrite client
-  const client = new Client();
-  const databases = new Databases(client);
+  // // Initialize Appwrite client
+  // const client = new Client();
+  // const databases = new Databases(client);
 
   // // WebSocket connection for real-time updates
   // useEffect(() => {
@@ -326,7 +325,7 @@ const Home = () => {
         </div>
       ) : null}
 
-      <div className="w-full flex flex-col text-left px-2 gap-4">
+      {/* <div className="w-full flex flex-col text-left px-2 gap-4">
 
         <div className="flex w-full justify-between">
           <h2 className="font-semibold text-md md:text-lg">
@@ -345,7 +344,7 @@ const Home = () => {
             {taps} Taps
           </div>
         </div>
-      </div>
+      </div> */}
 
 
       {/* Center Section - Image and Bounty Amount */}
