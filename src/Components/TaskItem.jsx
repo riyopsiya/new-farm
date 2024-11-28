@@ -484,7 +484,8 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
             const newUserData = {
                 userId,
                 username: userInfo?.username,
-                [data?.addressType === "TG username/TON" ? "TG_username_TON" : "walletAddress"]: walletAddress,
+                walletAddress,
+                // [data?.addressType === "TG username/TON" ? "TG_username_TON" : "walletAddress"]: walletAddress,
                 walletType: data?.addressType,
                 ...(data.emailRequired === 'Required' && { email }) // Add email only if required
 
@@ -1936,7 +1937,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)} // Update walletAddress state on change
                                 placeholder='Enter your email address'
-                                className="px-2 py-2 w-full  text-white border border-white bg-gray-900 rounded-md max-w-64 text-xs focus:outline-none "
+                                className="px-2 py-2 w-full  text-white border border-white bg-gray-900 rounded-md text-xs focus:outline-none "
                             />
                             
               
@@ -1953,7 +1954,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                                 id="walletAddress"
                                 value={walletAddress}
                                 onChange={(e) => setWalletAddress(e.target.value)} // Update walletAddress state on change
-                                placeholder={`Enter your ${data.addressType ? data.addressType : 'wallet'} address`}
+                                placeholder={`Enter your ${data.addressType} wallet address`}
                                 className="px-2 py-2 w-full  text-white border border-white bg-gray-900 rounded-md max-w-64 text-xs focus:outline-none "
                             />
                             <button

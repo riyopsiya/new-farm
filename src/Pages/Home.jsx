@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
+  // const userId = 1337182007;
   const userId = userInfo?.id;
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
@@ -204,51 +205,86 @@ const Home = () => {
   };
 
 
+  // const handleImageTap = async (e) => {
+  //   if (taps > 0) {
+  //     const newAmount = bountyAmount + 1;
+  //     const newTaps = taps - 1;
+
+  //     setBountyAmount(newAmount);
+  //     setTaps(newTaps);
+
+  //     try {
+  //       await service.updateUserData(userId, { coins: newAmount, taps: newTaps });
+  //     } catch (error) {
+  //       console.error("Error updating coins and taps in Appwrite:", error);
+  //     }
+
+  //     // Capture the tap position within the image element
+  //     const rect = e.target.getBoundingClientRect();
+  //     const offsetX = e.clientX - rect.left; // X position within the image
+  //     const offsetY = e.clientY - rect.top;  // Y position within the image
+
+  //     // Calculate percentage positions to use in inline styles
+  //     const xPercent = (offsetX / rect.width) * 100;
+  //     const yPercent = (offsetY / rect.height) * 100;
+  //     setFloatingPlusPosition({ x: xPercent, y: yPercent - 30 }); // Start a bit above the tap
+
+  //     setTimeout(() => {
+  //       setFloatingPlusPosition((prevPosition) => {
+  //         if (prevPosition) { // Ensure prevPosition is not null
+  //           return {
+  //             ...prevPosition,
+  //             y: prevPosition.y - 10, // Move up by 10% of the image height
+  //           };
+  //         }
+  //         return prevPosition; // Return prevPosition if it's null
+  //       });
+  //     }, 1); // Delay to start the animation
+
+
+  //     // Clear the floating +1 after the animation
+  //     setTimeout(() => {
+  //       setFloatingPlusPosition(null);
+  //     },500); // Duration of the animation
+  //   }
+  // };
+
   const handleImageTap = async (e) => {
-    if (taps > 0) {
-      const newAmount = bountyAmount + 1;
-      const newTaps = taps - 1;
-
-      setBountyAmount(newAmount);
-      setTaps(newTaps);
-
-      try {
-        await service.updateUserData(userId, { coins: newAmount, taps: newTaps });
-      } catch (error) {
-        console.error("Error updating coins and taps in Appwrite:", error);
-      }
-
-      // Capture the tap position within the image element
-      const rect = e.target.getBoundingClientRect();
-      const offsetX = e.clientX - rect.left; // X position within the image
-      const offsetY = e.clientY - rect.top;  // Y position within the image
-
-      // Calculate percentage positions to use in inline styles
-      const xPercent = (offsetX / rect.width) * 100;
-      const yPercent = (offsetY / rect.height) * 100;
-      setFloatingPlusPosition({ x: xPercent, y: yPercent - 30 }); // Start a bit above the tap
-
-      setTimeout(() => {
-        setFloatingPlusPosition((prevPosition) => {
-          if (prevPosition) { // Ensure prevPosition is not null
-            return {
-              ...prevPosition,
-              y: prevPosition.y - 10, // Move up by 10% of the image height
-            };
-          }
-          return prevPosition; // Return prevPosition if it's null
-        });
-      }, 1); // Delay to start the animation
-
-
-      // Clear the floating +1 after the animation
-      setTimeout(() => {
-        setFloatingPlusPosition(null);
-      },500); // Duration of the animation
+    if (taps <= 0) return;
+  
+    // Optimistically update the UI
+    const newAmount = bountyAmount + 1;
+    const newTaps = taps - 1;
+    setBountyAmount(newAmount);
+    setTaps(newTaps);
+  
+    // Handle tap animation
+    const rect = e.target.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const offsetY = e.clientY - rect.top;
+  
+    const xPercent = (offsetX / rect.width) * 100;
+    const yPercent = (offsetY / rect.height) * 100;
+    setFloatingPlusPosition({ x: xPercent, y: yPercent - 30 });
+  
+    setTimeout(() => {
+      setFloatingPlusPosition((prev) => prev ? { ...prev, y: prev.y - 10 } : prev);
+    }, 1);
+  
+    setTimeout(() => setFloatingPlusPosition(null), 500);
+  
+    // Update the server, and rollback if it fails
+    try {
+      await service.updateUserData(userId, { coins: newAmount, taps: newTaps });
+    } catch (error) {
+      console.error("Error updating data:", error);
+  
+      // Rollback on failure
+      setBountyAmount(bountyAmount);
+      setTaps(taps);
     }
   };
-
-
+  
 
   // const handleImageTap = (e) => {
   //   if (taps > 0) {
@@ -367,7 +403,7 @@ const Home = () => {
         </div>
       ) : null}
 
-      {/* <div className="w-full flex flex-col text-left px-2 gap-4">
+      <div className="w-full flex flex-col text-left px-2 gap-4">
 
         <div className="flex w-full justify-between">
           <h2 className="font-semibold text-md md:text-lg">
@@ -386,7 +422,7 @@ const Home = () => {
             {taps} Taps
           </div>
         </div>
-      </div> */}
+      </div>
 
 
       {/* Center Section - Image and Bounty Amount */}

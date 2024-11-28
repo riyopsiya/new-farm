@@ -293,7 +293,7 @@ const TaskForm = () => {
                         <option value="Solana">Solana</option>
                         <option value="ETH">ETH</option>
                         <option value="TRC-20">TRC-20</option>
-                        <option value="TG username/TON">TG username/TON</option>
+                        <option value="TON">TON</option>
                         <option value="Binance Pay ID">Binance Pay ID</option>
                         <option value="BRC-20">BRC-20</option>
                         <option value="Base">Base</option>
