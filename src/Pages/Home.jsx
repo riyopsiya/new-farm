@@ -11,7 +11,8 @@ import { toast } from "react-toastify";
 const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const initialTime = 8 * 60 * 60; // 8 hours in seconds
-  const userId = userInfo?.id; 
+  // const userId = 1337182007;
+  const userId = userInfo?.id;
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
   const [bountyAmount, setBountyAmount] = useState(1000);
@@ -30,36 +31,33 @@ const Home = () => {
   const client = new Client();
   const databases = new Databases(client);
 
-  // WebSocket connection for real-time updates
-  useEffect(() => {
+  // // WebSocket connection for real-time updates
+  // useEffect(() => {
 
-    if (!userId) return;
+  //   if (!userId) return;
 
-    client
-      .setEndpoint(process.env.REACT_APP_APPWRITE_URL)
-      .setProject(process.env.REACT_APP_APPWRITE_PROJECT_ID);
+  //   client
+  //     .setEndpoint(process.env.REACT_APP_APPWRITE_URL)
+  //     .setProject(process.env.REACT_APP_APPWRITE_PROJECT_ID);
 
-    const channel = `databases.${process.env.REACT_APP_APPWRITE_DATABASE_ID}.collections.${process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID}.documents.${userId}`;
+  //   const channel = `databases.${process.env.REACT_APP_APPWRITE_DATABASE_ID}.collections.${process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID}.documents.${userId}`;
 
-    const unsubscribe = client.subscribe(channel, (response) => {
-      if (response.payload?.coins) {
+  //   const unsubscribe = client.subscribe(channel, (response) => {
+  //     if (response.payload?.coins) {
 
-        setBountyAmount(response.payload.coins);
-        bountyAmountRef.current = response.payload.coins;
-      }
-      if (response.payload?.taps) setTaps(response.payload.taps);
-    });
+  //       setBountyAmount(response.payload.coins);
+  //       bountyAmountRef.current = response.payload.coins;
+  //     }
+  //     if (response.payload?.taps) setTaps(response.payload.taps);
+  //   });
 
-    return () => unsubscribe();
-  }, [userId]);
+  //   return () => unsubscribe();
+  // }, [userId]);
 
   const fetchUserData = async () => {
     try {
-      const userData = await databases.getDocument(
-        process.env.REACT_APP_APPWRITE_DATABASE_ID,
-        process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
-        userId.toString()
-      );
+      const userData = await service.getUser(userId)
+      console.log(userData,'data')
 
       setUser(userData);
       setBountyAmount(userData.coins);
@@ -67,7 +65,7 @@ const Home = () => {
       setTaps(userData.taps);
     } catch (error) {
       
-      toast.error("Error fetching user data");
+      toast.error("Error fetching user data ");
       console.error("Error fetching user data:", error);
     } finally {
       setLoading(false);
@@ -76,7 +74,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchUserData();
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     bountyAmountRef.current = bountyAmount;
@@ -328,7 +326,7 @@ const Home = () => {
         </div>
       ) : null}
 
-      {/* <div className="w-full flex flex-col text-left px-2 gap-4">
+      <div className="w-full flex flex-col text-left px-2 gap-4">
 
         <div className="flex w-full justify-between">
           <h2 className="font-semibold text-md md:text-lg">
@@ -347,7 +345,7 @@ const Home = () => {
             {taps} Taps
           </div>
         </div>
-      </div> */}
+      </div>
 
 
       {/* Center Section - Image and Bounty Amount */}
