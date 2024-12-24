@@ -9,11 +9,11 @@ const ReferralPage = () => {
     const { userData } = useSelector((state) => state.user);
     const [copied, setCopied] = useState(false);
     const referralCode = userData?.referralCode;
-    const appInviteLink = "http://t.me/bountytapbot/BountyTap";
+    const appInviteLink = "http://t.me/IOPFARMBOT/IOP";
 
-    const message = `🚀 Join me on BountyTap and start earning rewards! 🚀
+    const message = `🚀 Join me on IOP Farm and start earning rewards! 🚀
 
-Earn guaranteed rewards and exclusive bonuses with BountyTap! Don’t miss out on this opportunity to start your earning journey today.
+Earn guaranteed rewards and exclusive bonuses with IOP Farm! Don’t miss out on this opportunity to start your earning journey today.
 
 🔗 App Link: ${appInviteLink}?startapp=${referralCode}
 
