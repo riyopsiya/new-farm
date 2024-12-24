@@ -506,11 +506,11 @@ const TaskItem = ({ data, isOpen, onToggle }) => {
 
 
     const referralCode = userData?.referralCode;
-    const appInviteLink = "http://t.me/bountytapbot/BountyTap";
+    const appInviteLink = "http://t.me/IOPFARMBOT/IOP";
     const referralLink = data.referralLink ? `${data.referralLink}` : ` ${appInviteLink}?startapp=${referralCode}`;
-    const message = `🎉 BountyTap & ${data.companyName} Campaign 🎉
+    const message = `🎉 IOPFarm & ${data.companyName} Campaign 🎉
 
-Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards from ${data.companyName} in our collaborative airdrop campaign!
+Join us on IOP Farm and earn guaranteed upto 1000 Bounty Tokens and rewards from ${data.companyName} in our collaborative airdrop campaign!
 
 ✅ Complete simple tasks, 🔗 share, and start earning today! Don’t miss out – claim your rewards now.
 
@@ -1578,7 +1578,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                             {/* Follow on X (Twitter) */}
                             {data.twitter ? (
                                 <div className='flex w-full justify-between items-center'>
-                                    <p className='max-w-48'>Follow BountyTap on X </p>
+                                    <p className='max-w-48'>Follow  IOPFARM on X </p>
                                     {claimButtonsState.X.claim ? (
                                         <button onClick={() => handleClaimClick('X')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                             Claim 100 Bounty
@@ -1615,7 +1615,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
 
 
                             {data.telegramChatInvite && data.telegramChatID ? (<div className='flex w-full justify-between items-center'>
-                                <p className='max-w-48'>Follow BountyTap's Telegram Group</p>
+                                <p className='max-w-48'>Follow  IOPFARM Telegram Group</p>
                                 {claimButtonsState.telegramChat.claim ? (
                                     <button onClick={() => handleClaimClick('telegramChat')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold w-32  ">
                                         Claim 100 Bounty
@@ -1652,7 +1652,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                             {/* Telegram Announcement */}
                             {data.telegramAnnInvite && data.telegramAnnID ? (
                                 <div className='flex w-full justify-between items-center'>
-                                    <p className='max-w-48'>Follow BountyTap's Telegram Channel</p>
+                                    <p className='max-w-48'>Follow IOPFARM Telegram Channel</p>
                                     {claimButtonsState.telegramAnn.claim ? (
                                         <button onClick={() => handleClaimClick('telegramAnn')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold w-32  ">
                                             Claim 100 Bounty
@@ -1691,7 +1691,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                             {/* Instagram */}
                             {data.instagram ? (
                                 <div className='flex w-full justify-between items-center'>
-                                    <p className='max-w-48'>Follow BountyTap on Instagram</p>
+                                    <p className='max-w-48'>Follow IOPFARM on Instagram</p>
                                     {claimButtonsState.instagram.claim ? (
                                         <button onClick={() => handleClaimClick('instagram')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                             Claim 100 Bounty
@@ -1726,7 +1726,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                             {/* linkedin */}
                             {data.linkedin ? (
                                 <div className='flex w-full justify-between items-center'>
-                                    <p className='max-w-48'>Follow BountyTap on LinkedIn</p>
+                                    <p className='max-w-48'>Follow IOPFARM on LinkedIn</p>
                                     {claimButtonsState.linkedin.claim ? (
                                         <button onClick={() => handleClaimClick('linkedin')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                             Claim 100 Bounty
@@ -1760,7 +1760,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                             {/* facebook */}
                             {data.facebook ? (
                                 <div className='flex w-full justify-between items-center'>
-                                    <p className='max-w-48'>Follow BountyTap on Facebook</p>
+                                    <p className='max-w-48'>Follow IOPFARM on Facebook</p>
                                     {claimButtonsState.facebook.claim ? (
                                         <button onClick={() => handleClaimClick('facebook')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                             Claim 100 Bounty
@@ -1794,7 +1794,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                             {/* YouTube */}
                             {data.youtube ? (
                                 <div className='flex w-full justify-between items-center'>
-                                    <p className='max-w-48'>Subscribe BountyTap on YouTube</p>
+                                    <p className='max-w-48'>Subscribe IOPFARM on YouTube</p>
                                     {claimButtonsState.youtube.claim ? (
                                         <button onClick={() => handleClaimClick('youtube')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                             Claim 100 Bounty
@@ -1827,7 +1827,7 @@ Join us on BountyTap and earn guaranteed upto 1000 Bounty Tokens and rewards fro
                             {/* Discord */}
                             {data.discord ? (
                                 <div className='flex w-full justify-between items-center'>
-                                    <p className='max-w-48'>Follow BountyTap on Discord</p>
+                                    <p className='max-w-48'>Follow IOP FARM on Discord</p>
                                     {claimButtonsState.discord.claim ? (
                                         <button onClick={() => handleClaimClick('discord')} className="bg-gradient-to-r from-black to-[#7d5126] px-2 py-2 rounded-lg text-xs font-semibold  ">
                                             Claim 100 Bounty
