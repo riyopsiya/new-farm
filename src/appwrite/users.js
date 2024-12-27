@@ -66,35 +66,35 @@ export class UserService{
     }
 
 
-    // async getAllData(category){
+     async getAllData(category){
 
-    //     try {
+         try {
             
-    //        const result=  await this.databases.listDocuments(
-    //             process.env.REACT_APP_APPWRITE_DATABASE_ID,
-    //             process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
-    //             [Query.equal('category',[category]),Query.orderDesc('$createdAt'),],
+            const result=  await this.databases.listDocuments(
+                 process.env.REACT_APP_APPWRITE_DATABASE_ID,
+               process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID,
+              [Query.equal('category',[category]),Query.orderDesc('$createdAt'),],
 
-    //         ) 
-    //         return result;
-    //     } catch (error) {
-    //         console.log("Appwrite serive :: getAllData :: error", error)
-    //         return false
-    //     }
-    // }
+             ) 
+             return result;
+         } catch (error) {
+          console.log("Appwrite serive :: getAllData :: error", error)
+             return false
+         }
+     }
 
-    // async deleteDocument(documentID){
-    //     try {
-    //         return await this.databases.deleteDocument(
-    //             process.env.REACT_APP_APPWRITE_DATABASE_ID, // databaseId
-    //             process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID, // collectionId
-    //             documentID // documentId
-    //         );
+     async deleteDocument(documentID){
+        try {
+             return await this.databases.deleteDocument(
+                 process.env.REACT_APP_APPWRITE_DATABASE_ID, // databaseId
+                process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID, // collectionId
+                 documentID // documentId
+            );
 
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
+         } catch (error) {
+            console.log(error)
+        }
+     }
 
 
 
