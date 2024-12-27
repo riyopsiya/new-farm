@@ -26,32 +26,32 @@ const Home = () => {
 
 
 
-  // // Initialize Appwrite client
-  // const client = new Client();
-  // const databases = new Databases(client);
+  // Initialize Appwrite client
+   const client = new Client();
+   const databases = new Databases(client);
 
-  // // WebSocket connection for real-time updates
-  // useEffect(() => {
+   // WebSocket connection for real-time updates
+   useEffect(() => {
 
-  //   if (!userId) return;
+     if (!userId) return;
 
-  //   client
-  //     .setEndpoint(process.env.REACT_APP_APPWRITE_URL)
-  //     .setProject(process.env.REACT_APP_APPWRITE_PROJECT_ID);
+     client
+       .setEndpoint(process.env.REACT_APP_APPWRITE_URL)
+       .setProject(process.env.REACT_APP_APPWRITE_PROJECT_ID);
 
-  //   const channel = `databases.${process.env.REACT_APP_APPWRITE_DATABASE_ID}.collections.${process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID}.documents.${userId}`;
+     const channel = `databases.${process.env.REACT_APP_APPWRITE_DATABASE_ID}.collections.${process.env.REACT_APP_APPWRITE_USERS_COLLECTION_ID}.documents.${userId}`;
 
-  //   const unsubscribe = client.subscribe(channel, (response) => {
-  //     if (response.payload?.coins) {
+     const unsubscribe = client.subscribe(channel, (response) => {
+       if (response.payload?.coins) {
 
-  //       setBountyAmount(response.payload.coins);
-  //       bountyAmountRef.current = response.payload.coins;
-  //     }
-  //     if (response.payload?.taps) setTaps(response.payload.taps);
-  //   });
+         setBountyAmount(response.payload.coins);
+         bountyAmountRef.current = response.payload.coins;
+       }
+       if (response.payload?.taps) setTaps(response.payload.taps);
+     });
 
-  //   return () => unsubscribe();
-  // }, [userId]);
+     return () => unsubscribe();
+   }, [userId]);
 
   const fetchUserData = async () => {
     try {
@@ -200,49 +200,49 @@ const Home = () => {
   };
 
 
-  // const handleImageTap = async (e) => {
-  //   if (taps > 0) {
-  //     const newAmount = bountyAmount + 1;
-  //     const newTaps = taps - 1;
+   const handleImageTap = async (e) => {
+     if (taps > 0) {
+       const newAmount = bountyAmount + 1;
+       const newTaps = taps - 1;
 
-  //     setBountyAmount(newAmount);
-  //     setTaps(newTaps);
+       setBountyAmount(newAmount);
+       setTaps(newTaps);
 
-  //     try {
-  //       await service.updateUserData(userId, { coins: newAmount, taps: newTaps });
-  //     } catch (error) {
-  //       console.error("Error updating coins and taps in Appwrite:", error);
-  //     }
+       try {
+         await service.updateUserData(userId, { coins: newAmount, taps: newTaps });
+       } catch (error) {
+         console.error("Error updating coins and taps in Appwrite:", error);
+       }
 
   //     // Capture the tap position within the image element
-  //     const rect = e.target.getBoundingClientRect();
-  //     const offsetX = e.clientX - rect.left; // X position within the image
-  //     const offsetY = e.clientY - rect.top;  // Y position within the image
+       const rect = e.target.getBoundingClientRect();
+       const offsetX = e.clientX - rect.left; // X position within the image
+       const offsetY = e.clientY - rect.top;  // Y position within the image
 
-  //     // Calculate percentage positions to use in inline styles
-  //     const xPercent = (offsetX / rect.width) * 100;
-  //     const yPercent = (offsetY / rect.height) * 100;
-  //     setFloatingPlusPosition({ x: xPercent, y: yPercent - 30 }); // Start a bit above the tap
+       // Calculate percentage positions to use in inline styles
+       const xPercent = (offsetX / rect.width) * 100;
+       const yPercent = (offsetY / rect.height) * 100;
+       setFloatingPlusPosition({ x: xPercent, y: yPercent - 30 }); // Start a bit above the tap
 
-  //     setTimeout(() => {
-  //       setFloatingPlusPosition((prevPosition) => {
-  //         if (prevPosition) { // Ensure prevPosition is not null
-  //           return {
-  //             ...prevPosition,
-  //             y: prevPosition.y - 10, // Move up by 10% of the image height
-  //           };
-  //         }
-  //         return prevPosition; // Return prevPosition if it's null
-  //       });
-  //     }, 1); // Delay to start the animation
+       setTimeout(() => {
+         setFloatingPlusPosition((prevPosition) => {
+           if (prevPosition) { // Ensure prevPosition is not null
+             return {
+               ...prevPosition,
+               y: prevPosition.y - 10, // Move up by 10% of the image height
+             };
+           }
+           return prevPosition; // Return prevPosition if it's null
+         });
+       }, 1); // Delay to start the animation
 
 
   //     // Clear the floating +1 after the animation
-  //     setTimeout(() => {
-  //       setFloatingPlusPosition(null);
-  //     },500); // Duration of the animation
-  //   }
-  // };
+       setTimeout(() => {
+         setFloatingPlusPosition(null);
+       },500); // Duration of the animation
+     }
+   };
 
   const handleImageTap = async (e) => {
     if (taps <= 0) return;
